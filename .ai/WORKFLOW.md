@@ -19,9 +19,17 @@ EXECUTION PHASE (DESIGN / IMPLEMENT / TEST / REVIEW / REPORT)
   ↓
 VERIFICATION (Typecheck, Lint, Test, Build)
   ↓
-SESSION & TASK UPDATE (Cập nhật nhật ký SESSION và trạng thái TASK)
+PRE-EXIT INSPECTION (Kiểm tra source, tests, proposals, drift reports)
   ↓
-GIT OPERATION (Commit chuẩn mực và Push nhánh task)
+COMMIT IMPLEMENTATION (Commit mã nguồn thuộc task: TASK-XXX: <mô tả>)
+  ↓
+COMMIT PROPOSALS SEPARATELY (Commit đề xuất riêng rẽ: PROP-XXX: <mô tả>)
+  ↓
+SESSION & TASK UPDATE (Cập nhật nhật ký SESSION và bảng TASK)
+  ↓
+GIT PUSH (Đẩy nhánh task lên remote repository)
+  ↓
+READY_FOR_REVIEW (Bàn giao cho Con người nghiệm thu)
 ```
 
 > **Lưu ý**: Lập trình viên Con người **không cần chỉnh sửa `CONTROL.md`** trước mỗi hành động. Con người chỉ định ý định trực tiếp qua prompt. `CONTROL.md` đóng vai trò là từ điển và luật phân tích tĩnh.
@@ -53,7 +61,7 @@ DONE (Hoàn tất chính thức, lưu trữ vào completed/)
 ```
 
 *Các trạng thái ngoại lệ:*
-- `BLOCKED`: Bị nghẽn do phụ thuộc chưa xong hoặc chờ quyết định kiến trúc.
+- `BLOCKED`: Bị nghẽn do phụ thuộc chưa xong hoặc có đề xuất chặn (`BLOCKS_CURRENT_TASK: YES`) chờ phán quyết kiến trúc.
 - `PAUSED`: Tạm dừng khi Human điều chuyển AI sang task khẩn cấp khác.
 - `REJECTED`: Task bị hủy bỏ hoặc thay thế.
 
@@ -87,16 +95,68 @@ TASK ASSIGNMENT (Giao task qua Human prompt)
 
 ---
 
-## 4. Quy Trình Bàn Giao Khi Chuyển Đổi Task Dở Dang (Task Preemption)
+## 4. Xử Lý Đề Xuất Phát Hiện Trong Khi Triển Khai (Proposals During Implementation)
+
+Trong quá trình triển khai (`IMPLEMENT`), nếu AI phát hiện nhu cầu hoặc cơ hội cải tiến kiến trúc/API:
+
+```
+                    AI PHÁT HIỆN VẤN ĐỀ
+                             │
+                             ▼
+              Xác định tính chất của Đề xuất
+                             │
+            ┌────────────────┴────────────────┐
+            ▼                                 ▼
+   CASE A: NON-BLOCKING              CASE B: BLOCKING
+   (Không chặn Task)                 (Chặn trực tiếp Task)
+            │                                 │
+            ▼                                 ▼
+   Tạo PROP-XXX.md                   Tạo PROP-XXX.md
+   (BLOCKS_CURRENT_TASK: NO)         (BLOCKS_CURRENT_TASK: YES)
+            │                                 │
+            ▼                                 ▼
+   Tiếp tục hoàn tất Task            Đánh dấu Task là BLOCKED
+            │                                 │
+            ▼                                 ▼
+   Chạy Verification                 DỪNG NGAY phần việc bị ảnh hưởng
+            │                                 │
+            ▼                                 ▼
+   Commit Implementation:            Commit WIP & Đề xuất riêng biệt
+   "TASK-XXX: <mô tả>"                        │
+            │                                 ▼
+            ▼                        Push lên remote branch
+   Commit Proposal riêng biệt:                │
+   "PROP-XXX: <mô tả>"                        ▼
+            │                        Bàn giao cho Con người xem xét
+            ▼                                 │
+   Update Task & Session                      ▼
+            │                        HUMAN DECISION
+            ▼                        (APPROVE / REJECT / DEFER)
+   Push nhánh task
+            │
+            ▼
+   READY_FOR_REVIEW
+```
+
+> **Nguyên Tắc Bất Di Bất Dịch**:
+> - $\mathbf{PROPOSAL} \neq \mathbf{TASK} \neq \mathbf{IMPLEMENTATION} \neq \mathbf{HUMAN\ APPROVAL}$.
+> - Đề xuất được duyệt (`APPROVED`) **KHÔNG** tự động cho phép AI code ngay nếu chưa có task chính thức.
+> - Tuyệt đối không tự chế workaround để tránh việc dừng task khi gặp tình huống blocking.
+
+---
+
+## 5. Quy Trình Bàn Giao Khi Chuyển Đổi Task Dở Dang (Task Preemption)
 
 Nếu con người yêu cầu AI chuyển sang làm task khác trước khi task hiện tại hoàn tất:
 1. Dừng viết mã tại điểm biên an toàn, không để code gãy cú pháp.
 2. Chạy xác minh kiểm thử thích hợp để ghi nhận trạng thái hiện tại.
 3. Tạo commit cho toàn bộ thay đổi dở dang (`TASK-XXX: WIP pause at <position>`).
-4. Đẩy (push) nhánh task hiện tại lên Git repository.
-5. Cập nhật file `TASK-XXX.md` và `TASK_PROCESSING.md` sang trạng thái `PAUSED` hoặc `IN_PROGRESS`.
-6. Soạn nhật ký bàn giao chi tiết tại `.ai/sessions/SESSION-XXX.md`:
+4. Nếu có proposal được tạo ra, commit riêng: `PROP-XXX: <mô tả>`.
+5. Đẩy (push) nhánh task hiện tại lên Git repository.
+6. Cập nhật file `TASK-XXX.md` và `TASK_PROCESSING.md` sang trạng thái `PAUSED` hoặc `IN_PROGRESS`.
+7. Soạn nhật ký bàn giao chi tiết tại `.ai/sessions/SESSION-XXX.md`:
    - Ghi rõ điểm đã dừng lại.
    - Ghi rõ các vấn đề còn tồn đọng.
+   - Ghi nhận `PROPOSALS_CREATED` và `PROPOSALS_REFERENCED`.
    - Hướng dẫn cụ thể hành động tiếp theo cho phiên AI sau.
-7. **Tuyệt đối không để lại bất kỳ file nào chưa commit trong working tree.**
+8. **Tuyệt đối không để lại bất kỳ file nào chưa commit trong working tree.**

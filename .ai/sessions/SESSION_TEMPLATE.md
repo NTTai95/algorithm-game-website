@@ -37,7 +37,12 @@ FINAL_STATUS: READY_FOR_REVIEW # IN_PROGRESS | PAUSED | READY_FOR_REVIEW | BLOCK
 - [Mô tả chi tiết các vướng mắc, lỗi phát sinh hoặc điểm bất thường]
 
 ## 7. Đề Xuất Thay Đổi Liên Quan (PROPOSALS)
-- [Liên kết tới `.ai/changes/proposals/PROP-XXX.md` nếu có đề xuất mới tạo]
+
+### PROPOSALS_CREATED
+- [Ví dụ: PROP-014 (hoặc NONE nếu không tạo đề xuất mới)]
+
+### PROPOSALS_REFERENCED
+- [Ví dụ: PROP-009 (hoặc NONE nếu không tham chiếu đề xuất nào)]
 
 ## 8. Báo Cáo Sai Lệch Tài Liệu (DRIFT REPORTS)
 - [Liên kết tới `.ai/changes/drift/DRIFT-XXX.md` nếu phát hiện sai lệch]

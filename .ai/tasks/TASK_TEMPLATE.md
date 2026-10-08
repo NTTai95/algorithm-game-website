@@ -66,9 +66,14 @@ DEPENDENCIES: [] # Danh sách TASK-ID tiên quyết phải xong trước (ví d�
 ### 10. Rủi Ro & Giải Pháp (RISKS)
 - [Phân tích nguy cơ xung đột tệp dùng chung, hiệu năng, rò rỉ bộ nhớ]
 
-### 11. Yêu Cầu Thay Đổi Kiến Trúc (CHANGE REQUIREMENTS)
-- Task có yêu cầu sửa đổi kiến trúc ngoài scope hoặc API hiện có không?
-  *(NẾU CÓ: Phải tạo `.ai/changes/proposals/PROP-XXX.md` trước và dừng lại chờ duyệt).*
+### 11. Đề Xuất Thay Đổi Liên Quan (RELATED_PROPOSALS)
+- Task có phát sinh hoặc phụ thuộc đề xuất kiến trúc/API nào không?
+
+| Proposal | Status | Blocks Task |
+| :--- | :--- | :--- |
+| NONE | - | - |
+
+*(Nhiệm vụ KHÔNG sao chép toàn bộ nội dung đề xuất, chỉ tham chiếu liên kết qua bảng trên. Nếu đề xuất có `Blocks Task = YES`, AI phải đánh dấu task bị nghẽn, dừng phần triển khai bị ảnh hưởng và chờ quyết định từ Con người).*
 
 ---
 

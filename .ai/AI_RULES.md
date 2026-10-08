@@ -51,10 +51,18 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
    - Chỉ chỉnh sửa các tệp nằm trong `ALLOWED FILES`. Không chạm vào `RESTRICTED FILES`.
    - Ưu tiên tạo tệp/thư mục riêng theo task thay vì sửa tệp dùng chung, để tránh xung đột giữa các nhánh task chạy song song.
 
-9. **Không Tự Ý Thay Đổi Kiến Trúc Hoặc Phá Vỡ Hợp Đồng API**:
+9. **Không Tự Ý Thay Đổi Kiến Trúc Hoặc Phá Vỡ Hợp Đồng API (Quy Chuẩn Proposal)**:
    - Giữ vững kiến trúc 4 lớp: Application $\to$ Game Systems $\to$ Domain/Simulation $\to$ Rendering/Phaser.
    - Lõi thuật toán/mô phỏng phải 100% độc lập với Phaser và React, chạy được trong Node/Vitest.
-   - Khi phát hiện cần đổi kiến trúc/API: Áp dụng chu trình $\mathbf{DETECT} \to \mathbf{ANALYZE} \to \mathbf{DOCUMENT} \to \mathbf{PROPOSE} \to \mathbf{STOP}$ và tạo file `.ai/changes/proposals/PROP-XXX.md`.
+   - Khi phát hiện cần đổi kiến trúc/API/quy trình trong lúc làm task:
+     1. Xác định rõ vấn đề có đòi hỏi thay đổi kiến trúc/API/thiết kế hay không.
+     2. Tạo file đề xuất `.ai/changes/proposals/PROP-XXX.md` theo chuẩn.
+     3. Tham chiếu đề xuất trong task liên quan (`RELATED_PROPOSALS`) và session log.
+     4. **Trường Hợp Không Chặn (Non-blocking)**: Nếu đề xuất hữu ích nhưng không cản trở việc hoàn thành task hiện tại, AI tiếp tục hoàn tất task, tạo commit triển khai và commit đề xuất riêng rẽ, push cả hai lên remote task branch.
+     5. **Trường Hợp Chặn (Blocking)**: Nếu kiến trúc hiện tại xung đột căn bản với task hiện tại, AI phải:
+        $$\mathbf{DETECT} \longrightarrow \mathbf{DOCUMENT} \longrightarrow \mathbf{CREATE\ PROP-XXX} \longrightarrow \mathbf{MARK\ BLOCKED} \longrightarrow \mathbf{STOP}$$
+        Đánh dấu `BLOCKS_CURRENT_TASK: YES`, dừng ngay phần việc bị ảnh hưởng, commit đề xuất và trạng thái dở dang, push lên remote và chờ phán quyết của Con người. **TUYỆT ĐỐI CẤM** tự chế workaround để tránh việc dừng task.
+   - **Phân Biệt Cốt Lõi**: $\mathbf{APPROVED\ PROPOSAL} \neq \mathbf{IMPLEMENTED\ CHANGE}$. Đề xuất được duyệt không tự động cấp quyền code cho tới khi có task chính thức được giao.
 
 10. **Xử Lý Sai Lệch Tài Liệu (Drift Handling)**:
     - Khi mã nguồn thực tế khác với tài liệu thiết kế: Tạo Báo cáo sai lệch (`.ai/changes/drift/DRIFT-XXX.md`) và **DỪNG LẠI**.
@@ -78,8 +86,9 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
     - Chỉ có Lập trình viên Con người mới có quyền duyệt và thực hiện merge nhánh task vào `develop`.
     - Task chỉ chuyển sang `DONE` sau khi con người đã tích hợp.
 
-14. **Bảo Tồn Lịch Sử Git**:
-    - Sử dụng chuẩn commit: `TASK-XXX: <mô tả>` hoặc `INIT-XXX: <mô tả>`.
+14. **Bảo Tồn Lịch Sử Git & Tách Biệt Commit**:
+    - Sử dụng chuẩn commit: `TASK-XXX: <mô tả>` cho mã nguồn/triển khai, `PROP-XXX: <mô tả>` cho đề xuất cải tiến, hoặc `INIT-XXX: <mô tả>`.
+    - **Tách biệt commit**: Commit triển khai chứa mã nguồn/test; commit đề xuất chứa riêng artifact proposal và tham chiếu tài liệu. Tuyệt đối không gộp chung.
     - Cấm force push (`git push -f`) hoặc viết lại lịch sử các nhánh chung.
 
 15. **Không Tự Ý Tối Ưu Hóa Quy Trình (No Unauthorized Workflow Optimization)**:
@@ -88,3 +97,18 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
 16. **Tôn Trọng Thư Mục `.human/`**:
     - `.human/` là Sổ tay Vận hành và Bộ nhớ của Con người.
     - AI trên nhánh `task/*` và `develop` tuyệt đối không tự động nạp `.human/` làm ngữ cảnh tác nghiệp. Quyền hạn vận hành của AI xuất phát duy nhất từ `.ai/`.
+
+17. **Kiểm Tra Đa Khía Cạnh Trước Khi Dừng & Đề Xuất Là Tài Sản Dùng Chung**:
+    - Trước khi kết thúc một task (`READY_FOR_REVIEW`) hoặc tạm dừng một task (`PAUSED`), AI **BẮT BUỘC** phải tự kiểm tra 6 khía cạnh:
+      1. Thay đổi mã nguồn (`source changes`)
+      2. Kết quả kiểm thử (`tests`)
+      3. Trạng thái task (`task status`)
+      4. Trạng thái phiên (`session status`)
+      5. Các đề xuất đã tạo (`proposals`)
+      6. Các báo cáo sai lệch (`drift reports`)
+    - Nếu có Proposal được tạo ra:
+      - Đảm bảo proposal được Git theo dõi (được `git add`, không để `untracked`).
+      - Đảm bảo proposal được commit riêng rẽ (`PROP-XXX: ...`).
+      - Đảm bảo proposal được push lên remote task branch.
+      - Đảm bảo proposal được tham chiếu trong task (`RELATED_PROPOSALS`) và session (`PROPOSALS_CREATED`).
+    - AI **TUYỆT ĐỐI KHÔNG ĐƯỢC** để tri thức dự án chỉ nằm lại trên máy cục bộ hoặc giấu kín trong bộ nhớ chat.

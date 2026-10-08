@@ -124,12 +124,12 @@ Mỗi mệnh lệnh biểu thị một ý định tác nghiệp rõ ràng với 
 - **Ví dụ**: `"REPORT trạng thái Sprint hiện tại"`, `"REPORT nợ kỹ thuật sau khi tích hợp"`
 
 ### 3.7. `PROPOSE` (Đề Xuất Thay Đổi)
-- **Ý nghĩa**: Soạn thảo đề xuất thay đổi kiến trúc, giao diện API, hoặc sửa đổi ngoài phạm vi task hiện tại.
-- **Hành vi kỳ vọng**: Tạo tệp đề xuất mới tại `.ai/changes/proposals/PROP-XXX.md`.
-- **Ngụ ý sửa đổi file**: **CÓ (Chỉ tạo file `PROP-XXX.md`)**.
-- **Ngụ ý viết mã triển khai (`/src/`)**: **TUYỆT ĐỐI KHÔNG (PROPOSE không cấp quyền triển khai đề xuất đó)**.
-- **Kết quả kỳ vọng**: File Proposal hoàn chỉnh gồm bối cảnh, lý do, các phương án lựa chọn, phân tích tác động.
-- **Hạn chế**: Không được tự ý thực thi đề xuất khi Con người chưa phê duyệt bằng văn bản.
+- **Ý nghĩa**: Soạn thảo đề xuất thay đổi kiến trúc, giao diện API, hoặc sửa đổi ngoài phạm vi task hiện tại. Đề xuất là tài sản dự án dùng chung (shared artifact) và được chia sẻ qua Git.
+- **Hành vi kỳ vọng**: Tạo tệp đề xuất mới tại `.ai/changes/proposals/PROP-XXX.md`, cập nhật tham chiếu trong task/session, tạo commit riêng (`PROP-XXX: <mô tả>`) và đẩy lên remote.
+- **Ngụ ý sửa đổi file**: **CÓ (Chỉ tạo file `PROP-XXX.md` và cập nhật tham chiếu trong task/session)**.
+- **Ngụ ý viết mã triển khai (`/src/`)**: **TUYỆT ĐỐI KHÔNG (PROPOSE không cấp quyền triển khai đề xuất; APPROVED PROPOSAL ≠ IMPLEMENTED CHANGE)**.
+- **Kết quả kỳ vọng**: File Proposal hoàn chỉnh gồm bối cảnh, lý do, các phương án, phân tích tác động, được commit và push riêng biệt.
+- **Hạn chế**: Không được tự ý thực thi đề xuất khi Con người chưa phê duyệt và chưa tạo task triển khai chính thức.
 - **Ví dụ**: `"PROPOSE cải tiến Crane State Machine, DO NOT IMPLEMENT"`, `"PROPOSE tách module WarehouseSlot"`
 
 ### 3.8. `DOCUMENT` (Biên Soạn Tài Liệu)
@@ -143,12 +143,12 @@ Mỗi mệnh lệnh biểu thị một ý định tác nghiệp rõ ràng với 
 
 ### 3.9. `COMMIT` (Tạo Commit Git)
 - **Ý nghĩa**: Gom các thay đổi hợp lệ đã qua kiểm thử và tạo commit Git nguyên tử tuân thủ quy chuẩn.
-- **Hành vi kỳ vọng**: Kiểm tra `git status`, định dạng commit message đúng chuẩn (`TASK-XXX: ...` hoặc `INIT-XXX: ...`), thực hiện commit.
+- **Hành vi kỳ vọng**: Kiểm tra `git status`, định dạng commit message đúng chuẩn (`TASK-XXX: ...` cho code/test, `PROP-XXX: ...` cho đề xuất, `INIT-XXX: ...` cho giao thức), thực hiện commit tách biệt giữa triển khai và đề xuất.
 - **Ngụ ý sửa đổi file**: **KHÔNG** (Chỉ ghi nhận trạng thái vào Git object store).
 - **Ngụ ý viết mã triển khai (`/src/`)**: **KHÔNG**.
-- **Kết quả kỳ vọng**: Commit Git sạch sẽ, đúng quy chuẩn.
+- **Kết quả kỳ vọng**: Commit Git sạch sẽ, đúng quy chuẩn, không gộp lẫn commit triển khai và commit đề xuất.
 - **Hạn chế**: Chỉ commit khi đã vượt qua toàn bộ kiểm thử xác minh. Không commit khi working tree chứa file rác hoặc ngoài scope.
-- **Ví dụ**: `"COMMIT các thay đổi hợp lệ của TASK-001"`, `"COMMIT WIP state để bàn giao"`
+- **Ví dụ**: `"COMMIT các thay đổi hợp lệ của TASK-001"`, `"COMMIT WIP state để bàn giao"`, `"COMMIT riêng proposal PROP-014"`
 
 ### 3.10. `PUSH` (Đẩy Nhánh Lên Remote)
 - **Ý nghĩa**: Đẩy các commit của nhánh hiện tại lên kho chứa từ xa (remote repository).

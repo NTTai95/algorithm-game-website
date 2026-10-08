@@ -22,7 +22,7 @@ Khi bạn ra lệnh, AI sẽ tự động phân loại ý định của bạn v�
 | **`TEST`** | Chạy kiểm thử tự động, lint | **KHÔNG** | Chạy `npm run test:run`, `typecheck`, `lint`, `build` mà không sửa code sản phẩm |
 | **`REVIEW`** | Rà soát code, kiểm tra diff | **TUYỆT ĐỐI KHÔNG** | Đánh giá chất lượng mã nguồn trước khi tích hợp |
 | **`REPORT`** | Lập báo cáo tiến độ, nợ kỹ thuật | **KHÔNG** | Viết báo cáo tổng kết sprint hoặc hiện trạng kiến trúc |
-| **`PROPOSE`** | Đề xuất thay đổi kiến trúc/API | **KHÔNG** (Chỉ tạo file proposal) | Soạn thảo đề xuất cải tiến khi phát hiện vấn đề lớn |
+| **`PROPOSE`** | Đề xuất thay đổi kiến trúc/API | **KHÔNG** (Chỉ tạo file proposal, commit riêng và push) | Soạn thảo đề xuất cải tiến khi phát hiện vấn đề lớn, lưu vết dùng chung |
 | **`DOCUMENT`** | Biên soạn, cập nhật tài liệu | **KHÔNG** | Cập nhật tài liệu kỹ thuật trong `.ai/` hoặc `.human/` |
 | **`COMMIT`** | Tạo commit Git chuẩn mực | **KHÔNG** | Lưu vết các thay đổi đã qua kiểm tra |
 | **`PUSH`** | Đẩy nhánh lên GitHub | **KHÔNG** | Đồng bộ nhánh task lên kho chứa từ xa |

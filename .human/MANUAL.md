@@ -38,7 +38,8 @@ Khi chỉ đạo AI, bạn cần biết chính xác nhánh nào phục vụ mụ
 - Ra lệnh cho AI trực tiếp qua lời nhắc (prompt) với các lệnh chuẩn (`DESIGN`, `IMPLEMENT`, `TEST` theo hướng dẫn tại [`.human/CONTROL_GUIDE.md`](file:///d:/workspace/Algorithm-game-website/.human/CONTROL_GUIDE.md)). Bạn không cần chỉnh sửa file `CONTROL.md`.
 
 ### Bước 3: Nghiệm thu và Tích hợp
-- Khi AI báo cáo `READY_FOR_REVIEW`, con người kiểm tra diff trên GitHub/Git.
+- Khi AI báo cáo `READY_FOR_REVIEW`, con người kiểm tra diff trên GitHub/Git (cả mã nguồn và đề xuất `PROP-XXX` đi kèm nếu có).
+- Rà soát và đưa ra phán quyết đối với đề xuất (`APPROVE`, `REJECT`, hoặc `DEFER`).
 - Chạy thử test trên nhánh task.
 - Nếu đạt yêu cầu: Con người tự mình thực hiện lệnh merge nhánh task vào `develop`.
 - Chuyển trạng thái task thành `DONE`.

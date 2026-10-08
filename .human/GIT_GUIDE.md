@@ -22,30 +22,50 @@ task/TASK-XXX-<slug> (Các nhánh lập trình tính năng của AI)
 
 ---
 
-## 2. Quy Trình Merge Nhánh Task Vào `develop`
+## 2. Chuẩn Commit & Nguyên Tắc Tách Biệt Commit (Commit Separation)
+
+Git lưu giữ rạch ròi giữa việc "đã triển khai những gì" và "đã đề xuất những gì":
+
+- **Implementation Commit**:
+  `TASK-XXX: <mô tả triển khai bằng thể mệnh lệnh>`
+  *(Ví dụ: `TASK-021: implement crane system`)*
+- **Proposal Commit**:
+  `PROP-XXX: <mô tả đề xuất cải tiến>`
+  *(Ví dụ: `PROP-014: propose crane API revision`)*
+- **Protocol Commit**:
+  `INIT-XXX: <mô tả giao thức>`
+  *(Ví dụ: `INIT-004: formalize shared proposal workflow`)*
+
+> **Nguyên tắc tách biệt**: AI bắt buộc phải tách riêng commit mã nguồn và commit đề xuất. Hai commit này độc lập với nhau và đều được đẩy (`git push`) lên nhánh task trên GitHub, giúp bất kỳ phiên AI nào khác khi pull về cũng nhìn thấy được toàn bộ đề xuất.
+
+---
+
+## 3. Quy Trình Merge Nhánh Task Vào `develop`
 Khi AI hoàn thành task và chuyển trạng thái sang `READY_FOR_REVIEW`:
 1. Chuyển sang nhánh `develop` trên máy của bạn và kéo code mới nhất:
    ```bash
    git checkout develop
    git pull origin develop
    ```
-2. Kiểm tra diff của nhánh task:
+2. Kiểm tra diff của nhánh task (rà soát cả mã nguồn và đề xuất mới nếu có):
    ```bash
    git diff develop..task/TASK-XXX-<slug>
+   git log develop..task/TASK-XXX-<slug> --oneline
    ```
-3. Merge nhánh task vào `develop` (khuyến khích dùng cờ `--no-ff` để lưu vết lịch sử):
+3. Xem xét các đề xuất kèm theo (`PROP-XXX.md`) và ghi nhận phán quyết: `APPROVE`, `REJECT` hoặc `DEFER`.
+4. Merge nhánh task vào `develop` (khuyến khích dùng cờ `--no-ff` để lưu vết lịch sử):
    ```bash
    git merge --no-ff task/TASK-XXX-<slug> -m "Merge task/TASK-XXX-<slug> into develop"
    ```
-4. Chạy kiểm tra tích hợp:
+5. Chạy kiểm tra tích hợp:
    ```bash
    npm run typecheck
    npm run lint
    npm run test:run
    npm run build
    ```
-5. Đẩy nhánh `develop` lên GitHub:
+6. Đẩy nhánh `develop` lên GitHub:
    ```bash
    git push origin develop
    ```
-6. Đóng task: Chuyển file từ `.ai/tasks/active/TASK-XXX.md` sang `.ai/tasks/completed/TASK-XXX.md`, cập nhật `STATUS: DONE`.
+7. Đóng task: Chuyển file từ `.ai/tasks/active/TASK-XXX.md` sang `.ai/tasks/completed/TASK-XXX.md`, cập nhật `STATUS: DONE`.

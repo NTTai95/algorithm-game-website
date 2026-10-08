@@ -21,22 +21,22 @@ TEST TASK-XXX WITHOUT MODIFYING SOURCE. Chạy toàn bộ kiểm thử: npm run 
 
 ## 4. Prompt Rà Soát Chất Lượng (REVIEW)
 ```text
-REVIEW TASK-XXX diff so với nhánh develop. Kiểm tra tính tuân thủ hợp đồng API, kiến trúc phân lớp và các tiêu chí nghiệm thu.
+REVIEW TASK-XXX diff so với nhánh develop. Kiểm tra tính tuân thủ hợp đồng API, kiến trúc phân lớp, các tiêu chí nghiệm thu và các đề xuất PROP-XXX đi kèm (nếu có).
 ```
 
 ## 5. Prompt Đề Xuất Cải Tiến / Thay Đổi Kiến Trúc (PROPOSE)
 ```text
-PROPOSE giải pháp tái cấu trúc module <Tên Module>, DO NOT IMPLEMENT. Tạo file proposal trong .ai/changes/proposals/ và phân tích rủi ro.
+PROPOSE giải pháp tái cấu trúc module <Tên Module>, DO NOT IMPLEMENT. Tạo file proposal trong .ai/changes/proposals/, tham chiếu trong task/session, commit riêng theo chuẩn "PROP-XXX: <mô tả>" và push lên remote task branch.
 ```
 
 ## 6. Prompt Nghiệm Thu & Đóng Gói Hoàn Tất (COMMIT & PUSH)
 ```text
-Kiểm tra lại toàn bộ verification gates (typecheck, lint, test, build). Nếu đạt 0 lỗi, hãy COMMIT theo chuẩn "TASK-XXX: <mô tả>", PUSH nhánh lên remote, cập nhật task sang READY_FOR_REVIEW và ghi SESSION log.
+Kiểm tra lại toàn bộ verification gates (typecheck, lint, test, build). Thực hiện kiểm tra 6 khía cạnh (source, tests, task status, session status, proposals, drift). Nếu đạt 0 lỗi, hãy COMMIT mã nguồn theo chuẩn "TASK-XXX: <mô tả>", COMMIT riêng đề xuất theo chuẩn "PROP-XXX: <mô tả>" (nếu có), PUSH nhánh lên remote, cập nhật task sang READY_FOR_REVIEW và ghi SESSION log.
 ```
 
 ## 7. Prompt Dừng Khẩn Cấp Hoặc Chuyển Task (Task Preemption / STOP)
 ```text
-Dừng viết code tại điểm an toàn hiện tại. Chạy test nhanh, COMMIT toàn bộ thay đổi dở dang với thông điệp "TASK-XXX: WIP pause at <vị trí>", PUSH nhánh lên remote, cập nhật trạng thái PAUSED và ghi file bàn giao handoff trong .ai/sessions/.
+Dừng viết code tại điểm an toàn hiện tại. Chạy test nhanh, COMMIT toàn bộ thay đổi dở dang với thông điệp "TASK-XXX: WIP pause at <vị trí>", COMMIT riêng proposals nếu có, PUSH nhánh lên remote, cập nhật trạng thái PAUSED và ghi file bàn giao handoff trong .ai/sessions/.
 ```
 
 ## 8. Prompt Dừng Ngay Lập Tức (STOP)

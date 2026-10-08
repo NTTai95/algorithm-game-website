@@ -21,7 +21,7 @@ Mọi AI Agent trên các máy tính khác nhau đều có thể tiếp nhận v
 - **`.human/`**: Sổ tay vận hành và bộ nhớ riêng của con người. AI trên nhánh task/develop **TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ ĐỘNG ĐỌC**, quét hay suy diễn các file trong `.human/`. Chỉ AI trên nhánh `main` mới được phép bảo trì tài liệu trong `.human/` dưới sự chỉ đạo của con người.
 
 ## 5. Danh Mục Tài Liệu Cốt Lõi Trong `.ai/`
-- [`.ai/AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md): 16 quy tắc tác nghiệp bắt buộc dành cho AI.
+- [`.ai/AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md): 17 quy tắc tác nghiệp bắt buộc dành cho AI.
 - [`.ai/BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md): Ranh giới quyền hạn chi tiết và ma trận an toàn 3 nhánh logic.
 - [`.ai/CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md): Đặc tả ngôn ngữ chỉ huy tĩnh và quy tắc diễn giải lời nhắc của Con người (Command Protocol & Interpretation Specification).
 - [`.ai/WORKFLOW.md`](file:///d:/workspace/Algorithm-game-website/.ai/WORKFLOW.md): Chu trình vòng đời phát triển 10 trạng thái và quy trình bàn giao.

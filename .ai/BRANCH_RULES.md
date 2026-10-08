@@ -87,7 +87,7 @@ Nhánh task là **NHÁNH DUY NHẤT** mà AI được phép viết mã nguồn t
 - Chạy các công cụ kiểm tra chất lượng: `typecheck`, `lint`, `test`, `build`.
 - Tạo ghi chú task, nhật ký phiên (`SESSION-XXX.md`), nhật ký triển khai.
 - Tạo đề xuất thay đổi (`PROP-XXX.md`) hoặc báo cáo sai lệch (`DRIFT-XXX.md`) khi cần thiết.
-- Tạo commit cho công việc của task (`TASK-XXX: description`) và đẩy (push) nhánh task lên repository.
+- Tạo commit triển khai (`TASK-XXX: description`) và commit đề xuất riêng rẽ (`PROP-XXX: description`) nếu có, sau đó đẩy (push) nhánh task lên repository.
 - Tạo nhánh task mới khi quy trình yêu cầu mà **không cần chuyển sang nhánh main/develop**.
 
 ### Tuyệt Đối Cấm (FORBIDDEN):
@@ -95,6 +95,7 @@ Nhánh task là **NHÁNH DUY NHẤT** mà AI được phép viết mã nguồn t
 - **CẤM merge nhánh task vào `develop` hoặc `main`**.
 - CẤM force push (`git push -f`) hoặc sửa lịch sử Git.
 - CẤM âm thầm sửa đổi kiến trúc ngoài phạm vi task.
+- CẤM gộp commit đề xuất vào commit triển khai hoặc để proposal ở trạng thái untracked/unpushed.
 - CẤM nhận cùng lúc nhiều task hoặc làm nhiều task trên một phiên.
 
 ---
