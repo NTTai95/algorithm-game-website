@@ -1,7 +1,7 @@
 # Bảng Điều Phối Nhiệm Vụ Đang Kích Hoạt (Active Task Board)
 
 ```yaml
-BOARD_STATUS: IDLE (NO ACTIVE TASKS)
+BOARD_STATUS: ACTIVE (1 TASK READY)
 TASK_CAPACITY: 3-5 tasks
 LAST_UPDATED: 2026-10-08
 ```
@@ -14,7 +14,7 @@ LAST_UPDATED: 2026-10-08
 
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| *(Chưa có task nào kích hoạt)* | - | - | - | - | - | - |
+| TEST-001 | Protocol Dry Run | READY | LOW | [] | task/TEST-001-protocol-dry-run | NONE |
 
 ---
 
