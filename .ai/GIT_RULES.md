@@ -1,44 +1,69 @@
-# Git Development Protocol
+# Giao Thức Quản Lý Git (Git Development & Integration Protocol)
 
-Git is a fundamental component of the project's multi-agent control structure. All agents must operate within these branch boundaries and commit standards.
+Trong dự án này, Git không chỉ đơn thuần là hệ thống quản lý mã nguồn, mà còn là:
+- **Lịch sử phát triển dự án (Development History)**.
+- **Lịch sử thực thi từng nhiệm vụ (Task History)**.
+- **Lịch sử tích hợp và mốc phê duyệt của Con Người (Human Confirmation History)**.
 
-## Branch Hierarchy
+---
 
-### `main`
-- **Owner**: Human controlled exclusively.
-- **Status**: Stable, production-ready approved foundation.
-- **Rule**: AI agents must **NEVER** commit directly to, push directly to, or merge into `main`.
+## 1. Chuẩn Đặt Tên Thông Điệp Commit (Commit Naming Conventions)
+Mỗi commit phải đại diện cho một thay đổi logic nguyên tử (atomic change). **Tuyệt đối cấm các commit mơ hồ** như `fix`, `update`, `test`, `changes`, `work`.
 
-### `develop`
-- **Owner**: Human controlled integration branch.
-- **Status**: Active integration target for completed and approved tasks.
-- **Rule**: AI agents must branch off `develop` when starting tasks. AI agents must **NEVER** directly push to or merge into `develop` without explicit human authorization.
+### Các Mẫu Chuẩn:
+- **Khởi tạo nền tảng**:
+  `INIT-001: establish project foundation`
+- **Củng cố giao thức**:
+  `INIT-002: harden AI development protocol`
+- **Thực thi nhiệm vụ**:
+  `TASK-XXX: <mô tả ngắn gọn bằng thể mệnh lệnh>`
+  *(Ví dụ: `TASK-001: implement warehouse slot domain model`, `TASK-002: add crane event emitter unit tests`)*
+- **Lưu trạng thái dở dang khi chuyển task**:
+  `TASK-XXX: WIP pause at slot validation logic`
 
-### `task/TASK-XXX-<slug>`
-- **Owner**: Claiming AI agent.
-- **Scope**: Exactly one logical task or feature.
-- **Rule**: AI implementation takes place exclusively on these task branches.
+---
 
-## Branch Inspection Protocol
-Before performing any git operation or editing files, future AI agents must:
-1. Run `git status` and `git branch --show-current` to identify the active branch.
-2. Confirm the active branch matches the claimed task ID in `.ai/CONTROL.md`.
-3. Respect all branch permissions and guardrails.
+## 2. Quy Định Tạo Nhánh Task Từ `develop`
+- AI khi đang ở nhánh task **KHÔNG ĐƯỢC PHÉP checkout sang `develop` hay `main`**.
+- Để tạo một nhánh task mới mà không cần checkout sang `develop`, AI sử dụng lệnh phân nhánh trực tiếp từ tham chiếu `develop`:
+  ```bash
+  # Tạo nhánh mới bắt nguồn từ develop mà không cần chuyển sang develop
+  git branch task/TASK-XXX-<slug> develop
+  git checkout task/TASK-XXX-<slug>
+  ```
+- **Điều kiện tiên quyết trước khi tạo nhánh task**:
+  1. Task `TASK-XXX` đã tồn tại trong `.ai/tasks/active/`.
+  2. Con người đã phê duyệt task và trạng thái là `READY`.
+  3. Mọi dependencies của task đã hoàn thành.
+  4. Nhánh `develop` cục bộ đã được đồng bộ với phiên bản tích hợp mới nhất.
 
-## Commit Message Conventions
-Every commit must represent a single, atomic logical change.
+---
 
-### Format
-`<TASK_ID>: <imperative description>`
+## 3. Quy Trình Hoàn Tất Task & Điểm Xác Nhận Của Con Người
+AI **TUYỆT ĐỐI KHÔNG ĐƯỢC** tự động merge nhánh task vào `develop` hoặc `main`.
 
-### Examples
-- `TASK-001: create warehouse domain models`
-- `TASK-002: implement crane event emitter`
-- `INIT-001: establish project foundation` *(Initialization commit)*
+```
+[Trên nhánh task/TASK-XXX-*]
+1. AI chạy toàn bộ test, lint, typecheck, build.
+2. AI cập nhật tài liệu và tạo commit hoàn chỉnh.
+3. AI đẩy nhánh lên: git push origin task/TASK-XXX-<slug>
+4. AI cập nhật trạng thái: STATUS: READY_FOR_REVIEW
+5. AI tạo nhật ký phiên bàn giao trong .ai/sessions/
+  ↓
+[Con Người Tiếp Quản]
+6. Human Developer kiểm tra diff nhánh task.
+7. Human Developer quyết định: APPROVE hoặc REQUEST_CHANGES.
+8. Human Developer tự mình thực hiện lệnh merge vào develop.
+  ↓
+[Hoàn Tất Chính Thức]
+9. Task được chuyển sang STATUS: DONE và chuyển file vào .ai/tasks/completed/.
+```
 
-## Prohibited Git Actions
-AI agents MUST NEVER:
-- Force push (`git push -f`) to any shared or protected branches.
-- Rewrite history on `main` or `develop`.
-- Delete `main` or `develop`.
-- Merge any branch into `main` or `develop` without explicit human review and execution.
+---
+
+## 4. Các Lệnh Git Bị Cấm Tuyệt Đối Đối Với AI
+AI **TUYỆT ĐỐI CẤM**:
+- Force push (`git push -f`) lên bất kỳ nhánh chung nào (`main`, `develop`).
+- Viết lại hoặc xóa lịch sử commit trên các nhánh được bảo vệ.
+- Xóa nhánh `main` hoặc `develop`.
+- Merge bất kỳ nhánh nào vào `main` hoặc `develop`.

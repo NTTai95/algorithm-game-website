@@ -1,79 +1,80 @@
-# Algorithm Game Website
+# Website Trò Chơi Thuật Toán (Algorithm Game Website)
 
-An educational Data Structures and Algorithms (DSA) web platform designed to transform algorithmic concepts into intuitive, interactive game experiences. The flagship game visualizes sorting algorithms through an industrial warehouse scenario involving boxes, conveyor slots, and mechanical cranes.
+Nền tảng web giáo dục tương tác về Cấu trúc Dữ liệu và Giải thuật (DSA). Dự án biến các khái niệm thuật toán trừu tượng thành trải nghiệm trò chơi trực quan, dễ hiểu. Trò chơi đầu tiên mô phỏng các thuật toán sắp xếp thông qua bối cảnh kho hàng công nghiệp với các thùng hàng, vị trí lưu trữ và cần cẩu cơ học.
 
-## Technology Stack
+## 1. Công Nghệ Sử Dụng
 
-- **Framework**: [React 19](https://react.dev/)
-- **Bundler & Dev Server**: [Vite 8](https://vitejs.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Giao diện**: [React 19](https://react.dev/)
+- **Công cụ đóng gói & Máy chủ Dev**: [Vite 8](https://vitejs.dev/)
+- **Ngôn ngữ**: [TypeScript](https://www.typescriptlang.org/)
 - **Game Engine**: [Phaser 3](https://phaser.io/)
-- **Test Runner**: [Vitest](https://vitest.dev/)
-- **Linter**: [ESLint](https://eslint.org/) (Flat Configuration)
-- **Styling**: Modern CSS / CSS Modules
+- **Bộ kiểm thử (Test Runner)**: [Vitest](https://vitest.dev/)
+- **Linter**: [ESLint 9](https://eslint.org/) (Flat Configuration)
+- **Styling**: Modern CSS / CSS Modules thuần túy
 
-The repository strictly adheres to a lightweight architecture with no heavy external UI libraries or state management frameworks.
+Dự án duy trì nguyên tắc kiến trúc tinh gọn, không cài đặt các thư viện UI cồng kềnh hay các thư viện quản lý trạng thái bên thứ ba không cần thiết.
 
-## Architecture
+## 2. Kiến Trúc Phân Lớp
 
-The project maintains a strict layered separation of concerns:
+Hệ thống tuân thủ nghiêm ngặt mô hình kiến trúc phân lớp tách rời một chiều:
 
 ```
-Application (React UI, HUD, Controls)
+Application (Giao diện React UI, HUD, Bảng điều khiển)
      ↓
-Game Systems (Session, Level Manager)
+Game Systems (Quản lý màn chơi, Phiên chơi, Âm thanh)
      ↓
-Domain / Simulation (Deterministic Algorithm Execution & Step Emitters)
+Domain / Simulation (Lõi thuật toán DSA, Sinh bước chạy, Phát sự kiện)
      ↓
-Rendering / Presentation (Phaser 3 Scene, Animations, Visual Assets)
+Rendering / Presentation (Khung vẽ Phaser 3, Hoạt ảnh cần cẩu & thùng hàng)
 ```
 
-Game logic and sorting simulations are entirely decoupled from Phaser rendering, ensuring complete testability in headless environments.
+Lõi thuật toán và mô phỏng hoàn toàn độc lập với Phaser và React, cho phép kiểm thử tự động 100% trong môi trường dòng lệnh (headless/Node.js).
 
-## Development Commands
+## 3. Các Lệnh Phát Triển
 
 ```bash
-# Install dependencies
+# Cài đặt các gói phụ thuộc
 npm install
 
-# Start local development server
+# Khởi chạy máy chủ phát triển cục bộ
 npm run dev
 
-# Run TypeScript type check
+# Kiểm tra kiểu dữ liệu TypeScript
 npm run typecheck
 
-# Run ESLint check
+# Kiểm tra lỗi cú pháp và chuẩn code bằng ESLint
 npm run lint
 
-# Run Vitest test suite once
+# Chạy toàn bộ kiểm thử đơn vị một lần
 npm run test:run
 
-# Run Vitest in interactive watch mode
+# Chạy kiểm thử ở chế độ theo dõi tương tác (watch mode)
 npm run test
 
-# Build production bundle
+# Đóng gói sản phẩm cho môi trường production
 npm run build
 
-# Preview production build locally
+# Xem thử bản đóng gói production tại máy cục bộ
 npm run preview
 ```
 
-## Git Branch Model
+## 4. Mô Hình 3 Nhánh Logic (Branch Roles)
 
-- **`main`**: Protected branch representing the stable, approved foundation. Controlled exclusively by human developers. No direct AI commits or merges.
-- **`develop`**: Integration branch for approved task completions. Controlled by human developers.
-- **`task/TASK-XXX-<slug>`**: Dedicated feature/task branches created off `develop` for individual AI implementation tasks.
+Hệ thống phân định rạch ròi 3 vai trò nhánh logic (chi tiết tại [`.ai/BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md)):
+- **`main`**: Nhánh Quy hoạch cấp cao và Kiến trúc hệ thống. **Tuyệt đối cấm sửa mã nguồn trong `/src/`**. (Chỉ 1 AI hoạt động).
+- **`develop`**: Nhánh Tích hợp, Kiểm thử hồi quy và Đánh giá Sprint. **Tuyệt đối cấm sửa mã nguồn trong `/src/`**. (Chỉ 1 AI hoạt động).
+- **`task/TASK-XXX-<slug>`**: **Nhánh duy nhất được phép lập trình tính năng trong `/src/`** thuộc phạm vi task scope. (Cho phép nhiều AI chạy song song).
 
-Commit message format follows:
-`TASK-XXX: <short imperative description>` (or `INIT-001` for the initial foundation).
+Định dạng thông điệp commit:
+`TASK-XXX: <mô tả>` (hoặc `INIT-001`, `INIT-002` cho các commit khởi tạo và củng cố giao thức).
 
-## Operational Protocol: `.ai` vs `.human`
+## 5. Phân Định Không Gian: `.ai` và `.human`
 
-- **`.ai/`**: Machine-readable protocol for AI coding agents. Contains operational rules (`AI_RULES.md`), state control (`CONTROL.md`), high-level architecture guidelines (`ARCHITECTURE.md`), ubiquitous vocabulary (`DOMAIN_MODEL.md`), API registries (`API_CONTRACTS.md`), and task tracking (`tasks/`).
-- **`.human/`**: Dedicated workspace exclusively for human developers (notes, machine commands, local setup, planning). AI agents must **never** automatically inspect or process files in `.human/`. Any human instruction meant for AI agents is deliberately placed into `.ai/CONTROL.md` or other appropriate `.ai/` files.
+- **`.ai/`**: Giao thức tác nghiệp dành riêng cho AI. Chứa các quy tắc chuẩn hóa ([`AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md)), luật phân nhánh ([`BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md)), bảng điều khiển quyền hạn ([`CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md)), kiến trúc ([`ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.ai/ARCHITECTURE.md)), hợp đồng API ([`API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.ai/API_CONTRACTS.md)), và hệ thống quản lý task ([`tasks/`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/)).
+- **`.human/`**: Sổ tay Vận hành và Bộ nhớ của Con Người ([`.human/README.md`](file:///d:/workspace/Algorithm-game-website/.human/README.md), [`.human/MANUAL.md`](file:///d:/workspace/Algorithm-game-website/.human/MANUAL.md), các cẩm nang, sổ tay lệnh và quy trình chuẩn SOP). Thư mục `.human/local/` được bỏ qua trong Git để chứa ghi chú riêng của máy cá nhân. AI trên nhánh task/develop tuyệt đối không tự động đọc thư mục `.human/`.
 
-## Project Status
+## 6. Trạng Thái Hiện Tại Của Dự Án
 
-- **Phase**: Master AI Initialization Complete
-- **Active Task**: None (`CURRENT_MODE: NO TASKS ACTIVE`)
-- **Status**: Technical foundation, test suite, and operational protocol established. Ready for human task definition.
+- **Giai đoạn**: Khởi tạo Nền tảng & Củng cố Giao thức (MASTER AI Mode).
+- **Nhiệm vụ đang chạy**: Chưa có (`CURRENT_MODE: NO TASKS ACTIVE`).
+- **Sẵn sàng**: Nền tảng kỹ thuật, cấu hình kiểm thử, ranh giới kiến trúc và giao thức điều khiển đa tác nhân đã được chuẩn hóa đồng bộ.

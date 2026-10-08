@@ -1,80 +1,78 @@
-# AI Task Workflow Lifecycle
+# Vòng Đời Tác Vụ & Quy Trình Phát Triển (Task Lifecycle & Development Workflow)
 
-Future AI agents must strictly follow the structured development lifecycle. **AI agents MUST NOT skip directly from task assignment to code implementation.**
+Quy trình phát triển trong dự án được tổ chức chặt chẽ theo từng giai đoạn chuẩn mực. **AI tuyệt đối không được nhảy cóc từ khi nhận task sang viết mã nguồn.**
+
+---
+
+## 1. Vòng Đời Trạng Thái Của Task (State Lifecycle)
 
 ```
-ANALYZE
+PLANNED (Được lên kế hoạch bởi Human)
   ↓
-DESIGN
+READY (Đã đủ điều kiện, sẵn sàng thực hiện)
   ↓
-CONTRACT
+CLAIMED (Được một phiên AI nhận làm)
   ↓
-TEST PLAN
+DESIGNING (AI đang hoàn thiện Phần 1: Thiết Kế)
   ↓
-CONFLICT CHECK
+IMPLEMENTING (AI đang viết mã nguồn trên nhánh task)
   ↓
-IMPLEMENT
+TESTING (AI đang chạy bộ kiểm thử toàn diện)
   ↓
-TEST
+READY_FOR_REVIEW (AI hoàn tất, chờ con người đánh giá)
   ↓
-SELF REVIEW
+REVIEWED (Human đã xem xét: Duyệt hoặc Yêu cầu sửa)
   ↓
-READY FOR REVIEW
+INTEGRATED (Human merge nhánh task vào develop)
   ↓
-HUMAN REVIEW
-  ↓
-INTEGRATE
-  ↓
-DONE
+DONE (Hoàn tất chính thức, lưu trữ vào completed/)
 ```
 
-## Detailed Phases
+*Các trạng thái ngoại lệ:*
+- `BLOCKED`: Bị nghẽn do phụ thuộc chưa xong hoặc chờ quyết định kiến trúc.
+- `PAUSED`: Tạm dừng khi Human điều chuyển AI sang task khẩn cấp khác.
+- `REJECTED`: Task bị hủy bỏ hoặc thay thế.
 
-1. **ANALYZE**:
-   - Read the task description in `.ai/tasks/active/`.
-   - Inspect `.ai/CONTROL.md` to confirm active permissions.
-   - Analyze dependencies, affected files, and existing domain models in `.ai/DOMAIN_MODEL.md`.
+> **Quy Tắc Chốt Hạ**: Chỉ có **Lập Trình Viên Con Người** mới có quyền chuyển task sang trạng thái `DONE` sau khi đã merge vào `develop`. AI chỉ được phép đánh dấu tối đa là `READY_FOR_REVIEW`.
 
-2. **DESIGN**:
-   - Plan the required types, state machines, or components.
-   - Ensure the plan maintains separation between Game Logic / Simulation and Presentation / Phaser.
+---
 
-3. **CONTRACT**:
-   - Check `.ai/API_CONTRACTS.md`.
-   - Ensure interfaces and function signatures align with existing contracts. If changes are needed, log a proposal in `.ai/changes/`.
+## 2. Quy Trình "Thiết Kế Trước Khi Viết Code" (Design Before Code)
 
-4. **TEST PLAN**:
-   - Formulate a test strategy before writing implementation code.
-   - Identify edge cases, algorithm boundaries, and simulation states to test.
+Mọi task phát triển trên nhánh `task/TASK-XXX-*` phải trải qua đầy đủ chuỗi 8 bước logic trước khi bắt đầu sửa file mã nguồn:
 
-5. **CONFLICT CHECK**:
-   - Check working tree, current Git branch (`task/TASK-XXX-*`), and recently integrated commits.
-   - Verify that another AI agent's concurrent work does not collide with the targeted files.
+```
+TASK ASSIGNMENT
+  ↓
+1. ANALYSIS (Khảo sát kiến trúc, scope, ranh giới file)
+  ↓
+2. DESIGN (Thiết kế giải pháp, phân tách lớp)
+  ↓
+3. API CONTRACT (Định nghĩa giao diện, types dự kiến)
+  ↓
+4. DATA FLOW (Mô tả luồng dữ liệu & sự kiện phát ra)
+  ↓
+5. TEST PLAN (Xác định ca kiểm thử, test biên)
+  ↓
+6. CONFLICT CHECK (Kiểm tra xung đột với task khác & Halt Rule)
+  ↓
+7. IMPLEMENTATION (Viết mã nguồn strictly trong ALLOWED FILES)
+  ↓
+8. VERIFICATION (Typecheck, Lint, Test, Build)
+```
 
-6. **IMPLEMENT**:
-   - Write clean, modular TypeScript code strictly within the assigned task boundaries.
-   - Avoid touching unrelated files or introducing unauthorized packages.
+---
 
-7. **TEST**:
-   - Run `npm run typecheck`, `npm run lint`, and `npm run test:run`.
-   - Ensure 100% pass rate with zero type or lint errors.
+## 3. Quy Trình Bàn Giao Khi Chuyển Đổi Task Dở Dang
 
-8. **SELF REVIEW**:
-   - Review Git diff (`git diff`).
-   - Confirm no debug code, secrets, stray files, or unneeded refactors were introduced.
-
-9. **READY FOR REVIEW**:
-   - Commit changes adhering to commit standards (`TASK-XXX: description`).
-   - Update task status in the task file to `READY_FOR_REVIEW`.
-   - Record session notes in `.ai/sessions/`.
-
-10. **HUMAN REVIEW**:
-    - The human developers inspect the pull request or task branch.
-    - Human developers provide feedback, request changes, or approve.
-
-11. **INTEGRATE**:
-    - Human developer merges the approved branch into `develop`.
-    - Protected branches (`develop`, `main`) are exclusively merged under human control.
-
-12. **DONE**:
-    - Move task file from `.ai/tasks/active/` to `.ai/tasks/completed/`.
+Nếu con người yêu cầu AI chuyển sang làm task khác trước khi task hiện tại hoàn tất, AI **BẮT BUỘC** phải thực hiện đầy đủ chuỗi thao tác an toàn:
+1. Dừng viết mã tại điểm biên an toàn, không để code gãy cú pháp.
+2. Chạy xác minh kiểm thử thích hợp để ghi nhận trạng thái hiện tại.
+3. Tạo commit cho toàn bộ thay đổi dở dang (`TASK-XXX: WIP description`).
+4. Đẩy (push) nhánh task hiện tại lên Git repository.
+5. Cập nhật file `TASK-XXX.md` và `TASK_PROCESSING.md` sang trạng thái `PAUSED` hoặc `IN_PROGRESS`.
+6. Soạn nhật ký bàn giao chi tiết tại `.ai/sessions/SESSION-XXX.md`:
+   - Ghi rõ điểm đã dừng lại.
+   - Ghi rõ các vấn đề còn tồn đọng.
+   - Hướng dẫn cụ thể hành động tiếp theo cho phiên AI sau.
+7. **Tuyệt đối không để lại bất kỳ file nào chưa commit trong working tree.**

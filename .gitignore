@@ -19,6 +19,9 @@ coverage/
 .env
 .env*.local
 
+# Human local notes (machine-specific)
+.human/local/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,13 +1,24 @@
-# Task Processing Protocol
+# Bảng Điều Phối Nhiệm Vụ Đang Kích Hoạt (Active Task Board)
 
 ```yaml
-CURRENT MODE: NO TASKS ACTIVE
-TASK CAPACITY: 3-5 future tasks
+CURRENT_MODE: NO ACTIVE TASK
+TASK_CAPACITY: 3-5 tasks
+LAST_UPDATED: 2026-10-08
 ```
 
-## Task Lifecycle and Rules
-1. **Creation**: Only human developers create or approve tasks in the task queue.
-2. **Claiming**: An AI agent may claim a task marked `STATUS: READY` by recording its agent ID and transitioning the status to `STATUS: IN_PROGRESS` in the active task file.
-3. **Explicit Ownership**: Task ownership is recorded directly in the task file. No AI agent may silently take, overwrite, or modify another agent's claimed task.
-4. **Visibility**: Task status must be explicitly maintained across phases (`READY`, `IN_PROGRESS`, `READY_FOR_REVIEW`, `COMPLETED`).
-5. **Completion & Integration**: Task completion requires human review and confirmation before the branch is merged into `develop` and the task file is archived to `.ai/tasks/completed/`.
+> **Ghi chú**: Bảng này là bảng điều phối nhẹ (lightweight board). Nội dung đặc tả kỹ thuật và thiết kế chi tiết của từng task được lưu trữ độc lập tại `.ai/tasks/active/TASK-XXX.md`.
+
+---
+
+## Danh Sách Nhiệm Vụ Kích Hoạt (Active Task Working Set)
+
+| TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| *(Chưa có task nào kích hoạt)* | - | - | - | - | - | - |
+
+---
+
+## Hướng Dẫn Nhanh Cho AI Khi Cập Nhật Bảng
+1. **Khi nhận task**: Cập nhật dòng tương ứng thành `STATUS: CLAIMED`, điền `CURRENT_BRANCH` (`task/TASK-XXX-slug`) và `CURRENT_SESSION` (`SES-YYYYMMDD-XX`).
+2. **Khi chuyển đổi trạng thái**: Đồng bộ trạng thái giữa file task và bảng này (`DESIGNING`, `IMPLEMENTING`, `TESTING`, `READY_FOR_REVIEW`, `PAUSED`).
+3. **Khi hoàn tất**: Khi con người đã merge vào `develop`, xóa dòng task khỏi bảng này và lưu trữ file vào `.ai/tasks/completed/`.
