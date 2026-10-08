@@ -70,11 +70,11 @@ Hệ thống phân định rạch ròi 3 vai trò nhánh logic (chi tiết tại
 
 ## 5. Phân Định Không Gian: `.ai` và `.human`
 
-- **`.ai/`**: Giao thức tác nghiệp dành riêng cho AI. Chứa các quy tắc chuẩn hóa ([`AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md)), luật phân nhánh ([`BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md)), bảng điều khiển quyền hạn ([`CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md)), kiến trúc ([`ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.ai/ARCHITECTURE.md)), hợp đồng API ([`API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.ai/API_CONTRACTS.md)), và hệ thống quản lý task ([`tasks/`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/)).
+- **`.ai/`**: Giao thức tác nghiệp dành riêng cho AI. Chứa các quy tắc chuẩn hóa ([`AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md)), luật phân nhánh ([`BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md)), đặc tả ngôn ngữ chỉ huy tĩnh ([`CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md)), kiến trúc ([`ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.ai/ARCHITECTURE.md)), hợp đồng API ([`API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.ai/API_CONTRACTS.md)), và hệ thống quản lý task ([`tasks/`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/)).
 - **`.human/`**: Sổ tay Vận hành và Bộ nhớ của Con Người ([`.human/README.md`](file:///d:/workspace/Algorithm-game-website/.human/README.md), [`.human/MANUAL.md`](file:///d:/workspace/Algorithm-game-website/.human/MANUAL.md), các cẩm nang, sổ tay lệnh và quy trình chuẩn SOP). Thư mục `.human/local/` được bỏ qua trong Git để chứa ghi chú riêng của máy cá nhân. AI trên nhánh task/develop tuyệt đối không tự động đọc thư mục `.human/`.
 
 ## 6. Trạng Thái Hiện Tại Của Dự Án
 
-- **Giai đoạn**: Khởi tạo Nền tảng & Củng cố Giao thức (MASTER AI Mode).
-- **Nhiệm vụ đang chạy**: Chưa có (`CURRENT_MODE: NO TASKS ACTIVE`).
+- **Giai đoạn**: Khởi tạo Nền tảng & Củng cố Giao thức Điều khiển (AI Protocol Hardening).
+- **Nhiệm vụ đang chạy**: Chưa có task kích hoạt.
 - **Sẵn sàng**: Nền tảng kỹ thuật, cấu hình kiểm thử, ranh giới kiến trúc và giao thức điều khiển đa tác nhân đã được chuẩn hóa đồng bộ.

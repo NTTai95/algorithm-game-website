@@ -31,5 +31,5 @@ Tài liệu này hướng dẫn cách thức con người lập kế hoạch, vi
 Nếu bạn đang để AI làm `TASK-001` nhưng muốn AI dừng lại để làm gấp `TASK-002`:
 1. Không bắt AI vứt bỏ code dở dang. Hãy yêu cầu:
    > *"Dừng code ở trạng thái ổn định, tạo commit WIP, push nhánh và ghi nhật ký bàn giao handoff cho TASK-001 trước khi chuyển sang task mới."*
-2. Sau khi AI commit sạch sẽ, đổi `CURRENT_TASK` trong `CONTROL.md` sang `TASK-002` và chuyển sang nhánh `task/TASK-002-...`.
+2. Sau khi AI commit sạch sẽ, chuyển sang nhánh của task mới (`task/TASK-002-...`) và ra lệnh cho phiên AI bằng prompt (ví dụ: `"DESIGN TASK-002"` hoặc `"IMPLEMENT TASK-002"`). Bạn không cần sửa file `CONTROL.md`.
 3. Xem chi tiết tại [`.human/procedures/switch-task.md`](file:///d:/workspace/Algorithm-game-website/.human/procedures/switch-task.md).

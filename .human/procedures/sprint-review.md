@@ -10,20 +10,11 @@ Quy trình này áp dụng khi toàn bộ các task trong sprint hiện tại đ
    git checkout develop
    git pull origin develop
    ```
-2. **Cấu hình AI ở chế độ DEVELOP**:
-   Mở `.ai/CONTROL.md` và đặt:
-   ```yaml
-   MODE: DEVELOP
-   CURRENT_TASK: NONE
-   COMMAND: VERIFY
-   ALLOW_CODE: NO
-   ALLOW_TEST: YES
-   ALLOW_COMMIT: YES
-   ```
-3. **Chỉ đạo AI chạy kiểm thử hồi quy và đánh giá tổng thể**:
-   Prompt cho AI:
-   > *"Hãy chạy kiểm tra typecheck, lint, toàn bộ bộ test và build trên develop. Phân tích tính tương thích giữa các tính năng vừa hoàn thành, lập danh sách nợ kỹ thuật (nếu có) và viết ghi chú đánh giá sprint vào .human/notes/."*
-4. **Phát hành Sprint (Release to Main)**:
+2. **Chỉ đạo AI chạy kiểm thử hồi quy và đánh giá tổng thể bằng prompt**:
+   Gửi prompt cho AI:
+   > *"TEST toàn bộ hệ thống trên develop và REPORT đánh giá sprint. Chạy typecheck, lint, test:run, build. Phân tích tính tương thích giữa các tính năng vừa tích hợp, liệt kê nợ kỹ thuật (nếu có) và ghi báo cáo vào .human/notes/."*
+   *(Lưu ý: Bạn **không cần chỉnh sửa `CONTROL.md`**; AI trên nhánh `develop` tự động tuân thủ Branch Rules: cấm sửa `/src/`, chỉ chạy test và lập báo cáo).*
+3. **Phát hành Sprint (Release to Main)**:
    Sau khi con người duyệt báo cáo đánh giá sprint trên `develop`:
    ```bash
    git checkout main
@@ -31,4 +22,4 @@ Quy trình này áp dụng khi toàn bộ các task trong sprint hiện tại đ
    git merge --no-ff develop -m "Release Sprint X: integrate completed features"
    git push origin main
    ```
-5. **Bắt đầu Sprint tiếp theo**: Chuyển sang chuẩn bị task cho sprint mới.
+4. **Bắt đầu Sprint tiếp theo**: Chuyển sang chuẩn bị task cho sprint mới.

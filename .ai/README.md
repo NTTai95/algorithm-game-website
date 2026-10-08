@@ -1,7 +1,7 @@
 # .ai - Giao Thức Phát Triển Tự Động Hóa Cho AI (Development Protocol)
 
 ## 1. Mục Đích
-Thư mục `.ai/` là trung tâm lưu trữ toàn bộ quy tắc vận hành, kiến trúc, hợp đồng API và trạng thái điều khiển ở dạng máy đọc được (machine-readable) dành cho tất cả các AI Agent tham gia phát triển dự án **Website Trò Chơi Thuật Toán (Algorithm Game Website)**.
+Thư mục `.ai/` là trung tâm lưu trữ toàn bộ quy tắc vận hành, kiến trúc, hợp đồng API và giao thức chỉ huy ở dạng máy đọc được (machine-readable) dành cho tất cả các AI Agent tham gia phát triển dự án **Website Trò Chơi Thuật Toán (Algorithm Game Website)**.
 
 Bất kỳ AI Agent nào khi tiếp cận repository này **BẮT BUỘC PHẢI ĐỌC** và tuân thủ tuyệt đối các quy định trong thư mục này trước khi đọc mã nguồn hoặc thực hiện bất kỳ nhiệm vụ nào.
 
@@ -23,7 +23,7 @@ Mọi AI Agent trên các máy tính khác nhau đều có thể tiếp nhận v
 ## 5. Danh Mục Tài Liệu Cốt Lõi Trong `.ai/`
 - [`.ai/AI_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/AI_RULES.md): 16 quy tắc tác nghiệp bắt buộc dành cho AI.
 - [`.ai/BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md): Ranh giới quyền hạn chi tiết và ma trận an toàn 3 nhánh logic.
-- [`.ai/CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md): Bảng điều khiển quyền hạn và quy tắc dừng an toàn (Halt Rule).
+- [`.ai/CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md): Đặc tả ngôn ngữ chỉ huy tĩnh và quy tắc diễn giải lời nhắc của Con người (Command Protocol & Interpretation Specification).
 - [`.ai/WORKFLOW.md`](file:///d:/workspace/Algorithm-game-website/.ai/WORKFLOW.md): Chu trình vòng đời phát triển 10 trạng thái và quy trình bàn giao.
 - [`.ai/GIT_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/GIT_RULES.md): Quy chuẩn phân nhánh, commit và bảo vệ nhánh chính.
 - [`.ai/ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.ai/ARCHITECTURE.md): Kiến trúc phân lớp tách rời giữa Thuật toán và Phaser 3.

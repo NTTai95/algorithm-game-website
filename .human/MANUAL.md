@@ -35,7 +35,7 @@ Khi chỉ đạo AI, bạn cần biết chính xác nhánh nào phục vụ mụ
 
 ### Bước 2: Chỉ đạo AI thực hiện nhiệm vụ
 - Nếu giao task mới: Xem quy trình [`.human/procedures/assign-task.md`](file:///d:/workspace/Algorithm-game-website/.human/procedures/assign-task.md).
-- Nhớ cấu hình file `.ai/CONTROL.md` để cấp đúng quyền tương ứng với nhánh task.
+- Ra lệnh cho AI trực tiếp qua lời nhắc (prompt) với các lệnh chuẩn (`DESIGN`, `IMPLEMENT`, `TEST` theo hướng dẫn tại [`.human/CONTROL_GUIDE.md`](file:///d:/workspace/Algorithm-game-website/.human/CONTROL_GUIDE.md)). Bạn không cần chỉnh sửa file `CONTROL.md`.
 
 ### Bước 3: Nghiệm thu và Tích hợp
 - Khi AI báo cáo `READY_FOR_REVIEW`, con người kiểm tra diff trên GitHub/Git.

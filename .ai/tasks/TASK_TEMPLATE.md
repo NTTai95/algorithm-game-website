@@ -73,7 +73,7 @@ DEPENDENCIES: [] # Danh sách TASK-ID tiên quyết phải xong trước (ví d�
 ---
 
 ## PHẦN 2: TRIỂN KHAI MÃ NGUỒN (IMPLEMENTATION)
-> *Chỉ được thực hiện khi Phần 1 đã hoàn thiện và thỏa mãn 6 điều kiện của Halt Rule trong `.ai/CONTROL.md`.*
+> *Chỉ được thực hiện khi Phần 1 đã hoàn thiện, thỏa mãn ranh giới nhánh Git (`.ai/BRANCH_RULES.md`) và nhận được chỉ thị `IMPLEMENT` hợp lệ từ Con người theo `.ai/CONTROL.md`.*
 
 ### 1. Nhật Ký Triển Khai (IMPLEMENTATION NOTES)
 - **Tệp đã tạo mới**:

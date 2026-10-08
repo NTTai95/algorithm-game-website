@@ -1,6 +1,6 @@
 # Quy Tắc Phân Định Nhánh Git (Git Branch Roles & Permissions)
 
-Dự án thiết lập ranh giới quyền hạn nghiêm ngặt theo 3 vai trò nhánh logic. Vai trò của một phiên AI được quyết định trực tiếp bởi nhánh Git hiện tại.
+Dự án thiết lập ranh giới quyền hạn nghiêm ngặt theo 3 vai trò nhánh logic. Vai trò của một phiên AI được quyết định trực tiếp bởi nhánh Git hiện tại và là rào chắn bất biến không thể bị vượt qua bởi bất kỳ lời nhắc (prompt) nào.
 
 ```
                   ┌──────────────────────────────────────────────┐
@@ -40,7 +40,7 @@ Nhánh `main` là nhánh quy hoạch cấp cao nhất về kiến trúc hệ th�
 - Xây dựng kế hoạch phát triển (development plans), kế hoạch sprint (sprint plans), cấu trúc danh mục task.
 - Rà soát tính nhất quán tài liệu, phát hiện mâu thuẫn nội tại và phân tích kiến trúc dự án.
 - Soạn thảo quy cách kỹ thuật cho các task tương lai, cập nhật nhật ký quyết định kiến trúc (`DECISIONS.md`).
-- Tạo commit cho các thay đổi về giao thức/tài liệu khi được cấp phép rõ ràng trong `CONTROL.md`.
+- Tạo commit cho các thay đổi về giao thức/tài liệu phù hợp với vai trò của nhánh `main`.
 
 ### Tuyệt Đối Cấm (FORBIDDEN):
 - **CẤM chỉnh sửa bất kỳ tệp tin nào bên trong thư mục `/src/`**.
@@ -61,7 +61,7 @@ Nhánh `develop` là nhánh tích hợp và đánh giá sau sprint. **`develop` 
 - Viết báo cáo đánh giá, ghi chú tổng kết sprint, đề xuất khuyến nghị cho sprint tiếp theo.
 - Xác định nợ kỹ thuật (technical debt), xung đột giữa các tính năng.
 - Tạo đề xuất thay đổi (`.ai/changes/proposals/PROP-XXX.md`) khi phát hiện vấn đề cần cải tổ.
-- Tạo commit CHỈ CHO các tệp kiểm thử tích hợp, báo cáo đánh giá, trạng thái task hoặc tài liệu khi được phép trong `CONTROL.md`.
+- Tạo commit CHỈ CHO các tệp kiểm thử tích hợp, báo cáo đánh giá, trạng thái task hoặc tài liệu đánh giá phù hợp với vai trò của nhánh `develop`.
 
 ### Tuyệt Đối Cấm (FORBIDDEN):
 - **CẤM lập trình tính năng sản phẩm mới hoặc sửa trực tiếp mã nguồn trong `/src/`**.
@@ -100,26 +100,26 @@ Nhánh task là **NHÁNH DUY NHẤT** mà AI được phép viết mã nguồn t
 ---
 
 ## 4. Nguyên Tắc An Toàn Tuyệt Đối (Absolute Branch Safety Rule)
-Trước BẤT KỲ hành động sửa đổi code, chạy lệnh hoặc tạo commit nào, AI **BẮT BUỘC** phải đối chiếu 5 yếu tố:
+Trước BẤT KỲ hành động can thiệp mã nguồn, chạy lệnh hoặc tạo commit nào, AI **BẮT BUỘC** phải đối chiếu 5 yếu tố:
 1. Nhánh Git hiện tại (`git branch --show-current`)
-2. Bảng điều khiển quyền hạn (`.ai/CONTROL.md`)
-3. Trạng thái task trong bảng điều phối (`.ai/tasks/TASK_PROCESSING.md`)
+2. Lệnh và ràng buộc được diễn giải từ prompt theo đặc tả ([`.ai/CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md))
+3. Trạng thái task trong bảng điều phối ([`.ai/tasks/TASK_PROCESSING.md`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/TASK_PROCESSING.md))
 4. File chi tiết của task (`.ai/tasks/active/TASK-XXX.md`)
 5. Phiên làm việc hiện tại (`SESSION ID`)
 
 ### Ma Trận Xung Đột & Lệnh Dừng Bắt Buộc (Halt Matrix):
-| Lệnh trong CONTROL | Nhánh Git thực tế | Trạng thái Task | Hành Động Bắt Buộc Của AI |
+| Lệnh Diễn Giải Từ Prompt | Nhánh Git Thực Tế | Trạng Thái Task | Hành Động Bắt Buộc Của AI |
 | :--- | :--- | :--- | :--- |
-| `IMPLEMENT` | `develop` | Bất kỳ | **DỪNG NGAY (HALT)** - develop cấm sửa /src/ |
-| `IMPLEMENT` | `main` | Bất kỳ | **DỪNG NGAY (HALT)** - main cấm sửa /src/ |
+| `IMPLEMENT` | `develop` | Bất kỳ | **DỪNG NGAY (HALT)** - develop cấm sửa `/src/` |
+| `IMPLEMENT` | `main` | Bất kỳ | **DỪNG NGAY (HALT)** - main cấm sửa `/src/` |
 | `IMPLEMENT` | `task/TASK-001-*` | Khác `TASK-001` | **DỪNG NGAY (HALT)** - Nhánh không khớp Task |
-| `IMPLEMENT` | `task/TASK-001-*` | `STATUS != IN_PROGRESS` | **DỪNG NGAY (HALT)** - Task chưa sẵn sàng code |
-| Bất kỳ | Bất kỳ | Phát hiện sai lệch | **DỪNG NGAY (HALT)** - Báo cáo con người, cấm tự đoán |
+| `IMPLEMENT` | `task/TASK-001-*` | Chưa hoàn tất Phần 1 Thiết Kế | **DỪNG NGAY (HALT)** - Phải thiết kế trước khi code |
+| Bất kỳ | Bất kỳ | Phát hiện sai lệch / Ngoài phạm vi | **DỪNG NGAY (HALT)** - Báo cáo con người, cấm tự đoán |
 
 > **AI TUYỆT ĐỐI KHÔNG ĐƯỢC:**
-> - Tự động chuyển nhánh Git để giải quyết xung đột.
-> - Tự sửa `CONTROL.md` để cấp thêm quyền cho mình.
-> - Tự ý suy diễn ý định của lập trình viên con người.
+> - Tự động chuyển nhánh Git để lách luật hoặc giải quyết xung đột.
+> - Coi lời nhắc của con người là căn cứ để vi phạm ranh giới nhánh.
+> - Tự ý suy diễn ý định của lập trình viên con người khi có bất đồng ranh giới.
 
 ---
 
@@ -136,7 +136,7 @@ Trước BẤT KỲ hành động sửa đổi code, chạy lệnh hoặc tạo 
 - Khi con người yêu cầu chuyển sang task khác trong khi task hiện tại chưa xong:
   1. Dừng code ở điểm ổn định an toàn.
   2. Chạy xác minh kiểm thử thích hợp.
-  3. Tạo commit lưu vết đầy đủ.
+  3. Tạo commit lưu vết đầy đủ (`TASK-XXX: WIP pause...`).
   4. Đẩy (push) nhánh task hiện tại lên Git.
   5. Cập nhật trạng thái task (`STATUS: PAUSED` hoặc `IN_PROGRESS`).
   6. Ghi nhật ký bàn giao (`SESSION-XXX.md`) ghi rõ công việc dở dang và bước tiếp theo.

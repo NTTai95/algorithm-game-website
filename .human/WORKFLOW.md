@@ -13,8 +13,8 @@ GIAI ĐOẠN 1: SPRINT PLANNING (Trên nhánh main)
 - Thiết lập trạng thái task là READY.
   ↓
 GIAI ĐOẠN 2: TASK EXECUTION (Trên các nhánh task/TASK-XXX-*)
-- Các phiên AI phân nhánh từ develop và thực hiện song song từng task.
-- AI thiết kế, viết code, chạy unit test, cam kết commit sạch sẽ.
+- Các phiên AI phân nhánh từ develop và thực hiện song song từng task theo chỉ đạo bằng prompt của con người.
+- AI thiết kế (DESIGN), viết code (IMPLEMENT), chạy unit test (TEST), cam kết commit sạch sẽ.
 - AI nộp báo cáo READY_FOR_REVIEW.
   ↓
 GIAI ĐOẠN 3: INTEGRATION & SPRINT REVIEW (Trên nhánh develop)

@@ -13,7 +13,7 @@ Thư mục `.human/` là **Sổ tay Vận hành (Human Operating Manual)** và *
 ├── README.md               # Tài liệu tổng quan này (Tiếng Việt)
 ├── MANUAL.md               # Cẩm nang vận hành cốt lõi cho lập trình viên
 ├── AI_GUIDE.md             # Hướng dẫn bản chất làm việc và tương tác với AI
-├── CONTROL_GUIDE.md        # Hướng dẫn cấu hình file điều khiển CONTROL.md
+├── CONTROL_GUIDE.md        # Hướng dẫn chỉ đạo AI bằng lời nhắc (Prompt & Control Guide)
 ├── TASK_GUIDE.md           # Hướng dẫn tạo, giao và quản lý nhiệm vụ
 ├── GIT_GUIDE.md            # Hướng dẫn quản trị nhánh Git, commit và merge
 ├── WORKFLOW.md             # Hướng dẫn quy trình phát triển và chu trình sprint
@@ -51,6 +51,6 @@ Thư mục `.human/` là **Sổ tay Vận hành (Human Operating Manual)** và *
 
 ## 3. Nguyên Tắc Cốt Lõi Dành Cho Con Người
 1. **Con Người Là Quyền Lực Tối Cao**: AI không tự quyết định mục tiêu, không tự merge nhánh, không tự cài thư viện. AI chỉ đề xuất và thực thi trong ranh giới được giao.
-2. **AI Không Tự Động Đọc `.human/`**: AI ở các nhánh làm việc (`task/*`, `develop`) bị cấm tự động nạp thư mục này. Nếu bạn muốn ban hành luật cho AI, hãy đưa chỉ thị vào `.ai/CONTROL.md` hoặc các file trong `.ai/`.
+2. **AI Không Tự Động Đọc `.human/`**: AI ở các nhánh làm việc (`task/*`, `develop`) bị cấm tự động nạp thư mục này. Bạn điều khiển AI trực tiếp qua lời nhắc (prompt); các quy tắc và giao thức tĩnh được đặt trong thư mục `.ai/`.
 3. **Mỗi AI = Một Task**: Luôn đảm bảo một AI chỉ tập trung vào đúng một task tại một thời điểm.
 4. **Không Để Lại Bí Mật**: Tuyệt đối không commit password, API keys, token vào các file được Git theo dõi.

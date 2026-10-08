@@ -1,7 +1,7 @@
 # Bảng Điều Phối Nhiệm Vụ Đang Kích Hoạt (Active Task Board)
 
 ```yaml
-CURRENT_MODE: NO ACTIVE TASK
+BOARD_STATUS: IDLE (NO ACTIVE TASKS)
 TASK_CAPACITY: 3-5 tasks
 LAST_UPDATED: 2026-10-08
 ```

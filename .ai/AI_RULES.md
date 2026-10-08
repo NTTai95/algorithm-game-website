@@ -3,33 +3,49 @@
 Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải tuân thủ tuyệt đối các quy tắc sau:
 
 1. **Tuân Thủ Nhánh & Ranh Giới Quyền Hạn (Branch Role Compliance)**:
-   - Nhánh Git hiện tại quyết định vai trò của AI (chi tiết tại `.ai/BRANCH_RULES.md`).
-   - Trên nhánh `main`: Tuyệt đối **CẤM sửa bất kỳ file nào trong `/src/`**. Vai trò là Quy hoạch, Kiến trúc, Tài liệu.
+   - Nhánh Git hiện tại quyết định vai trò và năng lực hành động của AI (chi tiết tại [`.ai/BRANCH_RULES.md`](file:///d:/workspace/Algorithm-game-website/.ai/BRANCH_RULES.md)).
+   - Trên nhánh `main`: Tuyệt đối **CẤM sửa bất kỳ file nào trong `/src/`**. Vai trò là Quy hoạch, Kiến trúc, Giao thức, Tài liệu.
    - Trên nhánh `develop`: Tuyệt đối **CẤM sửa bất kỳ file nào trong `/src/`**. Vai trò là Tích hợp, Chạy test, Đánh giá Sprint.
    - Trên nhánh `task/TASK-XXX-*`: Là **nhánh duy nhất** được phép viết mã nguồn sản phẩm trong `/src/` (chỉ trong phạm vi task scope).
 
-2. **Bản Thể Hoán Đổi (Interchangeable AI Identity)**:
-   - Hệ thống không sử dụng danh tính tĩnh như `AGENT_A` hay `AGENT_B`.
-   - Danh tính tác nghiệp được xác định bởi: **GIT BRANCH + TASK ID + SESSION ID**.
+2. **Bản Thể Hoán Đổi & Không Có Danh Tính Cố Định (Interchangeable AI Identity)**:
+   - Hệ thống **không sử dụng** danh tính tĩnh như `AGENT_A` hay `AGENT_B`.
+   - Danh tính tác nghiệp của một phiên AI được xác định duy nhất bởi:
+     $$\text{Operational Identity} = \text{GIT BRANCH} + \text{TASK ID} + \text{SESSION ID}$$
+   - Mọi phiên AI đều bình đẳng, tuân thủ cùng một quy tắc và có thể bàn giao công việc qua Git repository.
 
-3. **Tính Độc Quyền Của `main` và `develop`**:
+3. **Tính Độc Quyền Của `main` và `develop` (Sequential Control)**:
    - Chỉ duy nhất 1 AI được phép hoạt động trên `main` tại một thời điểm.
    - Chỉ duy nhất 1 AI được phép hoạt động trên `develop` tại một thời điểm.
    - Nhiều AI chỉ được phép chạy song song trên các nhánh `task/TASK-XXX-*` tách biệt nhau.
 
 4. **Nguyên Tắc "1 AI = 1 Task"**:
    - Một phiên AI chỉ được sở hữu duy nhất 1 task hoạt động tại một thời điểm.
-   - Khi chuyển sang task khác, phải commit đầy đủ, push nhánh, cập nhật trạng thái và để lại ghi chú bàn giao. Không bao giờ bỏ dở code chưa commit.
+   - Khi chuyển sang task khác, phải dừng code ở điểm an toàn, commit đầy đủ, push nhánh, cập nhật trạng thái và để lại ghi chú bàn giao trong `.ai/sessions/`. Không bao giờ bỏ dở code chưa commit.
 
-5. **Quy Tắc Dừng Tất Định (Deterministic Halt Rule)**:
-   - Trước khi sửa code, đối chiếu `CONTROL.md`, nhánh Git, và file task. Nếu có bất kỳ sự không nhất quán nào: **DỪNG LẠI NGAY LẬP TỨC (STOP)** và báo cáo con người.
+5. **Quy Trình Diễn Giải Lời Nhắc & Kiểm Tra Ràng Buộc Trước Khi Thực Thi**:
+   Trước khi thực hiện bất kỳ chỉ thị nào trong lời nhắc (prompt) của Con người, AI **BẮT BUỘC** phải thực hiện chuỗi 8 bước kiểm tra:
+   1. Diễn giải lời nhắc bằng đặc tả ngôn ngữ trong [`.ai/CONTROL.md`](file:///d:/workspace/Algorithm-game-website/.ai/CONTROL.md).
+   2. Xác định rõ Command, Target, Scope, Intended Result, Restrictions và Constraints.
+   3. Khảo sát nhánh Git hiện tại (`git branch --show-current`).
+   4. Khảo sát file task liên quan (`.ai/tasks/active/TASK-XXX.md` và `TASK_PROCESSING.md`).
+   5. Khảo sát phạm vi tệp tin được phép (`ALLOWED FILES`).
+   6. Khảo sát kiến trúc (`ARCHITECTURE.md`) và hợp đồng API (`API_CONTRACTS.md`).
+   7. Xác định xem hành động được yêu cầu có hợp lệ trong bối cảnh hiện tại hay không.
+   8. Chỉ thực thi khi tất cả các rào chắn kiểm tra đều thỏa mãn.
+   
+   > **CẤM KỴ TUYỆT ĐỐI**:
+   > - CẤM coi `CONTROL.md` là nơi lưu trạng thái phiên làm việc hoặc tự sửa `CONTROL.md` để tự cấp quyền.
+   > - CẤM tự ý bịa đặt hoặc suy diễn các quyền chưa được cấp.
+   > - CẤM tự động đổi nhánh Git (`git checkout` / `git switch`) để lách luật.
+   > - CẤM giả định rằng lời nhắc của con người có thể vượt qua Branch Rules hoặc Task Scope.
 
 6. **Tạo Nhánh Task Từ Develop Mà Không Cần Checkout**:
    - AI đang ở nhánh task không được tự ý checkout sang `main` hay `develop`.
    - Khi cần tạo nhánh task mới, phân nhánh trực tiếp từ tham chiếu `develop` đã đồng bộ (ví dụ: `git branch task/TASK-010-slug develop`).
 
 7. **Thiết Kế Trước Khi Viết Code (Design Before Implementation)**:
-   - AI phải hoàn thành Phần 1 (Mục tiêu, Scope, API, Data Flow, Test Plan) trong `TASK-XXX.md` trước khi bắt đầu viết code.
+   - AI phải hoàn thành Phần 1 (Mục tiêu, Scope, API, Data Flow, Test Plan) trong `TASK-XXX.md` trước khi bắt đầu viết code. Lệnh `DESIGN` không ngụ ý quyền viết mã trong `/src/`.
 
 8. **Ranh Giới Phạm Vi Tệp Tin (File Isolation)**:
    - Chỉ chỉnh sửa các tệp nằm trong `ALLOWED FILES`. Không chạm vào `RESTRICTED FILES`.
@@ -38,7 +54,7 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
 9. **Không Tự Ý Thay Đổi Kiến Trúc Hoặc Phá Vỡ Hợp Đồng API**:
    - Giữ vững kiến trúc 4 lớp: Application $\to$ Game Systems $\to$ Domain/Simulation $\to$ Rendering/Phaser.
    - Lõi thuật toán/mô phỏng phải 100% độc lập với Phaser và React, chạy được trong Node/Vitest.
-   - Khi phát hiện cần đổi kiến trúc/API: Tạo Đề xuất thay đổi (`.ai/changes/proposals/PROP-XXX.md`) và **DỪNG LẠI**.
+   - Khi phát hiện cần đổi kiến trúc/API: Áp dụng chu trình $\mathbf{DETECT} \to \mathbf{ANALYZE} \to \mathbf{DOCUMENT} \to \mathbf{PROPOSE} \to \mathbf{STOP}$ và tạo file `.ai/changes/proposals/PROP-XXX.md`.
 
 10. **Xử Lý Sai Lệch Tài Liệu (Drift Handling)**:
     - Khi mã nguồn thực tế khác với tài liệu thiết kế: Tạo Báo cáo sai lệch (`.ai/changes/drift/DRIFT-XXX.md`) và **DỪNG LẠI**.
@@ -55,8 +71,7 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
       - `npm run typecheck` đạt 0 lỗi
       - `npm run lint` đạt 0 lỗi
       - `npm run build` thành công
-      - Tài liệu liên quan được cập nhật
-    *(Không ép buộc 100% code coverage trừ khi con người yêu cầu).*
+      - Tài liệu liên quan được cập nhật đầy đủ
 
 13. **Quyền Merge Duy Nhất Thuộc Về Con Người**:
     - AI sau khi hoàn tất chỉ được đánh dấu `READY_FOR_REVIEW`.

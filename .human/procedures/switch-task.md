@@ -11,11 +11,11 @@ Quy trình này áp dụng khi cần điều động AI đang làm task dở dan
 2. **Kiểm tra trạng thái Git**:
    Đảm bảo `git status` trả về working tree sạch sẽ (clean).
 3. **Cập nhật trạng thái task cũ**:
-   Trong `.ai/tasks/TASK_PROCESSING.md` và `.ai/tasks/active/TASK-XXX.md`, chuyển trạng thái task cũ sang `STATUS: PAUSED`.
+   Trong [`.ai/tasks/TASK_PROCESSING.md`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/TASK_PROCESSING.md) và `.ai/tasks/active/TASK-XXX.md`, chuyển trạng thái task cũ sang `STATUS: PAUSED`.
 4. **Chuyển sang nhánh của task mới**:
    ```bash
    git checkout task/TASK-YYY-<slug>
    ```
-5. **Cập nhật `.ai/CONTROL.md`**:
-   Đổi `CURRENT_TASK: TASK-YYY`, `COMMAND: IMPLEMENT` (hoặc `DESIGN`).
-6. **Kích hoạt AI làm task mới**.
+5. **Chỉ đạo AI làm task mới bằng prompt**:
+   Gửi prompt trực tiếp cho AI (ví dụ: `"DESIGN TASK-YYY"` hoặc `"IMPLEMENT TASK-YYY theo thiết kế đã duyệt"`).
+   *(Lưu ý: Bạn **không cần chỉnh sửa `CONTROL.md`**).*
