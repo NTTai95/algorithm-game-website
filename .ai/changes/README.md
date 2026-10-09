@@ -7,10 +7,13 @@ Thư mục này quản lý hai luồng tài liệu kỹ thuật quan trọng nh�
 ```
 .ai/changes/
 ├── README.md               # Tài liệu này: Quy định chung về Proposals và Drift
-├── proposals/              # Chứa các file PROP-XXX.md và PROP_TEMPLATE.md
-│   └── PROP_TEMPLATE.md    # Bản mẫu chuẩn cho đề xuất thay đổi
-└── drift/                  # Chứa các file DRIFT-XXX.md
+├── proposals/              # Chứa các file đề xuất PROP-XXX.md
+└── drift/                  # Chứa các file báo cáo sai lệch DRIFT-XXX.md
 ```
+
+> **Biểu Mẫu**:
+> - Đề xuất thay đổi: [`.ai/templates/changes/PROP_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/changes/PROP_TEMPLATE.md)
+> - Báo cáo sai lệch: [`.ai/templates/changes/DRIFT_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/changes/DRIFT_TEMPLATE.md)
 
 ---
 
@@ -157,7 +160,7 @@ APPROVED       REJECTED       DEFERRED
 
 ## 6. CẤU TRÚC CHUẨN CỦA FILE PROP-XXX.md
 
-Mọi đề xuất phải tuân thủ cấu trúc tại [`.ai/changes/proposals/PROP_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/changes/proposals/PROP_TEMPLATE.md) với đầy đủ các mục:
+Mọi đề xuất phải tuân thủ cấu trúc tại [`.ai/templates/changes/PROP_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/changes/PROP_TEMPLATE.md) với đầy đủ các mục:
 - `# PROP-XXX: [TITLE]`
 - `## TITLE`
 - `## CREATED`

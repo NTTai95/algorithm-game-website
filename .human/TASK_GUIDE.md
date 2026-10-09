@@ -7,7 +7,7 @@ Tài liệu này hướng dẫn cách thức con người lập kế hoạch, vi
 ## 1. Cách Tạo Một Task Mới Chuẩn Quy Cách
 
 1. **Sao chép mẫu chuẩn**:
-   Sao chép [`.ai/tasks/TASK_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/tasks/TASK_TEMPLATE.md) thành `.ai/tasks/active/TASK-XXX.md`.
+   Sao chép [`.ai/templates/tasks/TASK_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/tasks/TASK_TEMPLATE.md) thành `.ai/tasks/active/TASK-XXX.md`.
 2. **Điền thông tin ban đầu**:
    - `TASK_ID`: Mã tăng dần theo định dạng 3 chữ số (`TASK-001`, `TASK-002`,...).
    - `TITLE`: Tên ngắn gọn của tính năng.
@@ -24,7 +24,7 @@ Tài liệu này hướng dẫn cách thức con người lập kế hoạch, vi
 
 ## 2. Quản Lý Cửa Sổ Nhiệm Vụ Hoạt Động (Active Window)
 - Bảng điều phối chỉ nên chứa **tối đa từ 3 đến 5 task đang kích hoạt** cùng một lúc.
-- Không đưa quá nhiều task chưa sẵn sàng vào `active/`. Hãy để các ý tưởng tương lai trong backlog ghi chú của con người tại `.human/notes/`.
+- Không đưa quá nhiều task chưa sẵn sàng vào `active/`. Hãy để các ý tưởng tương lai trong backlog ghi chú của con người tại [`.human/backlog/`](file:///d:/workspace/Algorithm-game-website/.human/backlog/).
 
 ---
 

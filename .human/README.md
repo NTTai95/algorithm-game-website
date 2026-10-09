@@ -35,6 +35,7 @@ Thư mục `.human/` là **Sổ tay Vận hành (Human Operating Manual)** và *
 │   ├── complete-task.md    # Quy trình tích hợp và đóng task
 │   └── sprint-review.md    # Quy trình đánh giá tổng kết sprint trên develop
 │
+├── backlog/               # Ý tưởng, mong muốn chưa thực hiện ngay (AI không tự ý code)
 ├── decisions/              # Lưu vết các quyết định nội bộ của nhóm con người
 ├── notes/                  # Ghi chú kỹ thuật dùng chung
 ├── history/                # Nhật ký lịch sử dự án do con người ghi lại
@@ -54,3 +55,4 @@ Thư mục `.human/` là **Sổ tay Vận hành (Human Operating Manual)** và *
 2. **AI Không Tự Động Đọc `.human/`**: AI ở các nhánh làm việc (`task/*`, `develop`) bị cấm tự động nạp thư mục này. Bạn điều khiển AI trực tiếp qua lời nhắc (prompt); các quy tắc và giao thức tĩnh được đặt trong thư mục `.ai/`.
 3. **Mỗi AI = Một Task**: Luôn đảm bảo một AI chỉ tập trung vào đúng một task tại một thời điểm.
 4. **Không Để Lại Bí Mật**: Tuyệt đối không commit password, API keys, token vào các file được Git theo dõi.
+5. **Nguồn Sự Thật Của Dự Án Là `.document/`**: Toàn bộ kiến trúc, mục tiêu, yêu cầu và hợp đồng kỹ thuật của dự án được lưu trữ tại `.document/`. Hãy hướng dẫn AI đối chiếu tài liệu trong `.document/` khi thực hiện nhiệm vụ.

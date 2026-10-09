@@ -26,7 +26,7 @@ File nhật ký phiên được tạo theo mẫu:
 
 ## 3. Sử Dụng Mẫu Chuẩn (Session Template)
 Khi ghi nhật ký phiên, AI **BẮT BUỘC** phải tuân theo cấu trúc đã được chuẩn hóa tại:
-[`.ai/sessions/SESSION_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/sessions/SESSION_TEMPLATE.md)
+[`.ai/templates/sessions/SESSION_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/sessions/SESSION_TEMPLATE.md)
 
 ---
 

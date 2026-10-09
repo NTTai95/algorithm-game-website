@@ -30,7 +30,7 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
    3. Khảo sát nhánh Git hiện tại (`git branch --show-current`).
    4. Khảo sát file task liên quan (`.ai/tasks/active/TASK-XXX.md` và `TASK_PROCESSING.md`).
    5. Khảo sát phạm vi tệp tin được phép (`ALLOWED FILES`).
-   6. Khảo sát kiến trúc (`ARCHITECTURE.md`) và hợp đồng API (`API_CONTRACTS.md`).
+   6. Khảo sát kiến trúc ([`.document/ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.document/ARCHITECTURE.md)) và hợp đồng API ([`.document/interfaces/API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.document/interfaces/API_CONTRACTS.md)).
    7. Xác định xem hành động được yêu cầu có hợp lệ trong bối cảnh hiện tại hay không.
    8. Chỉ thực thi khi tất cả các rào chắn kiểm tra đều thỏa mãn.
    
@@ -52,8 +52,8 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
    - Ưu tiên tạo tệp/thư mục riêng theo task thay vì sửa tệp dùng chung, để tránh xung đột giữa các nhánh task chạy song song.
 
 9. **Không Tự Ý Thay Đổi Kiến Trúc Hoặc Phá Vỡ Hợp Đồng API (Quy Chuẩn Proposal)**:
-   - Giữ vững kiến trúc 4 lớp: Application $\to$ Game Systems $\to$ Domain/Simulation $\to$ Rendering/Phaser.
-   - Lõi thuật toán/mô phỏng phải 100% độc lập với Phaser và React, chạy được trong Node/Vitest.
+   - Giữ vững kiến trúc phân lớp và các nguyên tắc thiết kế đã được phê duyệt trong [`.document/ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.document/ARCHITECTURE.md) và [`.document/interfaces/API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.document/interfaces/API_CONTRACTS.md).
+   - Lõi thuật toán/mô phỏng phải độc lập với tầng hiển thị và UI, chạy được trong môi trường kiểm thử tự động (Vitest/Node).
    - Khi phát hiện cần đổi kiến trúc/API/quy trình trong lúc làm task:
      1. Xác định rõ vấn đề có đòi hỏi thay đổi kiến trúc/API/thiết kế hay không.
      2. Tạo file đề xuất `.ai/changes/proposals/PROP-XXX.md` theo chuẩn.
@@ -94,9 +94,9 @@ Mọi phiên AI khi tham gia phát triển dự án này **BẮT BUỘC** phải
 15. **Không Tự Ý Tối Ưu Hóa Quy Trình (No Unauthorized Workflow Optimization)**:
     - AI có thể phát hiện quy trình chưa tối ưu, nhưng **KHÔNG ĐƯỢC TỰ Ý SỬA QUY TRÌNH**. Phải viết Proposal để con người xem xét.
 
-16. **Tôn Trọng Thư Mục `.human/`**:
-    - `.human/` là Sổ tay Vận hành và Bộ nhớ của Con người.
-    - AI trên nhánh `task/*` và `develop` tuyệt đối không tự động nạp `.human/` làm ngữ cảnh tác nghiệp. Quyền hạn vận hành của AI xuất phát duy nhất từ `.ai/`.
+16. **Tôn Trọng Thư Mục `.human/` Và `.document/`**:
+    - `.human/` là Sổ tay Vận hành và Bộ nhớ của Con người. AI trên nhánh `task/*` và `develop` tuyệt đối không tự động nạp `.human/` làm ngữ cảnh tác nghiệp. Quyền hạn vận hành của AI xuất phát duy nhất từ `.ai/`.
+    - `.document/` là Nguồn Sự Thật Duy Nhất (Single Source of Truth) về tri thức, mục tiêu, kiến trúc và hợp đồng kỹ thuật của dự án. AI đọc các tài liệu trong `.document/` theo nhu cầu của từng loại task.
 
 17. **Kiểm Tra Đa Khía Cạnh Trước Khi Dừng & Đề Xuất Là Tài Sản Dùng Chung**:
     - Trước khi kết thúc một task (`READY_FOR_REVIEW`) hoặc tạm dừng một task (`PAUSED`), AI **BẮT BUỘC** phải tự kiểm tra 6 khía cạnh:

@@ -34,12 +34,12 @@ Nhánh `main` là nhánh quy hoạch cấp cao nhất về kiến trúc hệ th�
 
 ### Được Phép (ALLOWED):
 - Khảo sát toàn bộ repository, lịch sử Git, hiện trạng mã nguồn để đánh giá tính đúng đắn về mặt kiến trúc.
-- Đọc và chỉnh sửa toàn bộ các tệp tài liệu trong `.ai/` và `.human/`.
+- Đọc và chỉnh sửa toàn bộ các tệp tài liệu trong `.ai/`, `.human/` và `.document/`.
 - Định nghĩa và tinh chỉnh luật phát triển (`AI_RULES.md`, `BRANCH_RULES.md`, `GIT_RULES.md`,...).
-- Định nghĩa kiến trúc tổng thể, mô hình thực thể miền (`DOMAIN_MODEL.md`), giao diện và hợp đồng API (`API_CONTRACTS.md`).
+- Định nghĩa kiến trúc tổng thể ([`.document/ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.document/ARCHITECTURE.md)), mô hình thực thể miền ([`.document/domain/DOMAIN_MODEL.md`](file:///d:/workspace/Algorithm-game-website/.document/domain/DOMAIN_MODEL.md)), giao diện và hợp đồng API ([`.document/interfaces/API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.document/interfaces/API_CONTRACTS.md)).
 - Xây dựng kế hoạch phát triển (development plans), kế hoạch sprint (sprint plans), cấu trúc danh mục task.
 - Rà soát tính nhất quán tài liệu, phát hiện mâu thuẫn nội tại và phân tích kiến trúc dự án.
-- Soạn thảo quy cách kỹ thuật cho các task tương lai, cập nhật nhật ký quyết định kiến trúc (`DECISIONS.md`).
+- Soạn thảo quy cách kỹ thuật cho các task tương lai, cập nhật nhật ký quyết định kiến trúc (`.document/decisions/` và `.ai/DECISIONS.md`).
 - Tạo commit cho các thay đổi về giao thức/tài liệu phù hợp với vai trò của nhánh `main`.
 
 ### Tuyệt Đối Cấm (FORBIDDEN):

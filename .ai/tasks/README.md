@@ -9,11 +9,12 @@ Thư mục này là trung tâm điều phối toàn bộ các nhiệm vụ phát
 .ai/tasks/
 ├── README.md               # Tài liệu này (hướng dẫn vận hành hệ thống task)
 ├── TASK_PROCESSING.md      # Bảng điều phối nhẹ (hiển thị 3-5 task đang kích hoạt)
-├── TASK_TEMPLATE.md        # Bản mẫu quy chuẩn để tạo task mới
 ├── active/                 # Chứa các task đang trong quá trình thực hiện (TASK-XXX.md)
 ├── completed/              # Lưu trữ các task đã được Human tích hợp và chuyển thành DONE
 └── notes/                  # Các ghi chú kỹ thuật hoặc đặc tả chi tiết mở rộng của task
 ```
+
+> **Biểu mẫu Task**: Sử dụng [`.ai/templates/tasks/TASK_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/tasks/TASK_TEMPLATE.md) để khởi tạo task mới.
 
 ---
 
@@ -30,7 +31,7 @@ Thư mục này là trung tâm điều phối toàn bộ các nhiệm vụ phát
 ---
 
 ## 4. Quy Trình Vận Hành Một Task
-1. **Khởi tạo**: Lập trình viên con người sao chép `TASK_TEMPLATE.md` tạo file `active/TASK-XXX.md` và thêm dòng tương ứng vào `TASK_PROCESSING.md` với trạng thái `STATUS: READY`.
+1. **Khởi tạo**: Lập trình viên con người sao chép biểu mẫu từ `.ai/templates/tasks/TASK_TEMPLATE.md` tạo file `active/TASK-XXX.md` và thêm dòng tương ứng vào `TASK_PROCESSING.md` với trạng thái `STATUS: READY`.
 2. **Nhận việc (Claim)**: Một phiên AI kiểm tra task, cập nhật `CURRENT_BRANCH`, `CURRENT_SESSION`, và chuyển trạng thái sang `CLAIMED` $\to$ `DESIGNING`.
 3. **Thiết kế**: AI hoàn thiện Phần 1 (Thiết kế, API, Test plan) trong file task.
 4. **Triển khai**: AI kiểm tra Halt Rule, chuyển sang `IMPLEMENTING` và viết mã nguồn trên nhánh task.

@@ -252,9 +252,9 @@ AI **TUYỆT ĐỐI KHÔNG ĐƯỢC** âm thầm mở rộng phạm vi task. AI 
 ### 6.3. Quy Tắc Khi Có Yêu Cầu Thay Đổi Kiến Trúc (Architecture Change Rule)
 Khi Con người nói: *"Sửa lại kiến trúc nếu thấy cần thiết."*
 AI **KHÔNG ĐƯỢC** coi đây là tấm vé thông hành để tự do tái cấu trúc dự án. Nếu thay đổi có nguy cơ tác động đến:
-- Kiến trúc phân lớp 4 tầng
-- Hợp đồng API công khai (`API_CONTRACTS.md`)
-- Mô hình thực thể miền (`DOMAIN_MODEL.md`)
+- Kiến trúc phân lớp và các nguyên tắc thiết kế ([`.document/ARCHITECTURE.md`](file:///d:/workspace/Algorithm-game-website/.document/ARCHITECTURE.md))
+- Hợp đồng API công khai ([`.document/interfaces/API_CONTRACTS.md`](file:///d:/workspace/Algorithm-game-website/.document/interfaces/API_CONTRACTS.md))
+- Mô hình thực thể miền ([`.document/domain/DOMAIN_MODEL.md`](file:///d:/workspace/Algorithm-game-website/.document/domain/DOMAIN_MODEL.md))
 - Nhiều task hoặc các phiên AI khác đang chạy song song
 - Thư viện phụ thuộc chính
 

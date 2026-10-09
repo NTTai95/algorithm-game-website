@@ -5,7 +5,7 @@ SESSION_ID: SESSION-XXX # Ví dụ: SESSION-001
 DATE: YYYY-MM-DD HH:mm:ss
 TASK_ID: TASK-XXX # Hoặc NONE nếu phiên thuộc MASTER/MAIN/DEVELOP
 GIT_BRANCH: task/TASK-XXX-slug # Hoặc main / develop
-COMMAND: IMPLEMENT # Lệnh nhận từ prompt: ANALYZE | DESIGN | IMPLEMENT | TEST | REVIEW | REPORT | PROPOSE | DOCUMENT | STOP
+COMMAND: IMPLEMENT # Lệnh nhận từ prompt: ANALYZE | DESIGN | IMPLEMENT | TEST | REVIEW | REPORT | PROPOSE | DOCUMENT | COMMIT | PUSH | STOP
 BRANCH_ROLE: TASK # MAIN | DEVELOP | TASK (Vai trò xác định bởi nhánh Git)
 START_STATE: CLEAN # Trạng thái bắt đầu: CLEAN | DIRTY | RESUMED
 FINAL_STATUS: READY_FOR_REVIEW # IN_PROGRESS | PAUSED | READY_FOR_REVIEW | BLOCKED | HANDOFF
@@ -45,7 +45,7 @@ FINAL_STATUS: READY_FOR_REVIEW # IN_PROGRESS | PAUSED | READY_FOR_REVIEW | BLOCK
 - [Ví dụ: PROP-009 (hoặc NONE nếu không tham chiếu đề xuất nào)]
 
 ## 8. Báo Cáo Sai Lệch Tài Liệu (DRIFT REPORTS)
-- [Liên kết tới `.ai/changes/drift/DRIFT-XXX.md` nếu phát hiện sai lệch]
+- [Liên kết tới `.ai/changes/drift/DRIFT-XXX.md` nếu phát hiện sai lệch (hoặc NONE)]
 
 ## 9. Nhật Ký Bàn Giao (HANDOFF)
 - **Trạng thái nhánh Git**: [Sạch sẽ / Đã commit và push / Còn dở dang]
