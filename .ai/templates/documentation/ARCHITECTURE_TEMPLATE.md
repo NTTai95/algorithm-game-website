@@ -69,7 +69,7 @@ Mô hình phụ thuộc một chiều từ trên xuống dưới:
 - **Adapter Layer**: [Khả năng thay thế thư viện bên thứ ba mà không sửa đổi domain]
 
 ## 7. Các Quyết Định Kiến Trúc Đã Phê Duyệt (Approved Decisions)
-- [ADR-001: Tên quyết định](./decisions/ADR/ADR-001.md) - `CONFIRMED`
+- [ADR-001: Tên quyết định](./{{ADR_PATH}}/ADR-001.md) - `CONFIRMED`
 
 ## 8. Các Câu Hỏi Kiến Trúc Chưa Giải Quyết (Unresolved Architecture Questions)
 - **AQ-001 [OPEN_QUESTION]**: [Vấn đề kiến trúc đang thảo luận - Tham chiếu open-questions/OPEN_QUESTIONS.md]

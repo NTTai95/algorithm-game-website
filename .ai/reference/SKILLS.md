@@ -1,52 +1,33 @@
-﻿# AI Skill Registry (reference/SKILLS.md)
+# AI Skill Registry — LEGACY REDIRECT
 
-**Authority**: DOC-024. Reference document — ON-DEMAND.  
-**Note**: Phần 1-7 là kiến thức đặc thù của dự án Algorithm Game Website. Phần 8 là quy ước chung.
+```yaml
+STATUS: LEGACY / DEPRECATED
+DOC_ID: DOC-024
+REPLACED_BY: 
+  - .document/ROUTER.md (Document Lifecycle System)
+  - .skills/INDEX.md (Reusable Skills Library)
+```
 
-> Đọc file này khi cần biết quy ước công nghệ cụ thể của dự án. Không phải ALWAYS-LOAD.
-
----
-
-## [PROJECT-SPECIFIC] Conventions for Algorithm Game Website
-
-### 1. TypeScript
-- Strict typing enabled; avoid `any` or loose type casting.
-- Explicit interfaces for domain models and simulation events.
-- Adhere to `erasableSyntaxOnly` and `verbatimModuleSyntax` compiler settings.
-
-### 2. React
-- React 19 functional components with hooks.
-- Decouple UI shell/HUD from the Phaser canvas and game simulation.
-- Lightweight state handling using standard React hooks (useState, useReducer, useContext).
-
-### 3. Vite
-- ESM bundler configuration.
-- Asset handling via standard Vite import mechanisms.
-- Fast HMR maintenance without circular dependency leaks.
-
-### 4. Phaser 3
-- Phaser 3 game lifecycle (Boot, Preload, Scene management).
-- Separation of Phaser scenes (rendering/animation) from core algorithm state.
-- Lifecycle cleanups to prevent canvas memory leaks during unmounts.
-
-### 5. Testing (Vitest)
-- Fast unit tests for all domain models, algorithms, and simulation state transitions.
-- High test coverage on deterministic sorting steps and crane events.
-- Script usage: `npm run test:run` for CI/checks, `npm run test` for watch mode.
-
-### 6. Git
-- Branch-scoped task discipline (`task/TASK-XXX-*`).
-- Commit messaging standard: `TASK-XXX: description` (or `INIT-001` for foundation).
-- Never push directly to or merge into `main` or `develop`.
-
-### 7. Architecture
-- Strict layered design: Application → Game Systems → Domain/Simulation → Presentation/Phaser.
-- Event-driven communication between simulation core and visual presentation.
+> **Tài liệu này không còn được duy trì.** Toàn bộ thông tin dự án, quy trình và kỹ năng đã được chuyển về đúng vị trí chuẩn theo 3 trụ cột:
+> - `.document/`: Hệ thống quản lý vòng đời tài liệu theo Scrum (Document Lifecycle System).
+> - `.skills/`: Thư viện quy trình và hướng dẫn kỹ thuật tái sử dụng.
+> - `.ai/`: Quy tắc nền tảng, quyền hạn và cơ chế vận hành AI.
 
 ---
 
-## [PROTOCOL] AI Documentation Conventions
+## Bảng Điều Hướng Thay Thế
 
-### 8. Documentation
-- Keep `.ai/` specifications updated when contracts or models evolve.
-- Clean, concise technical comments explaining non-obvious algorithms and design decisions.
+| Thông tin cần tra cứu | Vị trí chính thức |
+|-----------------------|-------------------|
+| Định tuyến tài liệu dự án, kiến trúc, sprint | [`.document/ROUTER.md`](../../.document/ROUTER.md) (DOC-016) |
+| Tài liệu dự án đang hiệu lực | `.document/current/` (DOC-018) |
+| Kế hoạch Sprint đang hoạt động | `.document/sprints/active/` (DOC-017) |
+| Thư viện Skills tái sử dụng (Core + Tech) | [`.skills/INDEX.md`](../../.skills/INDEX.md) (DOC-029) |
+| Quy ước TypeScript | [`.skills/tech/typescript.md`](../../.skills/tech/typescript.md) (SKILL-T01) |
+| Quy ước Vitest | [`.skills/tech/vitest.md`](../../.skills/tech/vitest.md) (SKILL-T04) |
+
+---
+
+## Ghi chú
+- **Không bổ sung quy tắc mới vào file này.**
+- File này được giữ lại dưới dạng compatibility stub để không phá vỡ DOC-024 trong CATALOG.

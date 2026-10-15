@@ -42,9 +42,9 @@ VERSION: [Phiên bản hiện tại, ví dụ: 0.1.0-alpha]
 - **Mức độ hoàn thiện**: [Mô tả hiện trạng khách quan của mã nguồn]
 
 ## 7. Liên Kết Tới Các Tài Liệu Chi Tiết (Detailed Documentation Links)
-- **Mục tiêu & Phạm vi**: [GOALS_AND_SCOPE.md](./GOALS_AND_SCOPE.md)
-- **Yêu cầu chi tiết**: [REQUIREMENTS.md](./REQUIREMENTS.md)
-- **Kiến trúc hệ thống**: [ARCHITECTURE.md](./ARCHITECTURE.md)
-- **Bản đồ hệ thống**: [SYSTEM_MAP.md](./SYSTEM_MAP.md)
-- **Mô hình nghiệp vụ**: [domain/DOMAIN_MODEL.md](./domain/DOMAIN_MODEL.md)
-- **Từ điển thuật ngữ**: [GLOSSARY.md](./GLOSSARY.md)
+- **Mục tiêu & Phạm vi**: [GOALS_AND_SCOPE.md](./{{GOALS_AND_SCOPE_PATH}}.md)
+- **Yêu cầu chi tiết**: [REQUIREMENTS.md](./{{REQUIREMENTS_PATH}}.md)
+- **Kiến trúc hệ thống**: [ARCHITECTURE.md](./{{ARCHITECTURE_PATH}}.md)
+- **Bản đồ hệ thống**: [SYSTEM_MAP.md](./{{SYSTEM_MAP_PATH}}.md)
+- **Mô hình nghiệp vụ**: [domain/DOMAIN_MODEL.md](./{{DOMAIN_MODEL_PATH}}.md)
+- **Từ điển thuật ngữ**: [GLOSSARY.md](./{{GLOSSARY_PATH}}.md)

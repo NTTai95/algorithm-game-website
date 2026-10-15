@@ -1,4 +1,4 @@
-﻿# .ai/changes/ — Proposals & Drift Reports
+# .ai/changes/ — Proposals & Drift Reports
 
 Thư mục này chứa hai loại tài liệu kỹ thuật quan trọng:
 
@@ -11,7 +11,7 @@ Thư mục này chứa hai loại tài liệu kỹ thuật quan trọng:
 
 ## Quy trình và quy tắc
 
-**Nguồn quy phạm duy nhất**: [`protocol/PROPOSALS.md`](.ai/protocol/PROPOSALS.md) (DOC-012)
+**Nguồn quy phạm duy nhất**: [`protocol/PROPOSALS.md`](../protocol/PROPOSALS.md) (DOC-012)
 
 Đọc DOC-012 trước khi tạo bất kỳ PROP-XXX hoặc DRIFT-XXX nào.  
 File này chỉ là directory index — không chứa normative rules.

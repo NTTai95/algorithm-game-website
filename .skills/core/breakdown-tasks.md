@@ -30,10 +30,9 @@ Giúp AI chuyển yêu cầu đã làm rõ thành các task cụ thể, có ranh
 
 ## Input cần có
 
-- Yêu cầu đã phân tích (output của SKILL-C01 hoặc yêu cầu đã rõ).
-- `.document/ARCHITECTURE.md` — ranh giới tầng kiến trúc.
-- `.document/SYSTEM_MAP.md` — ranh giới module.
-- `.ai/tasks/TASK_PROCESSING.md` — task đang active để tránh xung đột.
+- Yêu cầu đã phân tích & Sprint Plan đã được duyệt (ví dụ: `.document/sprints/active/SPRINT-XXX.md`).
+- Tài liệu kiến trúc & ranh giới module của dự án (tra cứu qua `.document/ROUTER.md` trong `.document/current/` nếu tồn tại).
+- `.ai/tasks/TASK_PROCESSING.md` — task đang active để tránh xung đột file.
 - Template: `.ai/templates/tasks/TASK_TEMPLATE.md`.
 
 ---
@@ -47,7 +46,8 @@ Với từng phần công việc trong yêu cầu, xác định:
 - Module nào bị ảnh hưởng theo (secondary)?
 - Phụ thuộc giữa các phần có thể chia thành task?
 
-Tham chiếu: `.document/ARCHITECTURE.md` và `.document/SYSTEM_MAP.md`.
+Tham chiếu: Tài liệu kiến trúc / ranh giới module của dự án (nếu có trong `.document/current/`). Nếu dự án chưa có tài liệu này, phân rã theo cấu trúc mã nguồn thực tế và phạm vi đã được duyệt trong Sprint Plan.
+
 
 ### Bước 2: Phân rã thành task độc lập
 
@@ -83,7 +83,7 @@ Với mỗi task, tạo file theo template `.ai/templates/tasks/TASK_TEMPLATE.md
 
 ### Bước 5: Cập nhật bảng task
 
-Thêm task mới vào `TASK_PROCESSING.md` với status `PLANNED` hoặc `READY`.
+Thêm task mới vào `.ai/tasks/TASK_PROCESSING.md` với status `PLANNED` hoặc `READY`.
 
 ---
 
@@ -91,7 +91,8 @@ Thêm task mới vào `TASK_PROCESSING.md` với status `PLANNED` hoặc `READY`
 
 - Danh sách task mới với ID, tiêu đề, phụ thuộc.
 - File `.ai/tasks/active/TASK-NNN.md` cho từng task đủ điều kiện.
-- Bảng `TASK_PROCESSING.md` được cập nhật.
+- Bảng `.ai/tasks/TASK_PROCESSING.md` được cập nhật.
+
 
 ## Cách xác minh kết quả
 

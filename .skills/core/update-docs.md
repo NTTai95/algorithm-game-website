@@ -39,15 +39,16 @@ Hướng dẫn AI cập nhật tài liệu kỹ thuật và ghi nhận quyết �
 
 ## Bảng: Thay đổi → Tài liệu cần cập nhật
 
-| Loại thay đổi | Tài liệu cần xem xét |
-|--------------|---------------------|
-| Thêm/xóa/đổi tên module | `.document/SYSTEM_MAP.md`, `.code-map/` module tương ứng |
-| Thay đổi API contract | `.document/interfaces/API_CONTRACTS.md`, `.code-map/` |
-| Thay đổi kiến trúc tầng | `.document/ARCHITECTURE.md`, ADR mới |
-| Quyết định kỹ thuật quan trọng | `.document/decisions/`, `reference/DECISIONS.md` |
-| Thêm dependency npm | `.document/` (nếu ảnh hưởng kiến trúc) |
-| Thay đổi hành vi domain | `.document/domain/`, `.code-map/` |
+| Loại thay đổi | Tài liệu cần xem xét cập nhật |
+|--------------|-----------------------------|
+| Thêm/xóa/đổi tên module | Tài liệu System Map trong `.document/current/`, `.code-map/` module tương ứng |
+| Thay đổi API / event contract | Tài liệu API Contract trong `.document/current/`, `.code-map/` |
+| Thay đổi kiến trúc phân tầng | Tài liệu Architecture trong `.document/current/`, tạo ADR mới |
+| Quyết định kỹ thuật quan trọng | Tạo ADR mới theo template trong `.document/templates/governance/` |
+| Thêm/bớt dependency | Tài liệu Architecture / Overview trong `.document/current/` (nếu ảnh hưởng) |
 | Đổi tên hàm/class public | `.code-map/` module tương ứng |
+| Hoàn thành Sprint / đóng Sprint | Lập Sprint Review và chuyển file Sprint sang `.document/sprints/completed/` |
+
 
 ---
 
@@ -69,9 +70,10 @@ Với `.code-map/`: Xem quy trình trong `.code-map/UPDATE_PROTOCOL.md`.
 ### Bước 3: Ghi ADR nếu cần
 
 Khi quyết định kiến trúc quan trọng được phê duyệt và triển khai:
-- Tạo file `ADR-NNN-<slug>.md` trong `.document/decisions/ADR/`.
-- Cập nhật `reference/DECISIONS.md`.
-- Sử dụng template từ `.ai/templates/documentation/`.
+- Tạo file `ADR-NNN-<slug>.md` trong `.document/current/` (hoặc theo cấu trúc chỉ định trong [`.document/ROUTER.md`](../../.document/ROUTER.md)).
+- Cập nhật [`.ai/reference/DECISIONS.md`](../../.ai/reference/DECISIONS.md).
+- Sử dụng template từ [`.document/templates/governance/ADR_TEMPLATE.md`](../../.document/templates/governance/ADR_TEMPLATE.md).
+
 
 ### Bước 4: Commit documentation riêng
 

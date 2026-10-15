@@ -73,5 +73,7 @@ Hệ thống tuân thủ cấu trúc phụ thuộc một chiều, nghiêm cấm 
 
 ---
 
-## 4. Quyết Định Kiến Trúc Đã Phê Duyệt
-- [ADR-001: Kiến Trúc Phân Lớp Tách Rời Lõi Mô Phỏng Khỏi Phaser 3](./decisions/ADR/ADR-001-decoupled-architecture.md) - `CONFIRMED`.
+## 4. Quyết Định Kiến Trúc & Ranh Giới Chi Tiết
+- [ADR-001: Kiến Trúc Phân Lớp Tách Rời Lõi Mô Phỏng Khỏi Phaser 3](./decisions/ADR/ADR-001-decoupled-architecture.md) — `CONFIRMED`.
+- [SYSTEM_MAP.md](./SYSTEM_MAP.md) — Ma trận ranh giới import (Import Boundary Matrix) và trách nhiệm chi tiết từng thư mục.
+

@@ -7,19 +7,22 @@ Thư mục này chứa bộ biểu mẫu chuẩn mực để khởi tạo toàn 
 ## 1. Danh Mục Các Biểu Mẫu
 
 | Tên Biểu Mẫu | Mục Đích Tài Liệu | Khi Nào Sử Dụng |
+> **Lưu ý**: Hệ thống Document Lifecycle theo Scrum đã chuẩn hóa bộ template chính thức tại [`.document/templates/`](../../../.document/templates/). Thư mục này được lưu giữ như tài liệu biểu mẫu kỹ thuật tham chiếu cho các artifact chi tiết.
+
+| Tên Biểu Mẫu | Mục Đích Tài Liệu | Khi Nào Sử Dụng |
 | :--- | :--- | :--- |
-| [`PROJECT_OVERVIEW_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/PROJECT_OVERVIEW_TEMPLATE.md) | Giới thiệu tổng quan dự án, mục đích, người dùng mục tiêu, giá trị cốt lõi | Khởi tạo dự án hoặc cập nhật định vị sản phẩm |
-| [`GOALS_AND_SCOPE_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/GOALS_AND_SCOPE_TEMPLATE.md) | Xác định mục tiêu, giới hạn phạm vi (In-scope/Out-of-scope), tiêu chí thành công | Lập kế hoạch dự án, phân kỳ giai đoạn |
-| [`REQUIREMENTS_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/REQUIREMENTS_TEMPLATE.md) | Yêu cầu chức năng, phi chức năng, kịch bản người dùng, tiêu chí nghiệm thu | Định nghĩa tính năng trước khi thiết kế |
-| [`ARCHITECTURE_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/ARCHITECTURE_TEMPLATE.md) | Kiến trúc tổng thể, phân tầng trách nhiệm, ranh giới hệ thống, quy tắc bất biến | Thiết kế kiến trúc nền tảng và các module lớn |
-| [`SYSTEM_MAP_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/SYSTEM_MAP_TEMPLATE.md) | Sơ đồ cấu trúc thư mục, trách nhiệm module, điểm vào, bản đồ phụ thuộc | Quy hoạch cây thư mục mã nguồn và ranh giới |
-| [`DOMAIN_MODEL_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/DOMAIN_MODEL_TEMPLATE.md) | Thực thể nghiệp vụ, mối quan hệ, quy tắc kinh doanh, từ vựng chung | Mô hình hóa miền nghiệp vụ trước khi code |
-| [`MODULE_SPEC_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/MODULE_SPEC_TEMPLATE.md) | Đặc tả kỹ thuật chi tiết của một module con cụ thể | Phát triển hoặc tái cấu trúc một module lớn |
-| [`API_CONTRACTS_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/API_CONTRACTS_TEMPLATE.md) | Hợp đồng giao diện công khai, chữ ký hàm, tham số, lỗi, trạng thái tương thích | Thiết lập API giữa các tầng hoặc module dùng chung |
-| [`DATA_FLOW_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/DATA_FLOW_TEMPLATE.md) | Luồng di chuyển dữ liệu, sự kiện, sở hữu trạng thái, xử lý lỗi | Thiết kế các luồng xử lý phức tạp đa bước |
-| [`TEST_STRATEGY_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/TEST_STRATEGY_TEMPLATE.md) | Chiến lược kiểm thử toàn diện, cấp độ test, ranh giới test, cổng nghiệm thu | Thiết lập quy trình đảm bảo chất lượng kỹ thuật |
-| [`GLOSSARY_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/GLOSSARY_TEMPLATE.md) | Từ điển thuật ngữ, từ viết tắt, tên module, từ vựng chuyên ngành | Thống nhất ngôn ngữ giữa Con người và AI |
-| [`ADR_TEMPLATE.md`](file:///d:/workspace/Algorithm-game-website/.ai/templates/documentation/ADR_TEMPLATE.md) | Nhật ký quyết định kiến trúc và kỹ thuật quan trọng | Ghi nhận quyết định kiến trúc sau khi Human duyệt |
+| [`PROJECT_OVERVIEW_TEMPLATE.md`](PROJECT_OVERVIEW_TEMPLATE.md) | Giới thiệu tổng quan dự án, mục đích, người dùng mục tiêu, giá trị cốt lõi | Khởi tạo dự án hoặc cập nhật định vị sản phẩm |
+| [`GOALS_AND_SCOPE_TEMPLATE.md`](GOALS_AND_SCOPE_TEMPLATE.md) | Xác định mục tiêu, giới hạn phạm vi (In-scope/Out-of-scope), tiêu chí thành công | Lập kế hoạch dự án, phân kỳ giai đoạn |
+| [`REQUIREMENTS_TEMPLATE.md`](REQUIREMENTS_TEMPLATE.md) | Yêu cầu chức năng, phi chức năng, kịch bản người dùng, tiêu chí nghiệm thu | Định nghĩa tính năng trước khi thiết kế |
+| [`ARCHITECTURE_TEMPLATE.md`](ARCHITECTURE_TEMPLATE.md) | Kiến trúc tổng thể, phân tầng trách nhiệm, ranh giới hệ thống, quy tắc bất biến | Thiết kế kiến trúc nền tảng và các module lớn |
+| [`SYSTEM_MAP_TEMPLATE.md`](SYSTEM_MAP_TEMPLATE.md) | Sơ đồ cấu trúc thư mục, trách nhiệm module, điểm vào, bản đồ phụ thuộc | Quy hoạch cây thư mục mã nguồn và ranh giới |
+| [`DOMAIN_MODEL_TEMPLATE.md`](DOMAIN_MODEL_TEMPLATE.md) | Thực thể nghiệp vụ, mối quan hệ, quy tắc kinh doanh, từ vựng chung | Mô hình hóa miền nghiệp vụ trước khi code |
+| [`MODULE_SPEC_TEMPLATE.md`](MODULE_SPEC_TEMPLATE.md) | Đặc tả kỹ thuật chi tiết của một module con cụ thể | Phát triển hoặc tái cấu trúc một module lớn |
+| [`API_CONTRACTS_TEMPLATE.md`](API_CONTRACTS_TEMPLATE.md) | Hợp đồng giao diện công khai, chữ ký hàm, tham số, lỗi, trạng thái tương thích | Thiết lập API giữa các tầng hoặc module dùng chung |
+| [`DATA_FLOW_TEMPLATE.md`](DATA_FLOW_TEMPLATE.md) | Luồng di chuyển dữ liệu, sự kiện, sở hữu trạng thái, xử lý lỗi | Thiết kế các luồng xử lý phức tạp đa bước |
+| [`TEST_STRATEGY_TEMPLATE.md`](TEST_STRATEGY_TEMPLATE.md) | Chiến lược kiểm thử toàn diện, cấp độ test, ranh giới test, cổng nghiệm thu | Thiết lập quy trình đảm bảo chất lượng kỹ thuật |
+| [`GLOSSARY_TEMPLATE.md`](GLOSSARY_TEMPLATE.md) | Từ điển thuật ngữ, từ viết tắt, tên module, từ vựng chuyên ngành | Thống nhất ngôn ngữ giữa Con người và AI |
+| [`ADR_TEMPLATE.md`](ADR_TEMPLATE.md) | Nhật ký quyết định kiến trúc và kỹ thuật quan trọng | Ghi nhận quyết định kiến trúc sau khi Human duyệt |
 
 ---
 
