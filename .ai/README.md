@@ -1,4 +1,4 @@
-﻿# .ai/ — AI Operating Protocol
+# .ai/ — AI Operating Protocol
 
 Thư mục này là **Giao thức Vận hành AI** (AI Operating Protocol) — tái sử dụng được giữa các repository.  
 Tri thức đặc thù dự án nằm tại `.document/`. Sổ tay Human nằm tại `.human/`.
@@ -34,6 +34,9 @@ Tri thức đặc thù dự án nằm tại `.document/`. Sổ tay Human nằm t
 | Lệnh liên quan kiến trúc | [`.document/ARCHITECTURE.md`](.document/ARCHITECTURE.md) |
 | IMPLEMENT tính năng | [`.document/interfaces/API_CONTRACTS.md`](.document/interfaces/API_CONTRACTS.md) |
 | TEST / REVIEW | [`.document/quality/TEST_STRATEGY.md`](.document/quality/TEST_STRATEGY.md) |
+| Yêu cầu mơ hồ hoặc cần chọn skill | [`skills/INDEX.md`](.ai/skills/INDEX.md) (DOC-030) |
+| Cần tìm module trước khi đọc code | [`.code-map/INDEX.md`](.code-map/INDEX.md) (DOC-041) |
+| Human kích hoạt DELEGATE | [`protocol/EXPERIMENTAL-DELEGATE.md`](.ai/protocol/EXPERIMENTAL-DELEGATE.md) (DOC-040) |
 
 ---
 
@@ -45,8 +48,10 @@ Tri thức đặc thù dự án nằm tại `.document/`. Sổ tay Human nằm t
 | Tạo proposal | [`templates/changes/PROP_TEMPLATE.md`](.ai/templates/changes/PROP_TEMPLATE.md) |
 | Tạo drift report | [`templates/changes/DRIFT_TEMPLATE.md`](.ai/templates/changes/DRIFT_TEMPLATE.md) |
 | Tạo tài liệu dự án | [`templates/documentation/`](.ai/templates/documentation/) |
-| Cần quy ước tech stack | [`reference/SKILLS.md`](.ai/reference/SKILLS.md) |
+| Cần quy ước tech stack nhanh | [`reference/SKILLS.md`](.ai/reference/SKILLS.md) (DOC-024, legacy) |
 | Cần hiểu lịch sử thiết kế | [`reference/DECISIONS.md`](.ai/reference/DECISIONS.md) |
+| Cần skill cụ thể | Xem [`skills/INDEX.md`](.ai/skills/INDEX.md) và chọn skill phù hợp |
+| Cần bản đồ module | Xem [`.code-map/INDEX.md`](.code-map/INDEX.md) và chọn module map |
 
 ---
 
@@ -100,7 +105,8 @@ Không tìm thấy quy tắc áp dụng?
 ├── protocol/
 │   ├── COMMANDS.md              ← Command vocabulary + modifiers (DOC-010)
 │   ├── WORKFLOW.md              ← Task lifecycle state machine (DOC-011)
-│   └── PROPOSALS.md             ← Proposal + drift protocol — single authority (DOC-012)
+│   ├── PROPOSALS.md             ← Proposal + drift protocol (DOC-012)
+│   └── EXPERIMENTAL-DELEGATE.md ← [EXPERIMENTAL] Delegation command (DOC-040)
 ├── tasks/
 │   ├── TASK_PROCESSING.md       ← Active task board (DOC-005)
 │   ├── active/                  ← Active task files
@@ -109,7 +115,13 @@ Không tìm thấy quy tắc áp dụng?
 ├── sessions/                    ← Session handoff logs
 ├── changes/
 │   ├── proposals/               ← PROP-XXX.md files
-│   └── drift/                   ← DRIFT-XXX.md files
+│   ├── drift/                   ← DRIFT-XXX.md files
+│   └── delegations/             ← DEL-XXX.md packages [EXPERIMENTAL]
+├── skills/                      ← Skills library (DOC-030)
+│   ├── INDEX.md                 ← Skills routing index
+│   ├── core/                    ← Reusable process skills
+│   ├── tech/                    ← Technology-specific skills
+│   └── project/                 ← Project profile + module boundaries
 ├── templates/
 │   ├── tasks/TASK_TEMPLATE.md
 │   ├── sessions/SESSION_TEMPLATE.md
@@ -117,5 +129,14 @@ Không tìm thấy quy tắc áp dụng?
 │   └── documentation/           ← 12 document templates for .document/
 └── reference/
     ├── DECISIONS.md             ← ADR-001 to ADR-004 (historical)
-    └── SKILLS.md                ← Tech stack reference (project-specific)
+    └── SKILLS.md                ← Tech stack reference (legacy — xem skills/project/profile.md)
+
+.code-map/                       ← Source code navigation map (DOC-041)
+├── INDEX.md                     ← Routing index: concept → module
+├── SCHEMA.md                    ← Schema cho module map files
+├── UPDATE_PROTOCOL.md          ← Khi nào và cách cập nhật bản đồ
+└── modules/                     ← Chi tiết từng module
+    ├── core.md                  ← src/core/ map
+    └── game.md                  ← src/game/ map
 ```
+
