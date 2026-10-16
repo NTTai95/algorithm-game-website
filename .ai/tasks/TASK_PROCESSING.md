@@ -15,6 +15,7 @@ LAST_UPDATED: 2026-10-08
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | TEST-001 | Protocol Dry Run | READY | LOW | [] | task/TEST-001-protocol-dry-run | NONE |
+| TASK-001 | Data Model & Crane Module | READY | HIGH | [] | task/TASK-001-core-domain-and-crane | NONE |
 
 ---
 
