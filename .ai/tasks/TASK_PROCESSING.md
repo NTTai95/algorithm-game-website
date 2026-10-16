@@ -16,6 +16,10 @@ LAST_UPDATED: 2026-10-08
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | TEST-001 | Protocol Dry Run | READY | LOW | [] | task/TEST-001-protocol-dry-run | NONE |
 | TASK-001 | Data Model & Crane Module | READY | HIGH | [] | task/TASK-001-core-domain-and-crane | NONE |
+| TASK-002 | Java Parser & VM Step Runner | READY | HIGH | [TASK-001] | task/TASK-002-java-parser-and-vm | NONE |
+| TASK-003 | Bubble Sort Validator & Test Suites | READY | HIGH | [TASK-002] | task/TASK-003-bubble-sort-validator | NONE |
+| TASK-004 | Phaser 3 Warehouse Presentation | READY | MEDIUM | [TASK-001] | task/TASK-004-phaser-warehouse-presentation | NONE |
+| TASK-005 | React UI Integration & End-to-End | READY | HIGH | [TASK-003, TASK-004] | task/TASK-005-react-ui-integration | NONE |
 
 ---
 

@@ -121,7 +121,7 @@ export interface ICrane {
 
 ## PHẦN 2: TIẾN TRÌNH THỰC HIỆN (EXECUTION PROGRESS)
 - [x] Thiết kế chi tiết Phần 1 hoàn tất.
-- [ ] Tạo nhánh `task/TASK-001-core-domain-and-crane`.
+- [x] Tạo nhánh `task/TASK-001-core-domain-and-crane`.
 - [ ] Khởi tạo phiên làm việc `SESSION-TASK-001.md`.
 - [ ] Triển khai Domain Model (`Crate`, `WarehouseArrayState`, `Events`).
 - [ ] Triển khai Machine Module (`Crane`).
