@@ -4,12 +4,12 @@ Thư mục này là nơi Lập trình viên Con người lưu trữ các ý tư�
 
 ---
 
-## 1. Nguyên Tắc Cốt Lõi Về Quyền Hạn Dành Cho AI
+## 1. Nguyên Tắc Vận Hành Backlog Dành Cho Human
 
-> **RÀO CHẮN AN TOÀN TUYỆT ĐỐI**:
-> - AI **TUYỆT ĐỐI KHÔNG ĐƯỢC** tự động coi các nội dung, tệp tin hay ý tưởng trong `.human/backlog/` là mệnh lệnh thực thi.
-> - AI **KHÔNG ĐƯỢC** tự ý tạo task trong `.ai/tasks/` dựa trên backlog trừ khi Human chỉ thị rõ ràng qua prompt.
-> - Khi Human yêu cầu AI: *"Hãy lưu ý tưởng này để xem lại sau"*, AI phải tạo file ghi chú trong thư mục này và **DỪNG LẠI**, tuyệt đối không tự triển khai mã nguồn.
+> [!NOTE]
+> **LƯU Ý VẬN HÀNH**:
+> - Thư mục này là không gian ghi chép độc lập của bạn. AI không tự động quét hay tự ý biến các ý tưởng tại đây thành mã nguồn cho đến khi bạn chính thức đưa vào một Sprint Plan được phê duyệt.
+> - Khi bạn yêu cầu AI: *"Hãy lưu ý tưởng này vào backlog để xem lại sau"*, AI chỉ tạo file ghi chú tại đây và dừng lại, không tự tạo task hay triển khai mã nguồn.
 
 ---
 

@@ -1,58 +1,59 @@
-# Sổ Tay Vận Hành Dành Riêng Cho Lập Trình Viên Con Người (.human)
+﻿# Sổ Tay Vận Hành Dành Riêng Cho Lập Trình Viên Con Người (.human)
 
-Chào mừng hai lập trình viên con người đến với không gian quản trị hệ thống phát triển **Website Trò Chơi Thuật Toán (Algorithm Game Website)**.
+Chào mừng bạn đến với không gian quản trị hệ thống phát triển **Website Trò Chơi Thuật Toán (Algorithm Game Website)**.
 
-Thư mục `.human/` là **Sổ tay Vận hành (Human Operating Manual)** và **Bộ nhớ Hệ thống (Human Memory)**. Thư mục này được thiết kế để giúp bạn kiểm soát, điều phối và chỉ đạo các phiên làm việc của AI một cách hoàn toàn chủ động, an toàn và có trật tự.
+Thư mục `.human/` là **Sổ Tay Vận Hành (Human Operating Manual)** và **Không Gian Bộ Nhớ (Human Memory Workspace)**. Toàn bộ tài liệu tại đây được biên soạn dành riêng cho Lập trình viên Con người nhằm giúp bạn chỉ đạo, kiểm soát, nghiệm thu và giám sát các tác tử AI một cách an toàn, minh bạch và có kỷ luật.
 
----
-
-## 1. Cấu Trúc Tổng Thể Thư Mục `.human/`
-
-```
-.human/
-├── README.md               # Tài liệu tổng quan này (Tiếng Việt)
-├── MANUAL.md               # Cẩm nang vận hành cốt lõi cho lập trình viên
-├── AI_GUIDE.md             # Hướng dẫn bản chất làm việc và tương tác với AI
-├── CONTROL_GUIDE.md        # Hướng dẫn chỉ đạo AI bằng lời nhắc (Prompt & Control Guide)
-├── TASK_GUIDE.md           # Hướng dẫn tạo, giao và quản lý nhiệm vụ
-├── GIT_GUIDE.md            # Hướng dẫn quản trị nhánh Git, commit và merge
-├── WORKFLOW.md             # Hướng dẫn quy trình phát triển và chu trình sprint
-│
-├── commands/               # Sổ tay các câu lệnh thông dụng
-│   ├── README.md           # Giới thiệu danh mục lệnh
-│   ├── git.md              # Các lệnh Git quan trọng thường dùng
-│   ├── development.md      # Các lệnh chạy môi trường phát triển & build
-│   ├── testing.md          # Các lệnh chạy kiểm thử, lint, typecheck
-│   └── ai.md               # Các lệnh kiểm tra và chỉ đạo AI
-│
-├── procedures/             # Quy trình thao tác chuẩn (SOP) theo từng tình huống
-│   ├── README.md           # Giới thiệu các quy trình chuẩn
-│   ├── start-session.md    # Quy trình khởi động phiên làm việc mới
-│   ├── assign-task.md      # Quy trình tạo và giao task cho AI
-│   ├── stop-ai.md          # Quy trình dừng khẩn cấp hoặc can thiệp AI
-│   ├── switch-task.md      # Quy trình điều chuyển AI sang task khác
-│   ├── review-task.md      # Quy trình nghiệm thu mã nguồn task
-│   ├── complete-task.md    # Quy trình tích hợp và đóng task
-│   └── sprint-review.md    # Quy trình đánh giá tổng kết sprint trên develop
-│
-├── backlog/               # Ý tưởng, mong muốn chưa thực hiện ngay (AI không tự ý code)
-├── decisions/              # Lưu vết các quyết định nội bộ của nhóm con người
-├── notes/                  # Ghi chú kỹ thuật dùng chung
-├── history/                # Nhật ký lịch sử dự án do con người ghi lại
-└── local/                  # Thư mục máy cá nhân (BỊ GIT BỎ QUA - IGNORED)
-```
+> [!NOTE]
+> **LƯU Ý VẬN HÀNH DÀNH CHO BẠN**: Thư mục `.human/` là không gian độc lập phục vụ riêng cho việc tra cứu và quản lý của Human. Bạn không cần sao chép hoặc nạp các tài liệu này vào ngữ cảnh chat của AI. Hãy chỉ đạo AI trực tiếp bằng lời nhắc (prompts); AI sẽ tự động đối chiếu các quy tắc vận hành tại `.ai/` và tri thức dự án tại `.document/`. Điều này giúp tiết kiệm tối đa dung lượng ngữ cảnh (context window) cho mã nguồn sản phẩm.
 
 ---
 
-## 2. Phân Tách Không Gian: Chung (`shared`) vs Cục Bộ (`local`)
-- **Tất cả các tài liệu bên ngoài `.human/local/`**: Được Git theo dõi và đồng bộ lên GitHub bình thường để hai lập trình viên dùng chung.
-- **`.human/local/`**: Nằm trong `.gitignore`. Dùng cho ghi chú cá nhân, cấu hình máy riêng của từng người, tuyệt đối không bị đẩy lên Git, tránh xung đột giữa 2 máy.
+## 1. Bạn Nên Đọc File Nào Đầu Tiên?
+
+- **Để hiểu nguyên lý hoạt động & ranh giới quyền lực giữa Người và AI**:
+  👉 Đọc ngay: [getting-started/01-system-overview.md](getting-started/01-system-overview.md)
+- **Để tra cứu mục lục tổng thể của toàn bộ tài liệu**:
+  👉 Xem bảng chỉ mục: [INDEX.md](INDEX.md)
 
 ---
 
-## 3. Nguyên Tắc Cốt Lõi Dành Cho Con Người
-1. **Con Người Là Quyền Lực Tối Cao**: AI không tự quyết định mục tiêu, không tự merge nhánh, không tự cài thư viện. AI chỉ đề xuất và thực thi trong ranh giới được giao.
-2. **AI Không Tự Động Đọc `.human/`**: AI ở các nhánh làm việc (`task/*`, `develop`) bị cấm tự động nạp thư mục này. Bạn điều khiển AI trực tiếp qua lời nhắc (prompt); các quy tắc và giao thức tĩnh được đặt trong thư mục `.ai/`.
-3. **Mỗi AI = Một Task**: Luôn đảm bảo một AI chỉ tập trung vào đúng một task tại một thời điểm.
-4. **Không Để Lại Bí Mật**: Tuyệt đối không commit password, API keys, token vào các file được Git theo dõi.
-5. **Nguồn Sự Thật Của Dự Án Là `.document/`**: Toàn bộ kiến trúc, mục tiêu, yêu cầu và hợp đồng kỹ thuật của dự án được lưu trữ tại `.document/`. Hãy hướng dẫn AI đối chiếu tài liệu trong `.document/` khi thực hiện nhiệm vụ.
+## 2. Lộ Trình Dành Cho Bạn Tùy Theo Hoàn Cảnh Thực Tế
+
+### Lộ Trình A: Bắt Đầu Dự Án Mới Hoặc Chưa Có Tài Liệu
+Nếu bạn bắt đầu từ một repository khung trống hoặc muốn khởi động một dự án mới từ con số 0:
+1. Đọc hướng dẫn 13 bước từ ý tưởng đến Sprint 1: [getting-started/02-starting-from-empty-project.md](getting-started/02-starting-from-empty-project.md).
+2. Nắm quy trình làm rõ yêu cầu và lập kế hoạch Sprint: [workflows/02-requirements-and-sprint-planning.md](workflows/02-requirements-and-sprint-planning.md).
+3. Giao task đầu tiên và giám sát AI thiết kế trước khi code: [workflows/03-task-execution-and-review.md](workflows/03-task-execution-and-review.md).
+
+### Lộ Trình B: Tiếp Quản Dự Án Đang Hoạt Động
+Nếu bạn quay lại một dự án đã có sẵn mã nguồn, có nhiều commit hoặc đã đi qua nhiều Sprint:
+1. Thực hiện 8 điểm kiểm tra hiện trạng và khôi phục bối cảnh: [getting-started/03-joining-existing-project.md](getting-started/03-joining-existing-project.md).
+2. Xem cách rà soát nhánh Git, commit và đề xuất dở dang: [operations/branches-and-git.md](operations/branches-and-git.md).
+3. Đọc quy trình tiếp tục phiên làm việc bằng Session Handoff: [troubleshooting/common-problems.md#sự-cố-8-mất-bối-cảnh-khi-mở-cửa-sổ-chat-mới-hoặc-đổi-máy](troubleshooting/common-problems.md).
+
+---
+
+## 3. Tra Cứu Nhanh Theo Nhu Cầu Tác Nghiệp
+
+| Khi bạn cần làm gì? | Tài liệu cần mở |
+| :--- | :--- |
+| **Tìm cú pháp lệnh kiểm thử, dev server, lệnh Git hoặc mẫu prompt cho AI** | 📖 [operations/commands-reference.md](operations/commands-reference.md) |
+| **Lựa chọn model AI phù hợp hoặc sử dụng cơ chế ủy quyền phụ Delegation** | 📖 [operations/model-routing-and-assignment.md](operations/model-routing-and-assignment.md) |
+| **Kiểm tra và nghiệm thu báo cáo task của AI trước khi merge** | 📖 [reports/task-report-review.md](reports/task-report-review.md) |
+| **Đánh giá tổng kết Sprint, nghiệm thu Acceptance Criteria và đóng Sprint** | 📖 [reports/sprint-report-review.md](reports/sprint-report-review.md) |
+| **Nhận biết sớm các dấu hiệu ảo giác, báo cáo láo hoặc AI vượt quyền** | 📖 [reports/warnings-and-red-flags.md](reports/warnings-and-red-flags.md) |
+| **Gặp sự cố kỹ thuật: AI báo Halt, Vitest bị treo, TypeScript lỗi, Git conflict** | 📖 [troubleshooting/common-problems.md](troubleshooting/common-problems.md) |
+| **Quản lý đề xuất kiến trúc (PROP-XXX) và tài liệu sống trong `.document/current/`** | 📖 [operations/project-and-document-management.md](operations/project-and-document-management.md) |
+
+---
+
+## 4. Không Gian Bộ Nhớ Riêng Của Human
+
+Thư mục `.human/` duy trì các không gian ghi chép dành riêng cho bạn:
+- [**`backlog/`**](backlog/README.md): Nơi lưu trữ ý tưởng tương lai (AI bị cấm tự ý code các ý tưởng này).
+- [**`decisions/`**](decisions/README.md): Ghi chép các thỏa thuận nội bộ giữa các lập trình viên con người.
+- [**`notes/`**](notes/README.md): Ghi chú kỹ thuật dùng chung và tài liệu tham khảo bên ngoài.
+- [**`history/`**](history/README.md): Nhật ký các mốc tiến độ dự án.
+- [**`local/`**](local/README.md): Thư mục cá nhân máy bạn (được `.gitignore` bảo vệ, không bao giờ bị đẩy lên GitHub).
+
