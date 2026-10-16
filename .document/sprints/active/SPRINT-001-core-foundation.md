@@ -3,7 +3,7 @@
 ```yaml
 DOCUMENT_ID: SPRINT-001
 DOCUMENT_TYPE: SPRINT_PLAN
-STATUS: ACTIVE
+STATUS: COMPLETED
 LAST_UPDATED: 2026-10-16
 OWNER: Human & AI
 SPRINT: SPRINT-001
@@ -21,15 +21,15 @@ DEPENDS_ON: [DOC-OVERVIEW, DOC-REQUIREMENTS, DOC-ARCHITECTURE]
 ## 2. Phạm Vi Thực Hiện (Scope)
 
 ### Trong phạm vi (In-Scope):
-- [ ] Xây dựng mô hình miền dữ liệu kho hàng: `WarehouseArrayState` (thùng hàng có id, trọng số, vị trí).
-- [ ] Xây dựng module cỗ máy `Crane`: các hành động `next()`, `prev()`, `compare()`, `swap()`, `position()`, `length()`.
-- [ ] Xây dựng bộ thông dịch Java AST an toàn (Java Parser/Interpreter) hỗ trợ biến số, `for`, `while`, `if/else`, và gọi phương thức của `crane`.
-- [ ] Xây dựng bộ kiểm định bất biến thuật toán Bubble Sort (`BubbleSortValidator`):
+- [x] Xây dựng mô hình miền dữ liệu kho hàng: `WarehouseArrayState` (thùng hàng có id, trọng số, vị trí).
+- [x] Xây dựng module cỗ máy `Crane`: các hành động `next()`, `prev()`, `compare()`, `swap()`, `position()`, `length()`.
+- [x] Xây dựng bộ thông dịch Java AST an toàn (Java Parser/Interpreter) hỗ trợ biến số, `for`, `while`, `if/else`, và gọi phương thức của `crane`.
+- [x] Xây dựng bộ kiểm định bất biến thuật toán Bubble Sort (`BubbleSortValidator`):
   - Chỉ cho phép hoán đổi liền kề.
   - Bắt buộc sau mỗi lượt quét ($k$), phần tử lớn nhất của vùng chưa sắp xếp phải về đúng vị trí $N - k$.
-  - Kiểm thử bổ sung trên 4 bộ test ẩn (ngược, xuôi, ngẫu nhiên, trùng lặp).
-- [ ] Tích hợp Phaser 3 hiển thị kho hàng, đường ray, cần cẩu và thùng hàng chuyển động theo sự kiện.
-- [ ] Đảm bảo 100% logic lõi có bài kiểm thử Vitest tự động và đạt chuẩn typecheck/lint.
+  - Kiểm thử bổ sung trên 5 bộ test ẩn (ngược, xuôi, ngẫu nhiên, trùng lặp, mảng 2 phần tử).
+- [x] Tích hợp Phaser 3 hiển thị kho hàng, đường ray, cần cẩu và thùng hàng chuyển động theo sự kiện.
+- [x] Đảm bảo 100% logic lõi có bài kiểm thử Vitest tự động và đạt chuẩn typecheck/lint.
 
 ### Ngoài phạm vi (Out-of-Scope — Dành cho các Sprint sau):
 - 6 thuật toán còn lại (Selection, Insertion, Merge, Quick, Heap, Counting Sort).
@@ -40,11 +40,11 @@ DEPENDS_ON: [DOC-OVERVIEW, DOC-REQUIREMENTS, DOC-ARCHITECTURE]
 
 ## 3. Tiêu Chí Chấp Nhận Nghiệm Thu (Acceptance Criteria - AC)
 
-- [ ] **AC-1**: Khi người chơi nhập mã Java đúng thuật toán Bubble Sort, cần cẩu di chuyển và hoán đổi các thùng hàng theo đúng quy tắc, mảng cuối cùng được sắp xếp tăng dần và hệ thống thông báo chiến thắng.
-- [ ] **AC-2**: Nếu người chơi nhập mã chỉ đổi chỗ trực tiếp không theo Bubble Sort (ví dụ nhảy cóc hoặc chỉ sắp xếp sai quy tắc), bộ `BubbleSortValidator` từ chối cho qua màn và chỉ rõ lý do vi phạm bất biến.
-- [ ] **AC-3**: Vòng lặp vô tận trong mã Java bị ngắt an toàn bởi giới hạn số bước (`Step Budget: 50,000 steps`) mà không làm đơ trình duyệt.
-- [ ] **AC-4**: 100% unit tests của bộ Parser, Máy ảo VM, Crane và BubbleSortValidator vượt qua thành công với `npm.cmd run test:run`.
-- [ ] **AC-5**: Toàn bộ dự án vượt qua `npm.cmd run typecheck` và `npm.cmd run lint`.
+- [x] **AC-1**: Khi người chơi nhập mã Java đúng thuật toán Bubble Sort, cần cẩu di chuyển và hoán đổi các thùng hàng theo đúng quy tắc, mảng cuối cùng được sắp xếp tăng dần và hệ thống thông báo chiến thắng.
+- [x] **AC-2**: Nếu người chơi nhập mã chỉ đổi chỗ trực tiếp không theo Bubble Sort (ví dụ nhảy cóc hoặc chỉ sắp xếp sai quy tắc), bộ `BubbleSortValidator` từ chối cho qua màn và chỉ rõ lý do vi phạm bất biến.
+- [x] **AC-3**: Vòng lặp vô tận trong mã Java bị ngắt an toàn bởi giới hạn số bước (`Step Budget: 50,000 steps`) mà không làm đơ trình duyệt.
+- [x] **AC-4**: 100% unit tests của bộ Parser, Máy ảo VM, Crane và BubbleSortValidator vượt qua thành công với `npm.cmd run test:run`.
+- [x] **AC-5**: Toàn bộ dự án vượt qua `npm.cmd run typecheck` và `npm.cmd run lint`.
 
 ---
 
