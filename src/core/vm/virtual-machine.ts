@@ -84,7 +84,7 @@ export class VirtualMachine {
 
     try {
       const next = this.executionIterator.next()
-      if (next.done) {
+      if (next.done || !next.value) {
         this.isExecutionComplete = true
         this.lastResult = { done: true, stepCount: this.stepCount }
         return this.lastResult
