@@ -3,11 +3,11 @@
 ```yaml
 TASK_ID: TASK-004
 TITLE: Xây dựng Scene Phaser 3 hiển thị kho hàng & Hoạt ảnh cẩu
-STATUS: READY
+STATUS: READY_FOR_REVIEW
 PRIORITY: MEDIUM
 CREATED: 2026-10-16
 CURRENT_BRANCH: task/TASK-004-phaser-warehouse-presentation
-CURRENT_SESSION: NONE
+CURRENT_SESSION: SES-20261016-04
 DEPENDENCIES: [TASK-001]
 ```
 
@@ -57,20 +57,20 @@ export interface IWarehousePresentation {
 3. **Cơ chế dọn dẹp bộ nhớ (Cleanup)**: Đảm bảo hủy game instance và giải phóng tài nguyên WebGL/Canvas sạch sẽ khi component React unmount.
 
 ### 6. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] Khởi tạo khung vẽ Phaser 3 hiển thị chuẩn đường ray, cần cẩu và dãy thùng hàng.
-- [ ] Hoạt ảnh cần cẩu trượt trên ray khớp với vị trí ô mảng.
-- [ ] Hiệu ứng quét laser phát sáng khi cẩu thực hiện so sánh (`CRANE_COMPARE`).
-- [ ] Hoạt ảnh nhấc thùng, tráo vị trí và hạ thùng mượt mà khi xảy ra hoán đổi (`CRANE_SWAP`).
-- [ ] Hỗ trợ điều chỉnh tốc độ hoạt ảnh linh hoạt (1x đến 5x).
-- [ ] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
+- [x] Khởi tạo khung vẽ Phaser 3 hiển thị chuẩn đường ray, cần cẩu và dãy thùng hàng.
+- [x] Hoạt ảnh cần cẩu trượt trên ray khớp với vị trí ô mảng.
+- [x] Hiệu ứng quét laser phát sáng khi cẩu thực hiện so sánh (`CRANE_COMPARE`).
+- [x] Hoạt ảnh nhấc thùng, tráo vị trí và hạ thùng mượt mà khi xảy ra hoán đổi (`CRANE_SWAP`).
+- [x] Hỗ trợ điều chỉnh tốc độ hoạt ảnh linh hoạt (1x đến 5x).
+- [x] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
 
 ---
 
 ## PHẦN 2: TIẾN TRÌNH THỰC HIỆN (EXECUTION PROGRESS)
 - [x] Thiết kế chi tiết Phần 1 hoàn tất.
-- [ ] Tạo nhánh `task/TASK-004-phaser-warehouse-presentation`.
-- [ ] Khởi tạo phiên làm việc `SESSION-TASK-004.md`.
-- [ ] Triển khai `WarehouseScene` & Sprite Renderer.
-- [ ] Triển khai `AnimationController` & Event Bridge.
-- [ ] Kiểm tra tích hợp đồ họa & hoạt ảnh.
-- [ ] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
+- [x] Tạo nhánh `task/TASK-004-phaser-warehouse-presentation`.
+- [x] Khởi tạo phiên làm việc `SESSION-TASK-004.md`.
+- [x] Triển khai `WarehouseScene` & Sprite Renderer.
+- [x] Triển khai `AnimationController` & Event Bridge.
+- [x] Kiểm tra tích hợp đồ họa & hoạt ảnh.
+- [x] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
