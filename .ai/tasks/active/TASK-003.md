@@ -3,11 +3,11 @@
 ```yaml
 TASK_ID: TASK-003
 TITLE: Xây dựng Bubble Sort Invariant Validator & Test Suites
-STATUS: READY
+STATUS: READY_FOR_REVIEW
 PRIORITY: HIGH
 CREATED: 2026-10-16
 CURRENT_BRANCH: task/TASK-003-bubble-sort-validator
-CURRENT_SESSION: NONE
+CURRENT_SESSION: SES-20261016-03
 DEPENDENCIES: [TASK-002]
 ```
 
@@ -74,20 +74,20 @@ export interface IBubbleSortValidator {
 4. **Kiểm tra tính ổn định trên mảng có phần tử trùng lặp**: Xác nhận không rơi vào vòng lặp vô tận.
 
 ### 6. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] Chấp thuận giải pháp Bubble Sort chuẩn xác và xác nhận mảng đích tăng dần.
-- [ ] Từ chối và bắt lỗi chính xác mọi hành vi hoán đổi không liền kề.
-- [ ] Từ chối nếu sau một lượt quét (`pass`), phần tử lớn nhất tương ứng chưa được đưa về cuối.
-- [ ] Vượt qua toàn bộ 4 bài test ẩn tự động.
-- [ ] 100% unit tests trong `src/test/core/bubble-validator.test.ts` đạt kết quả xanh (PASS).
-- [ ] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
+- [x] Chấp thuận giải pháp Bubble Sort chuẩn xác và xác nhận mảng đích tăng dần.
+- [x] Từ chối và bắt lỗi chính xác mọi hành vi hoán đổi không liền kề.
+- [x] Từ chối nếu sau một lượt quét (`pass`), phần tử lớn nhất tương ứng chưa được đưa về cuối.
+- [x] Vượt qua toàn bộ 4 bài test ẩn tự động.
+- [x] 100% unit tests trong `src/test/core/bubble-validator.test.ts` đạt kết quả xanh (PASS).
+- [x] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
 
 ---
 
 ## PHẦN 2: TIẾN TRÌNH THỰC HIỆN (EXECUTION PROGRESS)
 - [x] Thiết kế chi tiết Phần 1 hoàn tất.
-- [ ] Tạo nhánh `task/TASK-003-bubble-sort-validator`.
-- [ ] Khởi tạo phiên làm việc `SESSION-TASK-003.md`.
-- [ ] Triển khai `BubbleSortValidator` & Invariant Checkers.
-- [ ] Triển khai `HiddenTestRunner` & Diagnostic Reporter.
-- [ ] Viết Unit Tests & chạy kiểm thử đạt 100%.
-- [ ] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
+- [x] Tạo nhánh `task/TASK-003-bubble-sort-validator`.
+- [x] Khởi tạo phiên làm việc `SESSION-TASK-003.md`.
+- [x] Triển khai `BubbleSortValidator` & Invariant Checkers.
+- [x] Triển khai `HiddenTestRunner` & Diagnostic Reporter.
+- [x] Viết Unit Tests & chạy kiểm thử đạt 100%.
+- [x] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
