@@ -113,27 +113,127 @@ body {
   font-weight: 600;
 }
 
-/* Main Layout */
+/* Main Layout & Split Screen */
+.main-playground,
 .main-layout {
   display: grid;
-  grid-template-columns: 1.15fr 1fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: 1.25rem;
   padding: 1.25rem 1.75rem;
-  max-width: 1650px;
+  max-width: 1750px;
   margin: 0 auto;
+  align-items: start;
+  transition: grid-template-columns 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1080px) {
+  .main-playground,
   .main-layout {
     grid-template-columns: 1fr;
   }
 }
 
-.left-panel,
+/* When editor is collapsed */
+.main-playground.editor-collapsed {
+  grid-template-columns: minmax(0, 1fr) 52px;
+}
+
+.main-playground.editor-collapsed .phaser-canvas-container {
+  max-width: 100%;
+  height: 440px;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-width: 0;
+  transition: all 0.3s ease;
+}
+
 .right-panel {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0;
+  transition: all 0.3s ease;
+}
+
+.right-panel.panel-collapsed {
+  align-items: center;
+}
+
+/* Editor Collapsed Dock */
+.editor-collapsed-dock {
+  width: 52px;
+  min-height: 480px;
+  background: #090d16;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.editor-collapsed-dock:hover {
+  border-color: var(--accent-cyan);
+  background: #0d1527;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+}
+
+.btn-dock-toggle {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: var(--accent-cyan);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.btn-dock-toggle:hover {
+  background: var(--accent-cyan);
+  color: #090d16;
+  transform: scale(1.08);
+}
+
+.dock-vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.editor-collapsed-dock:hover .dock-vertical-text {
+  color: var(--accent-cyan);
+}
+
+.dock-hint {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  letter-spacing: 0.05em;
+  opacity: 0.7;
 }
 
 /* Canvas Container */
@@ -442,6 +542,61 @@ body {
   padding: 0.3rem 0.6rem;
   font-size: 0.75rem;
   outline: none;
+}
+
+.editor-actions-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-format-code {
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-format-code:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.btn-format-code.btn-format-success {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+}
+
+.btn-toggle-collapse {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--accent-cyan);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-toggle-collapse:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2);
 }
 
 .editor-body {

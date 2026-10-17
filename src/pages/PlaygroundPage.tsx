@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import type { LevelId } from '../core/levels/types'
 import { getLevelById } from '../core/levels/level-registry'
 import { WarehouseArrayState } from '../core/domain/warehouse-array'
@@ -45,6 +45,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
   const [lastAction, setLastAction] = useState<string | undefined>()
   const [currentLine, setCurrentLine] = useState<number | undefined>()
   const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null)
+  const [isEditorCollapsed, setIsEditorCollapsed] = useState<boolean>(false)
 
   // Simulation execution refs
   const gameHandleRef = useRef<WarehouseGameHandle | null>(null)
@@ -377,6 +378,27 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     }
   }, [levelId, code, levelConfig.initialArray, levelConfig.title, movesCount, comparisonsCount, swapsCount])
 
+  // Alt+C keyboard shortcut to toggle editor collapse
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault()
+        setIsEditorCollapsed((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Trigger resize and refresh Phaser scale when editor is collapsed/expanded
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+      gameHandleRef.current?.game.scale.refresh()
+    }, 250)
+    return () => clearTimeout(timer)
+  }, [isEditorCollapsed])
+
   // Next level navigation handler
   const handleNextLevel = () => {
     setDiagnosticReport(null)
@@ -401,7 +423,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       </section>
 
       {/* Main Split Screen */}
-      <main className="main-playground">
+      <main className={`main-playground ${isEditorCollapsed ? 'editor-collapsed' : ''}`}>
         {/* Left Column: Canvas + HUD + Controls */}
         <section className="left-panel">
           <GameCanvas
@@ -435,16 +457,18 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
         </section>
 
         {/* Right Column: Code Editor + API Reference */}
-        <section className="right-panel">
+        <section className={`right-panel ${isEditorCollapsed ? 'panel-collapsed' : ''}`}>
           <CodeEditor
             code={code}
             onChange={setCode}
             currentLine={currentLine}
             disabled={status === 'RUNNING'}
             templates={levelConfig.templates}
+            isCollapsed={isEditorCollapsed}
+            onToggleCollapse={() => setIsEditorCollapsed((prev) => !prev)}
           />
 
-          <ApiReference />
+          {!isEditorCollapsed && <ApiReference />}
         </section>
       </main>
 

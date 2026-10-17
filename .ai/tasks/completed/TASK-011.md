@@ -3,7 +3,7 @@
 ```yaml
 TASK_ID: TASK-011
 TITLE: Bố Cục 2 Bên (Split-Screen) & Nút Thu Nhỏ / Mở Rộng Code Editor
-STATUS: READY
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-011-split-screen-layout
@@ -62,7 +62,28 @@ DEPENDENCIES: []
 ---
 
 ### 4. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] **AC-11.1**: Vào bất kỳ màn chơi nào (0.1, 0.2, 0.3, bubble-sort), giao diện hiển thị 2 cột song song (Canvas bên trái, Editor bên phải) trên màn hình desktop, không bị trượt dọc để xem cả 2.
-- [ ] **AC-11.2**: Bấm nút thu nhỏ Code: Editor thu gọn thành thanh dock hẹp hoặc ẩn mượt mà, Canvas tự động chiếm toàn bộ chiều rộng (100% width) để quan sát kết quả tốt nhất.
-- [ ] **AC-11.3**: Bấm nút mở rộng Code: Editor xuất hiện trở lại ở vị trí ban đầu mà không làm mất nội dung code hoặc trạng thái mô phỏng.
-- [ ] **AC-11.4**: Hoạt ảnh cơ khí của Phaser 3 không bị méo tỷ lệ (aspect ratio) khi chuyển đổi thu nhỏ / mở rộng.
+- [x] **AC-11.1**: Vào bất kỳ màn chơi nào (0.1, 0.2, 0.3, bubble-sort), giao diện hiển thị 2 cột song song (Canvas bên trái, Editor bên phải) trên màn hình desktop, không bị trượt dọc để xem cả 2.
+- [x] **AC-11.2**: Bấm nút thu nhỏ Code: Editor thu gọn thành thanh dock hẹp hoặc ẩn mượt mà, Canvas tự động chiếm toàn bộ chiều rộng (100% width) để quan sát kết quả tốt nhất.
+- [x] **AC-11.3**: Bấm nút mở rộng Code: Editor xuất hiện trở lại ở vị trí ban đầu mà không làm mất nội dung code hoặc trạng thái mô phỏng.
+- [x] **AC-11.4**: Hoạt ảnh cơ khí của Phaser 3 không bị méo tỷ lệ (aspect ratio) khi chuyển đổi thu nhỏ / mở rộng.
+
+---
+
+## PHẦN 2: KẾT QUẢ THỰC THI (IMPLEMENTATION SUMMARY)
+
+1. **Bố Cục 2 Bên (Split-Screen)**:
+   - Sửa đổi `.main-playground` trong `src/styles/index.css` sử dụng CSS Grid `minmax(0, 1.15fr) minmax(0, 1fr)`.
+   - Cột trái: Canvas đồ họa + HUD chỉ số + Thanh điều khiển.
+   - Cột phải: Code Editor + Sổ tay lệnh máy móc.
+2. **Nút Thu Nhỏ / Mở Rộng Code Editor (Collapse/Expand Toggle)**:
+   - Thêm nút `⇱ Thu nhỏ` trên thanh top-bar của `CodeEditor`.
+   - Hỗ trợ phím tắt `Alt+C` trên `PlaygroundPage`.
+   - Khi thu nhỏ, panel code co thành thanh dock `52px` bên phải với nhãn dọc `WarehouseController.java` và nút mở rộng `⇲`.
+   - Canvas đồ họa và thanh ray mở rộng chiếm toàn bộ không gian còn lại (100% width).
+   - Tự động gọi `game.scale.refresh()` và dispatch event resize giúp Phaser thích ứng tỷ lệ hoàn hảo.
+3. **Chất Lượng & Kiểm Thử**:
+   - Thêm bộ test `src/test/app/split-layout.test.ts` (4 test cases).
+   - Đạt 58/58 bài kiểm thử Vitest (100% pass).
+   - TypeScript `tsc -b`: 0 lỗi.
+   - ESLint: 0 cảnh báo / 0 lỗi.
+   - Production build `npm run build`: thành công trong 729ms.
