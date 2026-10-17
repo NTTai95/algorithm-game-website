@@ -19,6 +19,31 @@ export type Statement =
   | ForStatement
   | BreakStatement
   | ContinueStatement
+  | MethodDeclaration
+  | ClassDeclaration
+
+export interface MethodParameter {
+  type: string
+  name: string
+  loc: SourceLocation
+}
+
+export interface MethodDeclaration {
+  type: 'MethodDeclaration'
+  modifiers: string[]
+  returnType: string
+  name: string
+  params: MethodParameter[]
+  body: BlockStatement
+  loc: SourceLocation
+}
+
+export interface ClassDeclaration {
+  type: 'ClassDeclaration'
+  name: string
+  methods: MethodDeclaration[]
+  loc: SourceLocation
+}
 
 export interface BlockStatement {
   type: 'BlockStatement'

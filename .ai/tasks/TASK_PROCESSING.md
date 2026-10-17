@@ -14,8 +14,8 @@ LAST_UPDATED: 2026-10-17
 
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `TASK-006` | Data Model (Box Weight) & Multi-Machine (`wareHouse`, `WeightScanner`, `SingleCrane`) | READY_FOR_REVIEW | HIGH | [] | `task/TASK-006-multi-machine-domain` | SES-20261017-06 |
-| `TASK-007` | Java Parser & VM Runner (Method `solve`, `boolean`, `break`, Formatter) | READY | HIGH | [`TASK-006`] | `task/TASK-007-java-parser-and-vm-oop` | NONE |
+| `TASK-006` | Data Model (Box Weight) & Multi-Machine (`wareHouse`, `WeightScanner`, `SingleCrane`) | DONE | HIGH | [] | `task/TASK-006-multi-machine-domain` | SES-20261017-06 |
+| `TASK-007` | Java Parser & VM Runner (Method `solve`, `boolean`, `break`, Formatter) | READY_FOR_REVIEW | HIGH | [`TASK-006`] | `task/TASK-007-java-parser-and-vm-oop` | SES-20261017-07 |
 | `TASK-008` | Phaser 3 Warehouse Simulation (Multi-Machine & Scan Beam) | READY | MEDIUM | [`TASK-006`] | `task/TASK-008-phaser-multimachine-simulation` | NONE |
 | `TASK-009` | Bubble Sort Validator (Weight-based) & Diagnostic Feedback Engine | READY | HIGH | [`TASK-006`, `TASK-007`] | `task/TASK-009-bubble-validator-and-diagnostics` | NONE |
 | `TASK-010` | App Shell, Home Page, Header Navigation, Modular Tutorials & UI Integration | READY | HIGH | [`TASK-008`, `TASK-009`] | `task/TASK-010-app-shell-home-and-tutorials` | NONE |

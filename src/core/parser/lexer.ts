@@ -26,6 +26,11 @@ const KEYWORDS = new Set([
   'continue',
   'true',
   'false',
+  'public',
+  'static',
+  'class',
+  'private',
+  'protected',
 ])
 
 const MULTI_CHAR_OPS = new Set([

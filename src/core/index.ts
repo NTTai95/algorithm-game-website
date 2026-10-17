@@ -19,6 +19,7 @@ export * from './machines'
 export * from './parser/ast-types'
 export * from './parser/lexer'
 export * from './parser/parser'
+export * from './parser/formatter'
 export * from './vm/environment'
 export * from './vm/virtual-machine'
 
