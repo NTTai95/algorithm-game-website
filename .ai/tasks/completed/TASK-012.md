@@ -3,7 +3,7 @@
 ```yaml
 TASK_ID: TASK-012
 TITLE: Bộ Sinh Đề Bài Ngẫu Nhiên & Preset Đa Dạng
-STATUS: READY
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-012-random-problem-generator
@@ -72,7 +72,28 @@ DEPENDENCIES: [TASK-011]
 ---
 
 ### 4. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] **AC-12.1**: Module `generator.ts` sinh được mảng ngẫu nhiên và đúng đặc tả cho cả 4 preset: random, reversed, nearly-sorted, duplicates.
-- [ ] **AC-12.2**: Bấm nút 🎲 "Đổi đề bài" trên Playground: các thùng hàng trên Canvas Phaser 3 lập tức đổi thành các giá trị khối lượng mới và nhãn cân nặng tương ứng.
-- [ ] **AC-12.3**: Người chơi có thể bấm Chạy (Run) hoặc Từng bước (Step) để giải thuật toán trên mảng mới này bình thường.
-- [ ] **AC-12.4**: Unit test đạt 100% độ bao phủ cho `generator.ts`.
+- [x] **AC-12.1**: Module `generator.ts` sinh được mảng ngẫu nhiên và đúng đặc tả cho cả 4 preset: random, reversed, nearly-sorted, duplicates.
+- [x] **AC-12.2**: Bấm nút 🎲 "Đổi đề bài" trên Playground: các thùng hàng trên Canvas Phaser 3 lập tức đổi thành các giá trị khối lượng mới và nhãn cân nặng tương ứng.
+- [x] **AC-12.3**: Người chơi có thể bấm Chạy (Run) hoặc Từng bước (Step) để giải thuật toán trên mảng mới này bình thường.
+- [x] **AC-12.4**: Unit test đạt 100% độ bao phủ cho `generator.ts`.
+
+---
+
+## PHẦN 2: KẾT QUẢ THỰC THI (IMPLEMENTATION SUMMARY)
+
+1. **Module Sinh Đề Bài Ngẫu Nhiên (`src/core/levels/generator.ts`)**:
+   - Triển khai hàm `generateProblemArray(options)` hỗ trợ 4 preset đặc tả:
+     - `random`: Mảng ngẫu nhiên hoàn toàn trong khoảng 5–95 kg.
+     - `reversed`: Mảng sắp xếp giảm dần (Worst Case của Bubble Sort).
+     - `nearly-sorted`: Mảng đã tăng dần nhưng bị hoán đổi 1 vị trí lân cận.
+     - `duplicates`: Mảng chứa ít nhất 2 thùng hàng có khối lượng bằng nhau (Stability test).
+2. **Giao Diện Điều Khiển Playground (`ControlBar.tsx` & `PlaygroundPage.tsx`)**:
+   - Thêm nút 🎲 **"Đổi Đề Bài"** cùng menu chọn preset nhanh (`select-preset`).
+   - Quản lý `currentArray` động: Khi đổi đề bài, tự động reset Phaser Scene với các sprite thùng hàng mang khối lượng mới, reset môi trường mô phỏng và bộ đếm HUD.
+   - Hỗ trợ chạy thuật toán và kiểm định trên mảng tùy biến này.
+3. **Kiểm Thử & Cổng Chất Lượng**:
+   - Thêm bộ test `src/test/core/generator.test.ts` (6 test cases).
+   - Đạt 64/64 bài kiểm thử Vitest (100% pass).
+   - TypeScript `tsc -b`: 0 lỗi.
+   - ESLint: 0 cảnh báo / 0 lỗi.
+   - Production build `vite build`: thành công trong 738ms.

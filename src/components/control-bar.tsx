@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import type { ProblemPreset } from '../core/levels/generator'
 
 interface ControlBarProps {
   isRunning: boolean
@@ -11,6 +12,7 @@ interface ControlBarProps {
   onReset: () => void
   onSpeedChange: (speed: number) => void
   onValidateHiddenTests: () => void
+  onRandomize?: (preset: ProblemPreset) => void
 }
 
 export const ControlBar: React.FC<ControlBarProps> = ({
@@ -24,7 +26,9 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   onReset,
   onSpeedChange,
   onValidateHiddenTests,
+  onRandomize,
 }) => {
+  const [selectedPreset, setSelectedPreset] = useState<ProblemPreset>('random')
   return (
     <div className="control-bar">
       <div className="control-group">
@@ -55,6 +59,38 @@ export const ControlBar: React.FC<ControlBarProps> = ({
         <button className="btn btn-ghost" onClick={onReset} id="btn-reset">
           ↺ Reset Kho
         </button>
+
+        {onRandomize && (
+          <div className="randomize-control-box">
+            <button
+              type="button"
+              className="btn btn-random"
+              onClick={() => onRandomize(selectedPreset)}
+              disabled={isRunning}
+              id="btn-randomize"
+              title="Sinh mảng số ngẫu nhiên mới và cập nhật kho hàng"
+            >
+              🎲 Đổi Đề Bài
+            </button>
+            <select
+              className="select-preset"
+              value={selectedPreset}
+              onChange={(e) => {
+                const nextPreset = e.target.value as ProblemPreset
+                setSelectedPreset(nextPreset)
+                onRandomize(nextPreset)
+              }}
+              disabled={isRunning}
+              title="Chọn dạng đề bài muốn thử thách"
+              id="select-preset"
+            >
+              <option value="random">🎲 Ngẫu nhiên</option>
+              <option value="reversed">📉 Đảo ngược (Worst Case)</option>
+              <option value="nearly-sorted">📈 Gần sắp xếp</option>
+              <option value="duplicates">👯 Có trùng lặp</option>
+            </select>
+          </div>
+        )}
       </div>
 
       <div className="control-group">
