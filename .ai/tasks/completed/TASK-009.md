@@ -3,11 +3,12 @@
 ```yaml
 TASK_ID: TASK-009
 TITLE: Nâng Cấp BubbleSortValidator & Diagnostic Feedback Engine
-STATUS: READY_FOR_REVIEW
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
-CURRENT_BRANCH: task/TASK-009-bubble-validator-and-diagnostics
-CURRENT_SESSION: SES-20261017-09
+COMPLETED: 2026-10-17
+BRANCH: task/TASK-009-bubble-validator-and-diagnostics
+SESSION: SES-20261017-09
 DEPENDENCIES: [TASK-006, TASK-007]
 ```
 
@@ -50,7 +51,7 @@ DEPENDENCIES: [TASK-006, TASK-007]
   - `src/core/machines/**`
   - `src/core/vm/virtual-machine.ts`
   - `src/test/core/bubble-validator.test.ts`
-  - `.ai/tasks/active/TASK-009.md`
+  - `.ai/tasks/completed/TASK-009.md`
   - `.ai/tasks/TASK_PROCESSING.md`
 - **RESTRICTED FILES**:
   - `src/game/**`
