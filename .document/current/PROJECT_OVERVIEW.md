@@ -6,7 +6,7 @@ DOCUMENT_TYPE: PROJECT_OVERVIEW
 STATUS: CONFIRMED
 LAST_UPDATED: 2026-10-17
 OWNER: Human & AI
-SPRINT: SPRINT-002 (COMPLETED)
+SPRINT: SPRINT-003 (ACTIVE)
 ```
 
 ---
@@ -82,7 +82,12 @@ Thay vì học thuật toán qua lý thuyết tĩnh hoặc giải bài tập tr�
   - Nâng cấp Java AST Parser & Virtual VM hỗ trợ cú pháp phương thức `public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner)`, `boolean`, `break`.
   - Tích hợp tính năng Format Code và Chẩn đoán lỗi chi tiết (Diagnostic Feedback với dòng lỗi và gợi ý sửa).
   - Hoàn thiện Màn 1 Bubble Sort mới với 2 máy chạy song hành trên Canvas Phaser 3 sắp xếp theo khối lượng (`boxWeight`).
-- **Sprint 3 (Chuẩn bị thực hiện)**: Hoàn thiện Màn 2 (Selection Sort) & Màn 3 (Insertion Sort) + Cảm biến `minMarker` & Tay gắp `lifter`.
-- **Sprint 4 (Dự kiến)**: Hoàn thiện Màn 4 (Merge Sort) & Màn 5 (Quick Sort).
-- **Sprint 5 (Dự kiến)**: Hoàn thiện Màn 6 (Heap Sort) & Màn 7 (Counting Sort) + Bộ test ẩn chống gian lận & Triển khai Vercel.
+- **Sprint 3 (Đang thực hiện)**: 
+  - Tối ưu hóa giao diện công thái học: Bố cục 2 bên Split-Screen cố định và nút Thu nhỏ/Mở rộng Code Editor.
+  - Bộ sinh đề bài ngẫu nhiên (Random Problem Generator) với nhiều preset đa dạng.
+  - Bộ tô màu cú pháp Java thời gian thực (Syntax Highlighting) phong cách Dark Cyber IDE hiện đại.
+  - Sổ tay lệnh máy móc động theo ngữ cảnh từng màn (Context-Aware Machine Manual) cho `wareHouse`, `WeightScanner`, `SingleCrane`.
+- **Sprint 4 (Dự kiến)**: Hoàn thiện Màn 2 (Selection Sort) & Màn 3 (Insertion Sort) + Cảm biến `minMarker` & Tay gắp `lifter`.
+- **Sprint 5 (Dự kiến)**: Hoàn thiện Màn 4 (Merge Sort) & Màn 5 (Quick Sort).
+- **Sprint 6 (Dự kiến)**: Hoàn thiện Màn 6 (Heap Sort) & Màn 7 (Counting Sort) + Bộ test ẩn chống gian lận & Triển khai Vercel.
 
