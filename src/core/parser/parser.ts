@@ -3,7 +3,10 @@ import type {
   Expression,
   ForStatement,
   IfStatement,
+  MethodDeclaration,
+  MethodParameter,
   Program,
+  SourceLocation,
   Statement,
   VariableDeclaration,
   WhileStatement,
@@ -37,6 +40,20 @@ export class Parser {
   }
 
   private statement(): Statement {
+    if (
+      this.checkKeyword('public') ||
+      this.checkKeyword('static') ||
+      this.checkKeyword('private') ||
+      this.checkKeyword('protected') ||
+      this.checkKeyword('class')
+    ) {
+      return this.declarationWithModifiers()
+    }
+
+    if (this.checkMethodDeclaration()) {
+      return this.methodDeclaration([])
+    }
+
     if (this.matchKeyword('int') || this.matchKeyword('boolean')) {
       return this.variableDeclaration()
     }
@@ -71,6 +88,107 @@ export class Parser {
 
     return this.expressionOrAssignmentStatement()
   }
+
+  private declarationWithModifiers(): Statement {
+    const startLoc = this.peek().loc
+    const modifiers: string[] = []
+
+    while (
+      this.matchKeyword('public') ||
+      this.matchKeyword('static') ||
+      this.matchKeyword('private') ||
+      this.matchKeyword('protected')
+    ) {
+      modifiers.push(this.previous().value)
+    }
+
+    if (this.matchKeyword('class')) {
+      const className = this.consume('IDENTIFIER', 'Kỳ vọng tên class sau từ khóa class.').value
+      this.consumePunctuation('{', "Kỳ vọng '{' mở đầu thân class.")
+      const methods: MethodDeclaration[] = []
+      while (!this.checkPunctuation('}') && !this.isAtEnd()) {
+        const stmt = this.statement()
+        if (stmt.type === 'MethodDeclaration') {
+          methods.push(stmt)
+        }
+      }
+      this.consumePunctuation('}', "Kỳ vọng '}' để đóng thân class.")
+      return {
+        type: 'ClassDeclaration',
+        name: className,
+        methods,
+        loc: startLoc,
+      }
+    }
+
+    return this.methodDeclaration(modifiers, startLoc)
+  }
+
+  private methodDeclaration(modifiers: string[] = [], loc?: SourceLocation): MethodDeclaration {
+    const startLoc = loc ?? this.peek().loc
+    let returnType = 'void'
+    if (this.matchKeyword('void') || this.matchKeyword('int') || this.matchKeyword('boolean')) {
+      returnType = this.previous().value
+    } else if (this.match('IDENTIFIER')) {
+      returnType = this.previous().value
+    }
+
+    const methodName = this.consume('IDENTIFIER', 'Kỳ vọng tên phương thức.').value
+    this.consumePunctuation('(', "Kỳ vọng '(' sau tên phương thức.")
+    const params: MethodParameter[] = []
+
+    if (!this.checkPunctuation(')')) {
+      do {
+        const paramLoc = this.peek().loc
+        let paramType: string
+        if (this.matchKeyword('int') || this.matchKeyword('boolean') || this.matchKeyword('void')) {
+          paramType = this.previous().value
+        } else if (this.match('IDENTIFIER')) {
+          paramType = this.previous().value
+        } else {
+          throw new Error(`Kỳ vọng kiểu dữ liệu tham số tại dòng ${paramLoc.line}, cột ${paramLoc.column}.`)
+        }
+
+        const paramName = this.consume('IDENTIFIER', 'Kỳ vọng tên tham số sau kiểu dữ liệu.').value
+        params.push({
+          type: paramType,
+          name: paramName,
+          loc: paramLoc,
+        })
+      } while (this.matchPunctuation(','))
+    }
+
+    this.consumePunctuation(')', "Kỳ vọng ')' sau danh sách tham số phương thức.")
+    const body = this.blockStatement()
+
+    return {
+      type: 'MethodDeclaration',
+      modifiers,
+      returnType,
+      name: methodName,
+      params,
+      body,
+      loc: startLoc,
+    }
+  }
+
+  private checkMethodDeclaration(): boolean {
+    if (this.current + 2 >= this.tokens.length) {
+      return false
+    }
+    const t0 = this.tokens[this.current]
+    const t1 = this.tokens[this.current + 1]
+    const t2 = this.tokens[this.current + 2]
+
+    const isType =
+      (t0.type === 'KEYWORD' && (t0.value === 'void' || t0.value === 'int' || t0.value === 'boolean')) ||
+      t0.type === 'IDENTIFIER'
+    const isName = t1.type === 'IDENTIFIER'
+    const isParen = t2.type === 'PUNCTUATION' && t2.value === '('
+
+    return isType && isName && isParen
+  }
+
 
   private variableDeclaration(): VariableDeclaration {
     const varTypeToken = this.previous()
@@ -488,6 +606,14 @@ export class Parser {
       return false
     }
     return this.peek().type === type
+  }
+
+  private checkKeyword(val: string): boolean {
+    if (this.isAtEnd()) {
+      return false
+    }
+    const token = this.peek()
+    return token.type === 'KEYWORD' && token.value === val
   }
 
   private checkPunctuation(val: string): boolean {

@@ -52,8 +52,8 @@ describe('Game Presentation Layer - AnimationController', () => {
         type: 'CRANE_SWAP',
         indexA: 1,
         indexB: 2,
-        crateA: { id: 'c1', value: 20, initialIndex: 1 },
-        crateB: { id: 'c2', value: 10, initialIndex: 2 },
+        crateA: { id: 'c1', value: 20, weight: 20, initialIndex: 1 },
+        crateB: { id: 'c2', value: 10, weight: 10, initialIndex: 2 },
         timestamp: 102,
       },
     ]
@@ -71,6 +71,48 @@ describe('Game Presentation Layer - AnimationController', () => {
     expect(mockScene.animateCompare).toHaveBeenCalledWith(1, 2, 350 / 2.0)
     expect(mockScene.animateSwap).toHaveBeenCalledWith(1, 2, 500 / 2.0)
     expect(controller.isBusy()).toBe(false)
+  })
+
+  it('coordinates multi-machine events (Scanner and SingleCrane)', async () => {
+    const mockScene: IWarehouseSceneAdapter = {
+      animateMove: vi.fn().mockResolvedValue(undefined),
+      animateCompare: vi.fn().mockResolvedValue(undefined),
+      animateSwap: vi.fn().mockResolvedValue(undefined),
+      animateScannerRead: vi.fn().mockResolvedValue(undefined),
+      animateScannerMove: vi.fn().mockResolvedValue(undefined),
+      animateScannerMoveStart: vi.fn().mockResolvedValue(undefined),
+      animateCraneMove: vi.fn().mockResolvedValue(undefined),
+      animateCraneMoveStart: vi.fn().mockResolvedValue(undefined),
+      animateCraneSwap: vi.fn().mockResolvedValue(undefined),
+    }
+
+    const controller = new AnimationController(mockScene)
+    const multiEvents: MachineEvent[] = [
+      { type: 'SCANNER_READ', index: 0, weight: 64, timestamp: 200 },
+      { type: 'SCANNER_MOVE', from: 0, to: 1, step: 1, timestamp: 201 },
+      { type: 'SCANNER_READ', index: 1, weight: 34, timestamp: 202 },
+      {
+        type: 'CRANE_SWAP',
+        indexA: 0,
+        indexB: 1,
+        crateA: { id: 'c0', value: 64, weight: 64, initialIndex: 0 },
+        crateB: { id: 'c1', value: 34, weight: 34, initialIndex: 1 },
+        timestamp: 203,
+      },
+      { type: 'CRANE_MOVE', from: 0, to: 1, step: 1, timestamp: 204 },
+      { type: 'SCANNER_MOVE_START', from: 1, to: 0, timestamp: 205 },
+      { type: 'CRANE_MOVE_START', from: 1, to: 0, timestamp: 206 },
+    ]
+
+    controller.enqueueAll(multiEvents)
+    await controller.playAll()
+
+    expect(mockScene.animateScannerRead).toHaveBeenCalledWith(0, 64, 300)
+    expect(mockScene.animateScannerMove).toHaveBeenCalledWith(1, 200)
+    expect(mockScene.animateCraneSwap).toHaveBeenCalledWith(0, 1, 500)
+    expect(mockScene.animateCraneMove).toHaveBeenCalledWith(1, 250)
+    expect(mockScene.animateScannerMoveStart).toHaveBeenCalledWith(200)
+    expect(mockScene.animateCraneMoveStart).toHaveBeenCalledWith(250)
   })
 
   it('handles pause, resume, and clear correctly', async () => {

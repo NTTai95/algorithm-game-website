@@ -2,6 +2,7 @@ import type {
   Expression,
   ForStatement,
   IfStatement,
+  MethodDeclaration,
   Program,
   Statement,
   WhileStatement,
@@ -57,12 +58,15 @@ export class VirtualMachine {
     this.reset()
   }
 
+  private currentStatementLine: number = 1
+
   /**
    * Resets execution state to the beginning.
    */
   reset(): void {
     this.rootEnv = new Environment()
     this.stepCount = 0
+    this.currentStatementLine = 1
     this.isExecutionComplete = false
     this.lastResult = { done: false, stepCount: 0 }
 
@@ -97,6 +101,7 @@ export class VirtualMachine {
       this.lastResult = {
         done: true,
         stepCount: this.stepCount,
+        currentLine: this.currentStatementLine,
         error: errorMsg,
       }
       return this.lastResult
@@ -127,19 +132,75 @@ export class VirtualMachine {
     return this.isExecutionComplete
   }
 
+  private resolveContextObject(paramName: string, paramType: string): unknown {
+    if (this.context[paramName] !== undefined) {
+      return this.context[paramName]
+    }
+    const lowerName = paramName.toLowerCase()
+    for (const [key, val] of Object.entries(this.context)) {
+      if (key.toLowerCase() === lowerName) {
+        return val
+      }
+    }
+    const lowerType = paramType.toLowerCase()
+    for (const [key, val] of Object.entries(this.context)) {
+      if (key.toLowerCase() === lowerType) {
+        return val
+      }
+    }
+    return undefined
+  }
+
   private *runProgram(
     program: Program,
     env: Environment
   ): Generator<VMStepResult, void, void> {
+    // Populate direct context objects into rootEnv for backwards compatibility
+    for (const [key, val] of Object.entries(this.context)) {
+      env.define(key, val)
+    }
+
+    // Find if there is an entry method declaration (either top-level or inside a class)
+    let entryMethod: MethodDeclaration | null = null
+
+    for (const stmt of program.body) {
+      if (stmt.type === 'MethodDeclaration') {
+        if (!entryMethod || stmt.name.toLowerCase() === 'solve') {
+          entryMethod = stmt
+        }
+      } else if (stmt.type === 'ClassDeclaration') {
+        for (const m of stmt.methods) {
+          if (!entryMethod || m.name.toLowerCase() === 'solve') {
+            entryMethod = m
+          }
+        }
+      }
+    }
+
+    if (entryMethod) {
+      // Bind parameters to context objects
+      for (const param of entryMethod.params) {
+        const obj = this.resolveContextObject(param.name, param.type)
+        if (obj !== undefined) {
+          env.define(param.name, obj)
+        }
+      }
+      yield* this.executeStatement(entryMethod.body, env)
+      return
+    }
+
+    // Otherwise, execute top-level statements directly
     for (const stmt of program.body) {
       yield* this.executeStatement(stmt, env)
     }
   }
 
+
   private *executeStatement(
     stmt: Statement,
     env: Environment
   ): Generator<VMStepResult, void, void> {
+    this.currentStatementLine = stmt.loc.line
     this.stepCount += 1
     if (this.stepCount > this.maxSteps) {
       throw new Error(
@@ -223,6 +284,10 @@ export class VirtualMachine {
       case 'ContinueStatement': {
         throw new ContinueSignal()
       }
+
+      case 'MethodDeclaration':
+      case 'ClassDeclaration':
+        break
     }
   }
 
@@ -396,7 +461,25 @@ export class VirtualMachine {
       }
 
       case 'MethodCallExpression': {
-        const targetObj = this.context[expr.object]
+        let targetObj: unknown = undefined
+        try {
+          targetObj = env.get(expr.object)
+        } catch {
+          // not found in env
+        }
+        if (targetObj === undefined) {
+          targetObj = this.context[expr.object]
+        }
+        if (!targetObj && typeof expr.object === 'string') {
+          const lowerObj = expr.object.toLowerCase()
+          for (const [k, v] of Object.entries(this.context)) {
+            if (k.toLowerCase() === lowerObj) {
+              targetObj = v
+              break
+            }
+          }
+        }
+
         if (!targetObj || typeof targetObj !== 'object') {
           throw new Error(
             `Đối tượng máy móc không tồn tại: '${expr.object}' tại dòng ${expr.loc.line}.`

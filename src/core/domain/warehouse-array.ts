@@ -1,5 +1,5 @@
 import type { Crate } from './crate'
-import { createCratesFromValues } from './crate'
+import { createCratesFromWeights } from './crate'
 
 /**
  * Encapsulates the warehouse array storage and preserves data integrity.
@@ -8,15 +8,15 @@ export class WarehouseArrayState {
   private readonly crates: Crate[]
   private readonly initialCrates: readonly Crate[]
 
-  constructor(initialValuesOrCrates: readonly number[] | readonly Crate[]) {
-    if (initialValuesOrCrates.length === 0) {
+  constructor(initialWeightsOrCrates: readonly number[] | readonly Crate[]) {
+    if (initialWeightsOrCrates.length === 0) {
       throw new Error('WarehouseArray cannot be initialized with an empty array.')
     }
 
-    if (typeof initialValuesOrCrates[0] === 'number') {
-      this.crates = createCratesFromValues(initialValuesOrCrates as readonly number[])
+    if (typeof initialWeightsOrCrates[0] === 'number') {
+      this.crates = createCratesFromWeights(initialWeightsOrCrates as readonly number[])
     } else {
-      this.crates = [...(initialValuesOrCrates as readonly Crate[])]
+      this.crates = [...(initialWeightsOrCrates as readonly Crate[])]
     }
 
     this.initialCrates = Object.freeze([...this.crates])
@@ -38,10 +38,17 @@ export class WarehouseArrayState {
   }
 
   /**
-   * Retrieves the numeric value of the crate at the specified index.
+   * Retrieves the weight of the crate at the specified index.
+   */
+  getWeight(index: number): number {
+    return this.getCrate(index).weight
+  }
+
+  /**
+   * Retrieves the numeric value of the crate at the specified index (alias to getWeight).
    */
   getValue(index: number): number {
-    return this.getCrate(index).value
+    return this.getWeight(index)
   }
 
   /**
@@ -61,16 +68,16 @@ export class WarehouseArrayState {
   }
 
   /**
-   * Checks if all crates are sorted in ascending order.
+   * Checks if all crates are sorted in ascending order of their weight.
    */
   isSorted(ascending: boolean = true): boolean {
     for (let i = 0; i < this.crates.length - 1; i++) {
       if (ascending) {
-        if (this.crates[i].value > this.crates[i + 1].value) {
+        if (this.crates[i].weight > this.crates[i + 1].weight) {
           return false
         }
       } else {
-        if (this.crates[i].value < this.crates[i + 1].value) {
+        if (this.crates[i].weight < this.crates[i + 1].weight) {
           return false
         }
       }
@@ -110,10 +117,17 @@ export class WarehouseArrayState {
   }
 
   /**
-   * Returns an array of pure numerical values.
+   * Returns an array of pure numerical weights.
+   */
+  toWeightArray(): number[] {
+    return this.crates.map((c) => c.weight)
+  }
+
+  /**
+   * Returns an array of pure numerical values (alias to toWeightArray).
    */
   toValueArray(): number[] {
-    return this.crates.map((c) => c.value)
+    return this.toWeightArray()
   }
 
   /**

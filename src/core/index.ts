@@ -13,13 +13,13 @@ export * from './domain/events'
 export * from './domain/warehouse-array'
 
 // Machine interfaces & implementations
-export * from './machines/machine-interface'
-export * from './machines/crane'
+export * from './machines'
 
 // Java Parser & Virtual Step Runner
 export * from './parser/ast-types'
 export * from './parser/lexer'
 export * from './parser/parser'
+export * from './parser/formatter'
 export * from './vm/environment'
 export * from './vm/virtual-machine'
 

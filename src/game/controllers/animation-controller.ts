@@ -4,6 +4,14 @@ export interface IWarehouseSceneAdapter {
   animateMove(to: number, duration: number): Promise<void>
   animateCompare(indexA: number, indexB: number, duration: number): Promise<void>
   animateSwap(indexA: number, indexB: number, duration: number): Promise<void>
+
+  // Multi-machine additions
+  animateScannerRead?(index: number, weight: number, duration: number): Promise<void>
+  animateScannerMove?(to: number, duration: number): Promise<void>
+  animateScannerMoveStart?(duration: number): Promise<void>
+  animateCraneMove?(to: number, duration: number): Promise<void>
+  animateCraneMoveStart?(duration: number): Promise<void>
+  animateCraneSwap?(indexA: number, indexB: number, duration: number): Promise<void>
 }
 
 export class AnimationController {
@@ -39,13 +47,49 @@ export class AnimationController {
 
     switch (event.type) {
       case 'CRANE_MOVE':
-        await this.scene.animateMove(event.to, duration)
+        if (this.scene.animateCraneMove) {
+          await this.scene.animateCraneMove(event.to, duration)
+        } else {
+          await this.scene.animateMove(event.to, duration)
+        }
         break
+
+      case 'CRANE_MOVE_START':
+        if (this.scene.animateCraneMoveStart) {
+          await this.scene.animateCraneMoveStart(duration)
+        } else {
+          await this.scene.animateMove(0, duration)
+        }
+        break
+
+      case 'CRANE_SWAP':
+        if (this.scene.animateCraneSwap) {
+          await this.scene.animateCraneSwap(event.indexA, event.indexB, duration)
+        } else {
+          await this.scene.animateSwap(event.indexA, event.indexB, duration)
+        }
+        break
+
       case 'CRANE_COMPARE':
         await this.scene.animateCompare(event.indexA, event.indexB, duration)
         break
-      case 'CRANE_SWAP':
-        await this.scene.animateSwap(event.indexA, event.indexB, duration)
+
+      case 'SCANNER_READ':
+        if (this.scene.animateScannerRead) {
+          await this.scene.animateScannerRead(event.index, event.weight, duration)
+        }
+        break
+
+      case 'SCANNER_MOVE':
+        if (this.scene.animateScannerMove) {
+          await this.scene.animateScannerMove(event.to, duration)
+        }
+        break
+
+      case 'SCANNER_MOVE_START':
+        if (this.scene.animateScannerMoveStart) {
+          await this.scene.animateScannerMoveStart(duration)
+        }
         break
     }
   }
@@ -98,12 +142,20 @@ export class AnimationController {
 
   private getEventBaseDuration(event: MachineEvent): number {
     switch (event.type) {
+      case 'SCANNER_READ':
+        return 300
+      case 'SCANNER_MOVE':
+      case 'SCANNER_MOVE_START':
+        return 200
       case 'CRANE_MOVE':
+      case 'CRANE_MOVE_START':
         return 250
       case 'CRANE_COMPARE':
         return 350
       case 'CRANE_SWAP':
         return 500
+      default:
+        return 250
     }
   }
 }

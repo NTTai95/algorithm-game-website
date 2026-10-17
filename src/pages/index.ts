@@ -1,7 +1,2 @@
-/**
- * Application Pages Placeholder
- *
- * Page-level views and screen containers.
- */
-
-export const PAGES_LAYER_STATUS = 'INITIALIZED' as const
+export { HomePage } from './HomePage'
+export { PlaygroundPage } from './PlaygroundPage'

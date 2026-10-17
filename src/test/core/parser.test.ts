@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { formatJavaCode } from '../../core/parser/formatter'
 import { Lexer } from '../../core/parser/lexer'
 import { Parser } from '../../core/parser/parser'
 
@@ -56,25 +57,75 @@ describe('Java Lexer & Parser', () => {
     }
   })
 
-  it('parses nested for loops (Bubble Sort structure)', () => {
+  it('parses method declaration: public static void solve(...) with parameters and break', () => {
     const code = `
-      int n = crane.length();
-      for (int i = 0; i < n - 1; i++) {
-        crane.reset();
-        for (int j = 0; j < n - i - 1; j++) {
-          if (crane.compare() > 0) {
-            crane.swap();
+      public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner) {
+        int countBox = wareHouse.getCountBox();
+        for (int i = 0; i < countBox - 1; i++) {
+          boolean swapped = false;
+          if (!swapped) {
+            break;
           }
-          crane.next();
         }
       }
     `
     const parser = new Parser(code)
     const ast = parser.parse()
 
-    expect(ast.body.length).toBe(2)
-    expect(ast.body[0].type).toBe('VariableDeclaration')
-    expect(ast.body[1].type).toBe('ForStatement')
+    expect(ast.body.length).toBe(1)
+    const methodStmt = ast.body[0]
+    expect(methodStmt.type).toBe('MethodDeclaration')
+    if (methodStmt.type === 'MethodDeclaration') {
+      expect(methodStmt.name).toBe('solve')
+      expect(methodStmt.modifiers).toEqual(['public', 'static'])
+      expect(methodStmt.returnType).toBe('void')
+      expect(methodStmt.params.length).toBe(3)
+      expect(methodStmt.params[0].name).toBe('wareHouse')
+      expect(methodStmt.params[1].name).toBe('singleCrane')
+      expect(methodStmt.params[2].name).toBe('weightScanner')
+    }
+  })
+
+  it('parses class-enclosed Java code correctly', () => {
+    const code = `
+      public class Solution {
+        public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner) {
+          int countBox = wareHouse.getCountBox();
+        }
+      }
+    `
+    const parser = new Parser(code)
+    const ast = parser.parse()
+
+    expect(ast.body.length).toBe(1)
+    const classDecl = ast.body[0]
+    expect(classDecl.type).toBe('ClassDeclaration')
+    if (classDecl.type === 'ClassDeclaration') {
+      expect(classDecl.name).toBe('Solution')
+      expect(classDecl.methods.length).toBe(1)
+      expect(classDecl.methods[0].name).toBe('solve')
+    }
+  })
+
+  it('formats Java code cleanly with auto-indentation', () => {
+    const messyCode = `
+public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner){
+int countBox=wareHouse.getCountBox();
+for(int i=0;i<countBox-1;i++){
+boolean swapped=false;
+if(!swapped){
+break;
+}
+}
+}
+`
+    const formatted = formatJavaCode(messyCode, 4)
+    expect(formatted).toContain('    int countBox = wareHouse.getCountBox();')
+    expect(formatted).toContain('    for (int i = 0; i < countBox - 1; i++) {')
+    expect(formatted).toContain('        boolean swapped = false;')
+    expect(formatted).toContain('        if (!swapped) {')
+    expect(formatted).toContain('            break;')
+    expect(formatted).toContain('        }')
   })
 
   it('throws descriptive error on missing semicolon', () => {

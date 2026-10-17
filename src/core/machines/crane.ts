@@ -1,5 +1,9 @@
 import type { WarehouseArrayState } from '../domain/warehouse-array'
-import type { ComparisonResult, MachineEvent } from '../domain/events'
+import {
+  type ComparisonResult,
+  type MachineEvent,
+  nextEventSequence,
+} from '../domain/events'
 import type { CraneStats, ICrane } from './machine-interface'
 
 /**
@@ -28,6 +32,7 @@ export class Crane implements ICrane {
       this.movesCount += 1
       this.events.push({
         type: 'CRANE_MOVE',
+        seq: nextEventSequence(),
         from,
         to: this.currentPosition,
         timestamp: Date.now(),
@@ -47,6 +52,7 @@ export class Crane implements ICrane {
       this.movesCount += 1
       this.events.push({
         type: 'CRANE_MOVE',
+        seq: nextEventSequence(),
         from,
         to: this.currentPosition,
         timestamp: Date.now(),
@@ -66,6 +72,7 @@ export class Crane implements ICrane {
       this.movesCount += 1
       this.events.push({
         type: 'CRANE_MOVE',
+        seq: nextEventSequence(),
         from,
         to: 0,
         timestamp: Date.now(),
@@ -120,6 +127,7 @@ export class Crane implements ICrane {
     this.comparisonsCount += 1
     this.events.push({
       type: 'CRANE_COMPARE',
+      seq: nextEventSequence(),
       indexA,
       indexB,
       valueA,
@@ -152,10 +160,13 @@ export class Crane implements ICrane {
 
     this.events.push({
       type: 'CRANE_SWAP',
+      seq: nextEventSequence(),
       indexA,
       indexB,
       crateA,
       crateB,
+      weightA: crateA.weight,
+      weightB: crateB.weight,
       timestamp: Date.now(),
     })
 
