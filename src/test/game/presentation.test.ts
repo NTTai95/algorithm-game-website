@@ -52,8 +52,8 @@ describe('Game Presentation Layer - AnimationController', () => {
         type: 'CRANE_SWAP',
         indexA: 1,
         indexB: 2,
-        crateA: { id: 'c1', value: 20, initialIndex: 1 },
-        crateB: { id: 'c2', value: 10, initialIndex: 2 },
+        crateA: { id: 'c1', value: 20, weight: 20, initialIndex: 1 },
+        crateB: { id: 'c2', value: 10, weight: 10, initialIndex: 2 },
         timestamp: 102,
       },
     ]

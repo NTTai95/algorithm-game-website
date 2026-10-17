@@ -104,6 +104,8 @@ export class AnimationController {
         return 350
       case 'CRANE_SWAP':
         return 500
+      default:
+        return 250
     }
   }
 }
