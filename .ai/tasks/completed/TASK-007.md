@@ -3,7 +3,7 @@
 ```yaml
 TASK_ID: TASK-007
 TITLE: Nâng Cấp Java AST Parser & Virtual VM Runner
-STATUS: READY_FOR_REVIEW
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-007-java-parser-and-vm-oop
