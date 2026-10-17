@@ -1,12 +1,12 @@
 # Bảng Điều Phối Nhiệm Vụ Đang Kích Hoạt (Active Task Board)
 
 ```yaml
-BOARD_STATUS: ACTIVE (SPRINT-002 IN PROGRESS)
+BOARD_STATUS: SPRINT-002 COMPLETE (ALL 5 TASKS COMPLETED)
 TASK_CAPACITY: 5 tasks
 LAST_UPDATED: 2026-10-17
 ```
 
-> **Ghi chú**: Bảng này là bảng điều phối nhẹ (lightweight board). Nội dung đặc tả kỹ thuật và thiết kế chi tiết của từng task được lưu trữ độc lập tại `.ai/tasks/active/TASK-XXX.md`.
+> **Ghi chú**: Tất cả các nhiệm vụ từ `TASK-006` đến `TASK-010` của Sprint 2 đã hoàn thành và được lưu trữ độc lập tại `.ai/tasks/completed/`.
 
 ---
 
@@ -14,7 +14,7 @@ LAST_UPDATED: 2026-10-17
 
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `TASK-010` | App Shell, Home Page, Header Navigation, Modular Tutorials & UI Integration | READY_FOR_REVIEW | HIGH | [`TASK-008`, `TASK-009`] | `task/TASK-010-app-shell-home-and-tutorials` | SES-20261017-10 |
+| *(Trống)* | *Tất cả các task Sprint 2 đã hoàn thành* | - | - | - | - | - |
 
 ---
 

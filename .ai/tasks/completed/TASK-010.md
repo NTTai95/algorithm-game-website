@@ -3,11 +3,12 @@
 ```yaml
 TASK_ID: TASK-010
 TITLE: Xây Dựng App Shell, Trang Home, Header Navigation, Chuỗi Màn 0 Tutorials & Tích Hợp UI
-STATUS: READY_FOR_REVIEW
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
-CURRENT_BRANCH: task/TASK-010-app-shell-home-and-tutorials
-CURRENT_SESSION: SES-20261017-10
+COMPLETED: 2026-10-17
+BRANCH: task/TASK-010-app-shell-home-and-tutorials
+SESSION: SES-20261017-10
 DEPENDENCIES: [TASK-006, TASK-007, TASK-008, TASK-009]
 ```
 
@@ -57,7 +58,7 @@ DEPENDENCIES: [TASK-006, TASK-007, TASK-008, TASK-009]
   - `src/App.tsx`
   - `src/main.tsx`
   - `src/test/app/**`
-  - `.ai/tasks/active/TASK-010.md`
+  - `.ai/tasks/completed/TASK-010.md`
   - `.ai/tasks/TASK_PROCESSING.md`
 - **RESTRICTED FILES**:
   - `package.json`
