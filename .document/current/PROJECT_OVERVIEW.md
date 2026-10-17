@@ -6,7 +6,7 @@ DOCUMENT_TYPE: PROJECT_OVERVIEW
 STATUS: CONFIRMED
 LAST_UPDATED: 2026-10-17
 OWNER: Human & AI
-SPRINT: SPRINT-002
+SPRINT: SPRINT-002 (COMPLETED)
 ```
 
 ---
@@ -75,14 +75,14 @@ Thay vì học thuật toán qua lý thuyết tĩnh hoặc giải bài tập tr�
 ## 6. Lộ Trình Phát Triển (Roadmap)
 
 - **Sprint 1 (Đã hoàn thành)**: Xây dựng Core Java Interpreter / Virtual Runner chạy độc lập + Nguyên mẫu Vertical Slice với Bubble Sort cơ bản trên Phaser 3 & React.
-- **Sprint 2 (Đang thực hiện)**: 
+- **Sprint 2 (Đã hoàn thành)**: 
   - Tái cấu trúc Giao diện & Điều hướng: Trang Home giới thiệu dự án, Header navigation xuyên suốt, cấu trúc endpoint/routing chuẩn.
   - Kiến trúc Đa máy móc (Multi-Machine Architecture): Phân tách độc lập `wareHouse`, `WeightScanner`, `SingleCrane`.
   - Chuỗi Màn 0 (Modular Tutorials) chia thành các màn nhỏ tương ứng với từng cỗ máy.
   - Nâng cấp Java AST Parser & Virtual VM hỗ trợ cú pháp phương thức `public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner)`, `boolean`, `break`.
   - Tích hợp tính năng Format Code và Chẩn đoán lỗi chi tiết (Diagnostic Feedback với dòng lỗi và gợi ý sửa).
   - Hoàn thiện Màn 1 Bubble Sort mới với 2 máy chạy song hành trên Canvas Phaser 3 sắp xếp theo khối lượng (`boxWeight`).
-- **Sprint 3 (Dự kiến)**: Hoàn thiện Màn 2 (Selection Sort) & Màn 3 (Insertion Sort) + Cảm biến `minMarker` & Tay gắp `lifter`.
+- **Sprint 3 (Chuẩn bị thực hiện)**: Hoàn thiện Màn 2 (Selection Sort) & Màn 3 (Insertion Sort) + Cảm biến `minMarker` & Tay gắp `lifter`.
 - **Sprint 4 (Dự kiến)**: Hoàn thiện Màn 4 (Merge Sort) & Màn 5 (Quick Sort).
 - **Sprint 5 (Dự kiến)**: Hoàn thiện Màn 6 (Heap Sort) & Màn 7 (Counting Sort) + Bộ test ẩn chống gian lận & Triển khai Vercel.
 
