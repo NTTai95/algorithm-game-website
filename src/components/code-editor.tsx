@@ -1,11 +1,12 @@
-import React, { useRef } from 'react'
-import { CODE_TEMPLATES } from './code-templates'
+import React, { useRef, useState } from 'react'
+import { formatJavaCode } from '../core/parser/formatter'
 
 interface CodeEditorProps {
   code: string
   onChange: (code: string) => void
   currentLine?: number
   disabled?: boolean
+  templates?: Record<string, string>
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -13,10 +14,23 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   onChange,
   currentLine,
   disabled = false,
+  templates,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [formattedFeedback, setFormattedFeedback] = useState(false)
 
   const lines = code.split('\n')
+
+  const handleFormatCode = () => {
+    try {
+      const formatted = formatJavaCode(code)
+      onChange(formatted)
+      setFormattedFeedback(true)
+      setTimeout(() => setFormattedFeedback(false), 2000)
+    } catch {
+      // If code has severe syntax errors preventing parse, keep original code
+    }
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Support Tab key inside editor
@@ -44,23 +58,45 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           <span>WarehouseController.java</span>
         </div>
 
-        <div className="template-selector">
-          <span className="template-label">Mẫu mã:</span>
-          <select
-            className="select-template"
-            onChange={(e) => {
-              const val = e.target.value as keyof typeof CODE_TEMPLATES
-              if (CODE_TEMPLATES[val]) {
-                onChange(CODE_TEMPLATES[val])
-              }
-            }}
-            defaultValue="bubbleSort"
+        <div className="editor-actions-wrapper">
+          {templates && Object.keys(templates).length > 0 && (
+            <div className="template-selector">
+              <span className="template-label">Mẫu:</span>
+              <select
+                className="select-template"
+                onChange={(e) => {
+                  const key = e.target.value
+                  if (templates[key]) {
+                    onChange(templates[key])
+                  }
+                }}
+                defaultValue=""
+                disabled={disabled}
+              >
+                <option value="" disabled>Chọn mẫu code...</option>
+                {Object.keys(templates).map((key) => (
+                  <option key={key} value={key}>
+                    {key === 'standard'
+                      ? 'Mã nguồn chuẩn'
+                      : key === 'skeleton'
+                      ? 'Khung bài tập'
+                      : key}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Format Code Button */}
+          <button
+            type="button"
+            className={`btn-format-code ${formattedFeedback ? 'btn-format-success' : ''}`}
+            onClick={handleFormatCode}
             disabled={disabled}
+            title="Tự động căn lề và định dạng mã nguồn Java theo chuẩn"
           >
-            <option value="bubbleSort">Thuật toán Bubble Sort mẫu</option>
-            <option value="skeleton">Khung bài tập rỗng</option>
-            <option value="cheatAttempt">Mã lỗi thử nghiệm</option>
-          </select>
+            {formattedFeedback ? '✓ Đã căn lề' : '⚡ Format Code'}
+          </button>
         </div>
       </div>
 
