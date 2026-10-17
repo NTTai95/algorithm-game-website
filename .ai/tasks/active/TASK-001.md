@@ -3,11 +3,11 @@
 ```yaml
 TASK_ID: TASK-001
 TITLE: Xây dựng Data Model kho hàng & Module cỗ máy Crane
-STATUS: READY
+STATUS: READY_FOR_REVIEW
 PRIORITY: HIGH
 CREATED: 2026-10-16
 CURRENT_BRANCH: task/TASK-001-core-domain-and-crane
-CURRENT_SESSION: NONE
+CURRENT_SESSION: SES-20261016-01
 DEPENDENCIES: []
 ```
 
@@ -109,21 +109,21 @@ export interface ICrane {
    - Kiểm tra nhật ký sự kiện (`events log`) được phát ra chính xác theo trình tự.
 
 ### 6. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] Khởi tạo mảng thùng hàng đúng số lượng và bảo toàn dữ liệu.
-- [ ] Cần cẩu di chuyển đúng biên, báo lỗi khi vượt ranh giới mảng.
-- [ ] `crane.compare()` trả về đúng kết quả so sánh -1, 0, 1 giữa 2 thùng liền kề.
-- [ ] `crane.swap()` hoán đổi đúng vị trí 2 thùng liền kề và phát sinh sự kiện đầy đủ.
-- [ ] 100% unit tests trong `src/test/core/crane.test.ts` đạt kết quả xanh (PASS).
-- [ ] `npm.cmd run typecheck` đạt 0 lỗi.
-- [ ] `npm.cmd run lint` đạt 0 lỗi.
+- [x] Khởi tạo mảng thùng hàng đúng số lượng và bảo toàn dữ liệu.
+- [x] Cần cẩu di chuyển đúng biên, báo lỗi khi vượt ranh giới mảng.
+- [x] `crane.compare()` trả về đúng kết quả so sánh -1, 0, 1 giữa 2 thùng liền kề.
+- [x] `crane.swap()` hoán đổi đúng vị trí 2 thùng liền kề và phát sinh sự kiện đầy đủ.
+- [x] 100% unit tests trong `src/test/core/crane.test.ts` đạt kết quả xanh (PASS).
+- [x] `npm.cmd run typecheck` đạt 0 lỗi.
+- [x] `npm.cmd run lint` đạt 0 lỗi.
 
 ---
 
 ## PHẦN 2: TIẾN TRÌNH THỰC HIỆN (EXECUTION PROGRESS)
 - [x] Thiết kế chi tiết Phần 1 hoàn tất.
 - [x] Tạo nhánh `task/TASK-001-core-domain-and-crane`.
-- [ ] Khởi tạo phiên làm việc `SESSION-TASK-001.md`.
-- [ ] Triển khai Domain Model (`Crate`, `WarehouseArrayState`, `Events`).
-- [ ] Triển khai Machine Module (`Crane`).
-- [ ] Viết Unit Tests & chạy kiểm thử đạt 100%.
-- [ ] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
+- [x] Khởi tạo phiên làm việc `SESSION-TASK-001.md`.
+- [x] Triển khai Domain Model (`Crate`, `WarehouseArrayState`, `Events`).
+- [x] Triển khai Machine Module (`Crane`).
+- [x] Viết Unit Tests & chạy kiểm thử đạt 100%.
+- [x] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.

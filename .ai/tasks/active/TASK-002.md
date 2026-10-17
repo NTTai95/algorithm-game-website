@@ -3,11 +3,11 @@
 ```yaml
 TASK_ID: TASK-002
 TITLE: Xây dựng Java Parser & Virtual Step Runner
-STATUS: READY
+STATUS: READY_FOR_REVIEW
 PRIORITY: HIGH
 CREATED: 2026-10-16
 CURRENT_BRANCH: task/TASK-002-java-parser-and-vm
-CURRENT_SESSION: NONE
+CURRENT_SESSION: SES-20261016-02
 DEPENDENCIES: [TASK-001]
 ```
 
@@ -82,20 +82,20 @@ export interface IVirtualMachine {
    - Từng bước `step()` phát sinh đúng sự kiện của cỗ máy liên kết.
 
 ### 7. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] Parse thành công các cấu trúc mã Java chuẩn: `for`, `while`, `if`, `else`, khai báo biến `int`.
-- [ ] Gọi thành công các phương thức máy móc thông qua ngữ cảnh thực thi (`crane.next()`, `crane.swap()`,...).
-- [ ] Ngắt an toàn khi số bước vượt trần định mức (`Step Budget exceeded`).
-- [ ] Hỗ trợ chạy từng bước đơn lẻ (`step()`) và chạy toàn bộ (`runAll()`).
-- [ ] 100% unit tests trong `src/test/core/parser.test.ts` và `src/test/core/vm.test.ts` đạt kết quả xanh (PASS).
-- [ ] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
+- [x] Parse thành công các cấu trúc mã Java chuẩn: `for`, `while`, `if`, `else`, khai báo biến `int`.
+- [x] Gọi thành công các phương thức máy móc thông qua ngữ cảnh thực thi (`crane.next()`, `crane.swap()`,...).
+- [x] Ngắt an toàn khi số bước vượt trần định mức (`Step Budget exceeded`).
+- [x] Hỗ trợ chạy từng bước đơn lẻ (`step()`) và chạy toàn bộ (`runAll()`).
+- [x] 100% unit tests trong `src/test/core/parser.test.ts` và `src/test/core/vm.test.ts` đạt kết quả xanh (PASS).
+- [x] `npm.cmd run typecheck` và `npm.cmd run lint` đạt 0 lỗi.
 
 ---
 
 ## PHẦN 2: TIẾN TRÌNH THỰC HIỆN (EXECUTION PROGRESS)
 - [x] Thiết kế chi tiết Phần 1 hoàn tất.
-- [ ] Tạo nhánh `task/TASK-002-java-parser-and-vm`.
-- [ ] Khởi tạo phiên làm việc `SESSION-TASK-002.md`.
-- [ ] Triển khai Java Lexer & Parser.
-- [ ] Triển khai Virtual Machine Step Runner & Execution Guard.
-- [ ] Viết Unit Tests & chạy kiểm thử đạt 100%.
-- [ ] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
+- [x] Tạo nhánh `task/TASK-002-java-parser-and-vm`.
+- [x] Khởi tạo phiên làm việc `SESSION-TASK-002.md`.
+- [x] Triển khai Java Lexer & Parser.
+- [x] Triển khai Virtual Machine Step Runner & Execution Guard.
+- [x] Viết Unit Tests & chạy kiểm thử đạt 100%.
+- [x] Hoàn tất kiểm tra chất lượng & cập nhật bảng task.
