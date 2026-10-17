@@ -21,34 +21,34 @@ DEPENDS_ON: [DOC-OVERVIEW, DOC-REQUIREMENTS, DOC-ARCHITECTURE, SPRINT-001]
 ## 2. Phạm Vi Thực Hiện (Scope)
 
 ### Trong phạm vi (In-Scope):
-- [ ] **Giao diện & Điều hướng (App Shell & Routing)**:
+- [x] **Giao diện & Điều hướng (App Shell & Routing)**:
   - Header điều hướng cố định (Logo, Home, Tutorials, Algorithms, Settings).
   - Trang Home giới thiệu tổng quan dự án, catalog cỗ máy và điều hướng tới các màn chơi.
   - Hệ thống định tuyến endpoint rõ ràng (`/`, `/tutorial/:stageId`, `/level/:algorithmId`).
-- [ ] **Kiến trúc Đa máy móc (Multi-Machine Core)**:
+- [x] **Kiến trúc Đa máy móc (Multi-Machine Core)**:
   - Phân tách độc lập các cỗ máy:
     - `wareHouse`: `getCountBox()`.
     - `WeightScanner`: `getWeightBox()`, `move(step)`, `moveStart()`.
     - `SingleCrane`: `swap()`, `move(step)`, `moveStart()`.
   - Cập nhật thùng hàng với thuộc tính trọng số `weight` và sắp xếp theo `weight`.
-- [ ] **Nâng cấp Java AST Parser & Virtual VM**:
+- [x] **Nâng cấp Java AST Parser & Virtual VM**:
   - Hỗ trợ khai báo method signature `public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner)`.
   - Hỗ trợ tiêm tham số đối tượng máy móc (Dependency Injection) vào scope hàm `solve`.
   - Bổ sung cú pháp Java: `boolean`, phủ định `!var`, câu lệnh `break` thoát vòng lặp.
-- [ ] **Code Editor Enhancements**:
+- [x] **Code Editor Enhancements**:
   - Tích hợp tính năng **Format Code** tự động căn chỉnh thụt lề chuẩn.
   - Highlight cú pháp Java hoàn chỉnh.
-- [ ] **Chẩn đoán lỗi thông minh (Diagnostic Feedback Engine)**:
+- [x] **Chẩn đoán lỗi thông minh (Diagnostic Feedback Engine)**:
   - Thông báo chi tiết lỗi cú pháp, lỗi máy móc ngoài biên độ, và vi phạm bất biến thuật toán.
   - Chỉ rõ dòng code vi phạm, giá trị thực tế vs giá trị kỳ vọng, kèm gợi ý sửa lỗi.
-- [ ] **Chuỗi Màn 0 Tutorials theo từng cỗ máy**:
+- [x] **Chuỗi Màn 0 Tutorials theo từng cỗ máy**:
   - Stage 0.1: Làm quen `wareHouse` & `WeightScanner`.
   - Stage 0.2: Làm quen `SingleCrane`.
   - Stage 0.3: Phối hợp cả 2 máy trên mảng nhỏ.
-- [ ] **Phaser 3 Multi-Machine Simulation**:
+- [x] **Phaser 3 Multi-Machine Simulation**:
   - Render đồng thời cả `WeightScanner` (tia beam quét led) và `SingleCrane` (cơ cấu gắp tráo) trên thanh ray.
   - Cập nhật hoạt ảnh và hiển thị nhãn cân nặng sinh động.
-- [ ] **Màn 1 Bubble Sort hoàn chỉnh**:
+- [x] **Màn 1 Bubble Sort hoàn chỉnh**:
   - Hỗ trợ code mẫu chuẩn như thiết kế của Human.
   - Đảm bảo 100% tests Vitest, typecheck và lint đạt chuẩn.
 
@@ -61,15 +61,15 @@ DEPENDS_ON: [DOC-OVERVIEW, DOC-REQUIREMENTS, DOC-ARCHITECTURE, SPRINT-001]
 
 ## 3. Tiêu Chí Chấp Nhận Nghiệm Thu (Acceptance Criteria - AC)
 
-- [ ] **AC-1 (Routing & Home Page)**: Người dùng có thể truy cập Trang Home, xem danh mục các màn chơi, nhấp chuyển màn thông qua Header hoặc thẻ màn chơi đến đúng URL endpoint tương ứng.
-- [ ] **AC-2 (Method Signature Execution)**: Mã Java chuẩn bọc trong `public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner)` được Parser dịch chuẩn xác, VM thực thi từng lệnh ngắt bước qua các đối tượng được truyền vào.
-- [ ] **AC-3 (Multi-Machine Behavior)**: `WeightScanner` có thể quét cân nặng (`getWeightBox()`) và di chuyển (`move`, `moveStart`); `SingleCrane` có thể đổi chỗ 2 thùng (`swap()`) và di chuyển độc lập. Phaser 3 hiển thị trực quan cả 2 cỗ máy.
-- [ ] **AC-4 (Syntax & Statements)**: Parser & VM hỗ trợ đầy đủ `boolean swapped = false;`, `if (!swapped) break;`, toán tử `!`, `break` ngắt vòng lặp an toàn.
-- [ ] **AC-5 (Format Code)**: Nhấp nút "Format Code" trong Editor sẽ tự động format và căn lề thụt dòng đoạn mã Java chuẩn đẹp.
-- [ ] **AC-6 (Diagnostic Feedback)**: Khi code vi phạm (sai bất biến hoặc lỗi logic), hệ thống hiển thị bảng chẩn đoán chỉ rõ số dòng lỗi, nguyên nhân chi tiết và gợi ý khắc phục.
-- [ ] **AC-7 (Modular Tutorials)**: Người chơi có thể hoàn thành lần lượt Stage 0.1, Stage 0.2 và Stage 0.3 với hướng dẫn riêng cho từng cỗ máy.
-- [ ] **AC-8 (Bubble Sort Verification)**: Code mẫu chuẩn do Human cung cấp giải quyết thành công Màn 1 Bubble Sort, mảng được sắp xếp tăng dần theo `boxWeight`, vượt qua bộ test ẩn và đạt chiến thắng.
-- [ ] **AC-9 (Quality Gates)**: Đạt 100% test suites tự động của Vitest, 0 lỗi TypeScript `typecheck` và 0 cảnh báo ESLint `lint`.
+- [x] **AC-1 (Routing & Home Page)**: Người dùng có thể truy cập Trang Home, xem danh mục các màn chơi, nhấp chuyển màn thông qua Header hoặc thẻ màn chơi đến đúng URL endpoint tương ứng.
+- [x] **AC-2 (Method Signature Execution)**: Mã Java chuẩn bọc trong `public static void solve(wareHouse wareHouse, SingleCrane singleCrane, WeightScanner weightScanner)` được Parser dịch chuẩn xác, VM thực thi từng lệnh ngắt bước qua các đối tượng được truyền vào.
+- [x] **AC-3 (Multi-Machine Behavior)**: `WeightScanner` có thể quét cân nặng (`getWeightBox()`) và di chuyển (`move`, `moveStart`); `SingleCrane` có thể đổi chỗ 2 thùng (`swap()`) và di chuyển độc lập. Phaser 3 hiển thị trực quan cả 2 cỗ máy.
+- [x] **AC-4 (Syntax & Statements)**: Parser & VM hỗ trợ đầy đủ `boolean swapped = false;`, `if (!swapped) break;`, toán tử `!`, `break` ngắt vòng lặp an toàn.
+- [x] **AC-5 (Format Code)**: Nhấp nút "Format Code" trong Editor sẽ tự động format và căn lề thụt dòng đoạn mã Java chuẩn đẹp.
+- [x] **AC-6 (Diagnostic Feedback)**: Khi code vi phạm (sai bất biến hoặc lỗi logic), hệ thống hiển thị bảng chẩn đoán chỉ rõ số dòng lỗi, nguyên nhân chi tiết và gợi ý khắc phục.
+- [x] **AC-7 (Modular Tutorials)**: Người chơi có thể hoàn thành lần lượt Stage 0.1, Stage 0.2 và Stage 0.3 với hướng dẫn riêng cho từng cỗ máy.
+- [x] **AC-8 (Bubble Sort Verification)**: Code mẫu chuẩn do Human cung cấp giải quyết thành công Màn 1 Bubble Sort, mảng được sắp xếp tăng dần theo `boxWeight`, vượt qua bộ test ẩn và đạt chiến thắng.
+- [x] **AC-9 (Quality Gates)**: Đạt 100% test suites tự động của Vitest, 0 lỗi TypeScript `typecheck` và 0 cảnh báo ESLint `lint`.
 
 ---
 
