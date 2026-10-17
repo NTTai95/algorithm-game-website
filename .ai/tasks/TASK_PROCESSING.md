@@ -14,7 +14,7 @@ LAST_UPDATED: 2026-10-17
 
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `TASK-010` | App Shell, Home Page, Header Navigation, Modular Tutorials & UI Integration | READY | HIGH | [`TASK-008`, `TASK-009`] | `task/TASK-010-app-shell-home-and-tutorials` | NONE |
+| `TASK-010` | App Shell, Home Page, Header Navigation, Modular Tutorials & UI Integration | READY_FOR_REVIEW | HIGH | [`TASK-008`, `TASK-009`] | `task/TASK-010-app-shell-home-and-tutorials` | SES-20261017-10 |
 
 ---
 
