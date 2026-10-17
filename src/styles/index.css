@@ -449,6 +449,49 @@ body {
   background: rgba(255, 255, 255, 0.05);
 }
 
+.randomize-control-box {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-random {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(139, 92, 246, 0.2) 100%);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.12);
+}
+
+.btn-random:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.3) 0%, rgba(139, 92, 246, 0.35) 100%);
+  border-color: #38bdf8;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.25);
+}
+
+.select-preset {
+  background: #131b2e;
+  border: 1px solid var(--border-color);
+  color: #e2e8f0;
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.select-preset:hover:not(:disabled) {
+  border-color: var(--accent-cyan);
+}
+
+.select-preset:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
 .btn-validate {
   background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
   color: white;

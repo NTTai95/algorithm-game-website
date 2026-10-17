@@ -15,7 +15,7 @@ LAST_UPDATED: 2026-10-17
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `TASK-011` | Bố cục 2 bên Split-Screen & Nút Thu nhỏ Code | `COMPLETED` | P0 | — | `task/TASK-011-split-screen-layout` | `SES-20261017-03` |
-| `TASK-012` | Bộ sinh đề bài ngẫu nhiên (Random Problem Generator) | `PENDING` | P1 | `TASK-011` | `develop` | `SES-20261017-03` |
+| `TASK-012` | Bộ sinh đề bài ngẫu nhiên (Random Problem Generator) | `COMPLETED` | P1 | `TASK-011` | `task/TASK-012-random-problem-generator` | `SES-20261017-03` |
 | `TASK-013` | Tô màu cú pháp Java chuẩn IDE hiện đại (Syntax Highlighting) | `PENDING` | P0 | — | `develop` | `SES-20261017-03` |
 | `TASK-014` | Sổ tay lệnh máy móc động theo ngữ cảnh từng màn | `PENDING` | P0 | — | `develop` | `SES-20261017-03` |
 | `TASK-015` | Tích hợp hệ thống, Kiểm thử E2E & Quality Gates | `PENDING` | P0 | `TASK-011`..`TASK-014` | `develop` | `SES-20261017-03` |
