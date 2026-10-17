@@ -1,9 +1,9 @@
 # Bảng Điều Phối Nhiệm Vụ Đang Kích Hoạt (Active Task Board)
 
 ```yaml
-BOARD_STATUS: ACTIVE (1 TASK READY)
-TASK_CAPACITY: 3-5 tasks
-LAST_UPDATED: 2026-10-08
+BOARD_STATUS: ACTIVE (5 TASKS READY FOR SPRINT-002)
+TASK_CAPACITY: 5 tasks
+LAST_UPDATED: 2026-10-17
 ```
 
 > **Ghi chú**: Bảng này là bảng điều phối nhẹ (lightweight board). Nội dung đặc tả kỹ thuật và thiết kế chi tiết của từng task được lưu trữ độc lập tại `.ai/tasks/active/TASK-XXX.md`.
@@ -14,12 +14,12 @@ LAST_UPDATED: 2026-10-08
 
 | TASK ID | TITLE | STATUS | PRIORITY | DEPENDENCIES | CURRENT BRANCH | CURRENT SESSION |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| TEST-001 | Protocol Dry Run | READY | LOW | [] | task/TEST-001-protocol-dry-run | NONE |
-| TASK-001 | Data Model & Crane Module | DONE | HIGH | [] | task/TASK-001-core-domain-and-crane | SES-20261016-01 |
-| TASK-002 | Java Parser & VM Step Runner | DONE | HIGH | [TASK-001] | task/TASK-002-java-parser-and-vm | SES-20261016-02 |
-| TASK-003 | Bubble Sort Validator & Test Suites | DONE | HIGH | [TASK-002] | task/TASK-003-bubble-sort-validator | SES-20261016-03 |
-| TASK-004 | Phaser 3 Warehouse Presentation | DONE | MEDIUM | [TASK-001] | task/TASK-004-phaser-warehouse-presentation | SES-20261016-04 |
-| TASK-005 | React UI Integration & End-to-End | DONE | HIGH | [TASK-003, TASK-004] | task/TASK-005-react-ui-integration | SES-20261016-05 |
+| `TASK-006` | Data Model (Box Weight) & Multi-Machine (`wareHouse`, `WeightScanner`, `SingleCrane`) | READY | HIGH | [] | `task/TASK-006-multi-machine-domain` | NONE |
+| `TASK-007` | Java Parser & VM Runner (Method `solve`, `boolean`, `break`, Formatter) | READY | HIGH | [`TASK-006`] | `task/TASK-007-java-parser-and-vm-oop` | NONE |
+| `TASK-008` | Phaser 3 Warehouse Simulation (Multi-Machine & Scan Beam) | READY | MEDIUM | [`TASK-006`] | `task/TASK-008-phaser-multimachine-simulation` | NONE |
+| `TASK-009` | Bubble Sort Validator (Weight-based) & Diagnostic Feedback Engine | READY | HIGH | [`TASK-006`, `TASK-007`] | `task/TASK-009-bubble-validator-and-diagnostics` | NONE |
+| `TASK-010` | App Shell, Home Page, Header Navigation, Modular Tutorials & UI Integration | READY | HIGH | [`TASK-008`, `TASK-009`] | `task/TASK-010-app-shell-home-and-tutorials` | NONE |
+
 
 ---
 
