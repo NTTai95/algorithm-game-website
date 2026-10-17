@@ -1,4 +1,10 @@
-import type { CraneMoveEvent, CraneMoveStartEvent, CraneSwapEvent, MachineEvent } from '../domain/events'
+import {
+  type CraneMoveEvent,
+  type CraneMoveStartEvent,
+  type CraneSwapEvent,
+  type MachineEvent,
+  nextEventSequence,
+} from '../domain/events'
 import type { WarehouseArrayState } from '../domain/warehouse-array'
 
 export interface ISingleCrane {
@@ -39,6 +45,7 @@ export class SingleCrane implements ISingleCrane {
 
     const event: CraneSwapEvent = {
       type: 'CRANE_SWAP',
+      seq: nextEventSequence(),
       indexA,
       indexB,
       crateA,
@@ -65,6 +72,7 @@ export class SingleCrane implements ISingleCrane {
 
     const event: CraneMoveEvent = {
       type: 'CRANE_MOVE',
+      seq: nextEventSequence(),
       from: this.currentPosition,
       to: target,
       step,
@@ -81,6 +89,7 @@ export class SingleCrane implements ISingleCrane {
   moveStart(): void {
     const event: CraneMoveStartEvent = {
       type: 'CRANE_MOVE_START',
+      seq: nextEventSequence(),
       from: this.currentPosition,
       to: 0,
       timestamp: Date.now(),

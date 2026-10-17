@@ -58,12 +58,15 @@ export class VirtualMachine {
     this.reset()
   }
 
+  private currentStatementLine: number = 1
+
   /**
    * Resets execution state to the beginning.
    */
   reset(): void {
     this.rootEnv = new Environment()
     this.stepCount = 0
+    this.currentStatementLine = 1
     this.isExecutionComplete = false
     this.lastResult = { done: false, stepCount: 0 }
 
@@ -98,6 +101,7 @@ export class VirtualMachine {
       this.lastResult = {
         done: true,
         stepCount: this.stepCount,
+        currentLine: this.currentStatementLine,
         error: errorMsg,
       }
       return this.lastResult
@@ -196,6 +200,7 @@ export class VirtualMachine {
     stmt: Statement,
     env: Environment
   ): Generator<VMStepResult, void, void> {
+    this.currentStatementLine = stmt.loc.line
     this.stepCount += 1
     if (this.stepCount > this.maxSteps) {
       throw new Error(

@@ -1,4 +1,10 @@
-import type { MachineEvent, ScannerMoveEvent, ScannerMoveStartEvent, ScannerReadEvent } from '../domain/events'
+import {
+  type MachineEvent,
+  type ScannerMoveEvent,
+  type ScannerMoveStartEvent,
+  type ScannerReadEvent,
+  nextEventSequence,
+} from '../domain/events'
 import type { WarehouseArrayState } from '../domain/warehouse-array'
 
 export interface IWeightScanner {
@@ -26,6 +32,7 @@ export class WeightScanner implements IWeightScanner {
     const weight = this.state.getWeight(this.currentPosition)
     const event: ScannerReadEvent = {
       type: 'SCANNER_READ',
+      seq: nextEventSequence(),
       index: this.currentPosition,
       weight,
       timestamp: Date.now(),
@@ -48,6 +55,7 @@ export class WeightScanner implements IWeightScanner {
 
     const event: ScannerMoveEvent = {
       type: 'SCANNER_MOVE',
+      seq: nextEventSequence(),
       from: this.currentPosition,
       to: target,
       step,
@@ -64,6 +72,7 @@ export class WeightScanner implements IWeightScanner {
   moveStart(): void {
     const event: ScannerMoveStartEvent = {
       type: 'SCANNER_MOVE_START',
+      seq: nextEventSequence(),
       from: this.currentPosition,
       to: 0,
       timestamp: Date.now(),
