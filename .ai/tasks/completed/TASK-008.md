@@ -3,7 +3,7 @@
 ```yaml
 TASK_ID: TASK-008
 TITLE: Cập Nhật Phaser 3 Simulation Scene (Đa Cỗ Máy & Hoạt Ảnh Quét Cân Nặng)
-STATUS: READY_FOR_REVIEW
+STATUS: DONE
 PRIORITY: MEDIUM
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-008-phaser-multimachine-simulation
