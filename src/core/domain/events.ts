@@ -8,9 +8,20 @@ import type { Crate } from './crate'
  */
 export type ComparisonResult = -1 | 0 | 1
 
+let globalEventSequence = 0
+
+export function nextEventSequence(): number {
+  return ++globalEventSequence
+}
+
+export function resetEventSequence(): void {
+  globalEventSequence = 0
+}
+
 // Legacy Crane events (kept for backwards compatibility)
 export interface CraneMoveEvent {
   readonly type: 'CRANE_MOVE'
+  readonly seq?: number
   readonly from: number
   readonly to: number
   readonly step?: number
@@ -19,6 +30,7 @@ export interface CraneMoveEvent {
 
 export interface CraneCompareEvent {
   readonly type: 'CRANE_COMPARE'
+  readonly seq?: number
   readonly indexA: number
   readonly indexB: number
   readonly valueA: number
@@ -29,6 +41,7 @@ export interface CraneCompareEvent {
 
 export interface CraneSwapEvent {
   readonly type: 'CRANE_SWAP'
+  readonly seq?: number
   readonly indexA: number
   readonly indexB: number
   readonly crateA: Crate
@@ -40,6 +53,7 @@ export interface CraneSwapEvent {
 
 export interface CraneMoveStartEvent {
   readonly type: 'CRANE_MOVE_START'
+  readonly seq?: number
   readonly from: number
   readonly to: 0
   readonly timestamp: number
@@ -48,6 +62,7 @@ export interface CraneMoveStartEvent {
 // Multi-Machine: WeightScanner events
 export interface ScannerReadEvent {
   readonly type: 'SCANNER_READ'
+  readonly seq?: number
   readonly index: number
   readonly weight: number
   readonly timestamp: number
@@ -55,6 +70,7 @@ export interface ScannerReadEvent {
 
 export interface ScannerMoveEvent {
   readonly type: 'SCANNER_MOVE'
+  readonly seq?: number
   readonly from: number
   readonly to: number
   readonly step: number
@@ -63,6 +79,7 @@ export interface ScannerMoveEvent {
 
 export interface ScannerMoveStartEvent {
   readonly type: 'SCANNER_MOVE_START'
+  readonly seq?: number
   readonly from: number
   readonly to: 0
   readonly timestamp: number
