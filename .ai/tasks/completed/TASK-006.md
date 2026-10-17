@@ -3,7 +3,7 @@
 ```yaml
 TASK_ID: TASK-006
 TITLE: Tái Cấu Trúc Domain Model (Box Weight) & Module Đa Máy Móc
-STATUS: READY_FOR_REVIEW
+STATUS: DONE
 PRIORITY: HIGH
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-006-multi-machine-domain
