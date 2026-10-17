@@ -7,6 +7,8 @@ interface CodeEditorProps {
   currentLine?: number
   disabled?: boolean
   templates?: Record<string, string>
+  isCollapsed?: boolean
+  onToggleCollapse?: () => void
 }
 
 export const CodeEditor: React.FC<CodeEditorProps> = ({
@@ -15,6 +17,8 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   currentLine,
   disabled = false,
   templates,
+  isCollapsed = false,
+  onToggleCollapse,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [formattedFeedback, setFormattedFeedback] = useState(false)
@@ -48,6 +52,35 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
         textarea.selectionStart = textarea.selectionEnd = start + 4
       }, 0)
     }
+  }
+
+  if (isCollapsed) {
+    return (
+      <aside
+        className="editor-collapsed-dock"
+        onClick={onToggleCollapse}
+        title="Nhấp để mở rộng không gian viết code (Alt+C)"
+        role="button"
+        tabIndex={0}
+      >
+        <button
+          type="button"
+          className="btn-dock-toggle"
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggleCollapse?.()
+          }}
+          aria-label="Mở rộng Code Editor"
+        >
+          ⇲
+        </button>
+        <div className="dock-vertical-text">
+          <span className="editor-tab-dot" />
+          <span>WarehouseController.java</span>
+        </div>
+        <span className="dock-hint">Mở code</span>
+      </aside>
+    )
   }
 
   return (
@@ -97,6 +130,19 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           >
             {formattedFeedback ? '✓ Đã căn lề' : '⚡ Format Code'}
           </button>
+
+          {/* Collapse Editor Button */}
+          {onToggleCollapse && (
+            <button
+              type="button"
+              className="btn-toggle-collapse"
+              onClick={onToggleCollapse}
+              title="Thu nhỏ khu vực viết mã để phóng to màn hình đồ họa (Alt+C)"
+              aria-label="Thu nhỏ Code Editor"
+            >
+              ⇱ Thu nhỏ
+            </button>
+          )}
         </div>
       </div>
 
