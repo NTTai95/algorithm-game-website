@@ -7,6 +7,7 @@ export * from './config'
 export * from './scenes/warehouse-scene'
 export * from './sprites/crate-view'
 export * from './sprites/crane-view'
+export * from './sprites/scanner-view'
 export * from './controllers/animation-controller'
 
 export interface WarehouseGameHandle {
