@@ -11,6 +11,9 @@ export function createGameConfig(
     width: 860,
     height: 380,
     backgroundColor: '#090d16',
+    // No sound assets yet (Audio SFX is out of scope); skipping WebAudio avoids
+    // "closed AudioContext" rejections when the game is destroyed on unmount.
+    audio: { noAudio: true },
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,

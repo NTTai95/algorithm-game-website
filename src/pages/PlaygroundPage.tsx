@@ -1,7 +1,11 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import type { LevelId } from '../core/levels/types'
 import { getLevelById } from '../core/levels/level-registry'
-import { generateProblemArray, type ProblemPreset } from '../core/levels/generator'
+import {
+  generateProblemArray,
+  PLAYGROUND_PROBLEM_BOUNDS,
+  type ProblemPreset,
+} from '../core/levels/generator'
 import { WarehouseArrayState } from '../core/domain/warehouse-array'
 import { WarehouseEnvironment } from '../core/machines/warehouse-env'
 import { SingleCrane } from '../core/machines/single-crane'
@@ -119,11 +123,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       executionTokenRef.current += 1
       isPausedRef.current = false
 
-      const newArray = generateProblemArray({
-        minLength: 5,
-        maxLength: levelId === 'bubble-sort' ? 7 : 6,
-        preset,
-      })
+      const newArray = generateProblemArray({ ...PLAYGROUND_PROBLEM_BOUNDS, preset })
 
       setCurrentArray(newArray)
 
@@ -156,7 +156,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       setLastAction(undefined)
       setCurrentLine(undefined)
     },
-    [levelId]
+    []
   )
 
   // Speed Change
