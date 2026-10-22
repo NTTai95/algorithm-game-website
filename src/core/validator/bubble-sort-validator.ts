@@ -1,9 +1,12 @@
 import { WarehouseArrayState } from '../domain/warehouse-array'
-import { WarehouseEnvironment } from '../machines/warehouse-env'
-import { SingleCrane } from '../machines/single-crane'
-import { WeightScanner } from '../machines/weight-scanner'
-import { Crane } from '../machines/crane'
-import { VirtualMachine } from '../vm/virtual-machine'
+import {
+  collectMachineEvents,
+  computeMachineStats,
+  createMachineSet,
+  createSandboxContext,
+} from '../machines/machine-sandbox'
+import type { LevelMachine } from '../levels/types'
+import { DEFAULT_STEP_BUDGET, VirtualMachine } from '../vm/virtual-machine'
 import type { MachineEvent } from '../domain/events'
 import type { TestCaseResult } from './validator-types'
 import type { DiagnosticReport, IBubbleSortValidator } from './diagnostic-types'
@@ -16,6 +19,9 @@ export const HIDDEN_TEST_CASES: readonly { name: string; input: readonly number[
   { name: 'Mảng có phần tử trùng lặp', input: [40, 20, 40, 10, 20] },
   { name: 'Mảng kích thước nhỏ (2 phần tử)', input: [90, 30] },
 ]
+
+/** Machines allotted to the Bubble Sort level. */
+export const BUBBLE_SORT_MACHINES: readonly LevelMachine[] = ['wareHouse', 'singleCrane', 'weightScanner']
 
 export class BubbleSortValidator implements IBubbleSortValidator {
   readonly algorithmName = 'Bubble Sort'
@@ -158,24 +164,13 @@ export class BubbleSortValidator implements IBubbleSortValidator {
     const testResults: TestCaseResult[] = []
 
     for (const testCase of HIDDEN_TEST_CASES) {
-      const warehouse = new WarehouseArrayState(testCase.input)
-      const wareHouse = new WarehouseEnvironment(warehouse)
-      const singleCrane = new SingleCrane(warehouse)
-      const weightScanner = new WeightScanner(warehouse)
-      const crane = new Crane(warehouse) // backwards compatibility for legacy crane scripts
+      const machines = createMachineSet(new WarehouseArrayState(testCase.input))
       const vm = new VirtualMachine()
 
       try {
-        vm.load(
-          javaCode,
-          {
-            wareHouse,
-            singleCrane,
-            weightScanner,
-            crane,
-          },
-          { maxSteps: 50000 }
-        )
+        vm.load(javaCode, createSandboxContext(machines, BUBBLE_SORT_MACHINES), {
+          maxSteps: DEFAULT_STEP_BUDGET,
+        })
       } catch (parseErr: unknown) {
         testResults.push({
           name: testCase.name,
@@ -194,25 +189,7 @@ export class BubbleSortValidator implements IBubbleSortValidator {
       }
 
       const executionResult = vm.runAll()
-
-      const movesCount =
-        singleCrane
-          .getEvents()
-          .filter(
-            (e) => e.type === 'CRANE_MOVE' || e.type === 'CRANE_MOVE_START'
-          ).length + crane.getStats().movesCount
-
-      const comparisonsCount =
-        weightScanner
-          .getEvents()
-          .filter((e) => e.type === 'SCANNER_READ').length +
-        crane.getStats().comparisonsCount
-
-      const swapsCount =
-        singleCrane
-          .getEvents()
-          .filter((e) => e.type === 'CRANE_SWAP').length +
-        crane.getStats().swapsCount
+      const { movesCount, comparisonsCount, swapsCount } = computeMachineStats(machines)
 
       if (executionResult.error) {
         testResults.push({
@@ -234,16 +211,10 @@ export class BubbleSortValidator implements IBubbleSortValidator {
         )
       }
 
-      const combinedEvents: MachineEvent[] = [
-        ...weightScanner.getEvents(),
-        ...singleCrane.getEvents(),
-        ...crane.getEvents(),
-      ]
-
       const traceValidation = this.validateTrace(
         testCase.input,
-        combinedEvents,
-        warehouse
+        collectMachineEvents(machines),
+        machines.warehouse
       )
 
       if (!traceValidation.success) {

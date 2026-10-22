@@ -20,8 +20,11 @@ export class WarehouseScene extends Phaser.Scene implements IWarehouseSceneAdapt
   }
 
   init(data: { initialValues?: number[] }): void {
-    if (data && data.initialValues && data.initialValues.length > 0) {
-      this.initialValues = [...data.initialValues]
+    // Scene data wins; otherwise use the level array stored by createGameConfig's preBoot hook.
+    const fromRegistry = this.registry.get('initialValues') as number[] | undefined
+    const values = data?.initialValues?.length ? data.initialValues : fromRegistry
+    if (values && values.length > 0) {
+      this.initialValues = [...values]
     }
   }
 

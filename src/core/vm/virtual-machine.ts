@@ -18,6 +18,9 @@ export interface VMStepResult {
   error?: string
 }
 
+/** Single step budget shared by the playground runner and the hidden-test validators. */
+export const DEFAULT_STEP_BUDGET = 50000
+
 class BreakSignal {}
 class ContinueSignal {}
 
@@ -31,7 +34,7 @@ export class VirtualMachine {
   private context: Record<string, unknown> = {}
   private rootEnv: Environment = new Environment()
   private stepCount: number = 0
-  private maxSteps: number = 50000
+  private maxSteps: number = DEFAULT_STEP_BUDGET
   private executionIterator: Generator<VMStepResult, void, void> | null = null
   private isExecutionComplete: boolean = false
   private lastResult: VMStepResult = { done: true, stepCount: 0 }
@@ -53,7 +56,7 @@ export class VirtualMachine {
     }
 
     this.context = context
-    this.maxSteps = options.maxSteps ?? 50000
+    this.maxSteps = options.maxSteps ?? DEFAULT_STEP_BUDGET
     this.yieldOnEachStatement = options.yieldOnEachStatement ?? true
     this.reset()
   }

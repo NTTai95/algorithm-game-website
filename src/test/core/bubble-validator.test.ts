@@ -53,7 +53,7 @@ describe('BubbleSortValidator & DiagnosticEngine', () => {
     }
   })
 
-  it('supports backwards compatibility with legacy crane Java programs', () => {
+  it('rejects legacy crane programs: crane is not a machine of the Bubble Sort level', () => {
     const legacyJavaBubbleSort = `
       int n = crane.length();
       for (int i = 0; i < n - 1; i++) {
@@ -69,9 +69,9 @@ describe('BubbleSortValidator & DiagnosticEngine', () => {
 
     const report = validator.runHiddenTests(legacyJavaBubbleSort)
 
-    expect(report.success).toBe(true)
-    expect(report.passed).toBe(true)
-    expect(report.hiddenTestsPassed).toBe(5)
+    expect(report.success).toBe(false)
+    expect(report.errorType).toBe('MACHINE_RUNTIME')
+    expect(report.message).toContain('crane')
   })
 
   it('generates rich SYNTAX diagnostics for syntax errors', () => {

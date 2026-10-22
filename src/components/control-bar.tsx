@@ -13,6 +13,7 @@ interface ControlBarProps {
   onSpeedChange: (speed: number) => void
   onValidateHiddenTests: () => void
   onRandomize?: (preset: ProblemPreset) => void
+  validateLabel?: string
 }
 
 export const ControlBar: React.FC<ControlBarProps> = ({
@@ -27,29 +28,30 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   onSpeedChange,
   onValidateHiddenTests,
   onRandomize,
+  validateLabel = '🛡️ Kiểm Định 5 Test Ẩn',
 }) => {
   const [selectedPreset, setSelectedPreset] = useState<ProblemPreset>('random')
   return (
     <div className="control-bar">
       <div className="control-group">
-        {!isRunning ? (
-          <button className="btn btn-primary" onClick={onRun} id="btn-run-code">
-            ▶ Chạy Thuật Toán
+        {isRunning ? (
+          <button className="btn btn-secondary" onClick={onPause} id="btn-pause">
+            ⏸ Tạm Dừng
           </button>
         ) : isPaused ? (
           <button className="btn btn-warning" onClick={onResume} id="btn-resume">
             ▶ Tiếp Tục
           </button>
         ) : (
-          <button className="btn btn-secondary" onClick={onPause} id="btn-pause">
-            ⏸ Tạm Dừng
+          <button className="btn btn-primary" onClick={onRun} id="btn-run-code">
+            ▶ Chạy Thuật Toán
           </button>
         )}
 
         <button
           className="btn btn-step"
           onClick={onStep}
-          disabled={isRunning && !isPaused}
+          disabled={isRunning}
           id="btn-step"
           title="Thực thi đúng 1 dòng lệnh tiếp theo"
         >
@@ -112,7 +114,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
           onClick={onValidateHiddenTests}
           id="btn-validate-tests"
         >
-          🛡️ Kiểm Định 5 Test Ẩn
+          {validateLabel}
         </button>
       </div>
     </div>

@@ -7,16 +7,24 @@ import {
   type ProblemPreset,
 } from '../core/levels/generator'
 import { WarehouseArrayState } from '../core/domain/warehouse-array'
-import { WarehouseEnvironment } from '../core/machines/warehouse-env'
-import { SingleCrane } from '../core/machines/single-crane'
-import { WeightScanner } from '../core/machines/weight-scanner'
-import { Crane } from '../core/machines/crane'
-import { VirtualMachine } from '../core/vm/virtual-machine'
+import {
+  collectMachineEvents,
+  computeMachineStats,
+  createMachineSet,
+  createSandboxContext,
+  type MachineSet,
+} from '../core/machines/machine-sandbox'
+import { DEFAULT_STEP_BUDGET, VirtualMachine, type VMStepResult } from '../core/vm/virtual-machine'
 import { BubbleSortValidator } from '../core/validator/bubble-sort-validator'
+import {
+  checkTutorialObjective,
+  createTutorialReport,
+  runTutorialCheck,
+  type TutorialLevelId,
+} from '../core/validator/tutorial-validator'
 import { DiagnosticEngine } from '../core/validator/diagnostic-engine'
 import type { DiagnosticReport } from '../core/validator/diagnostic-types'
 import type { WarehouseGameHandle } from '../game'
-import type { MachineEvent } from '../core/domain/events'
 import {
   GameCanvas,
   HudStats,
@@ -32,13 +40,15 @@ interface PlaygroundPageProps {
   onNavigate: (hash: string) => void
 }
 
-const MAX_BUDGET_STEPS = 10000
+/** Yield to the browser every N non-animated steps so Pause/Reset stay responsive. */
+const YIELD_EVERY_STEPS = 200
 
 export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
   levelId,
   onNavigate,
 }) => {
   const levelConfig = getLevelById(levelId)
+  const isTutorial = levelConfig.category === 'TUTORIAL'
 
   const [code, setCode] = useState<string>(levelConfig.defaultCode)
   const [currentArray, setCurrentArray] = useState<number[]>([...levelConfig.initialArray])
@@ -56,35 +66,71 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
   // Simulation execution refs
   const gameHandleRef = useRef<WarehouseGameHandle | null>(null)
   const vmRef = useRef<VirtualMachine | null>(null)
-  const warehouseRef = useRef<WarehouseArrayState | null>(null)
-  const wareHouseEnvRef = useRef<WarehouseEnvironment | null>(null)
-  const singleCraneRef = useRef<SingleCrane | null>(null)
-  const weightScannerRef = useRef<WeightScanner | null>(null)
-  const legacyCraneRef = useRef<Crane | null>(null)
+  const machinesRef = useRef<MachineSet | null>(null)
+  const runInputRef = useRef<readonly number[]>([])
 
   const processedEventsCountRef = useRef<number>(0)
   const executionTokenRef = useRef<number>(0)
   const isPausedRef = useRef<boolean>(false)
+  const isSteppingRef = useRef<boolean>(false)
+  /** Token of the execution whose continuous run loop is alive (null when none). */
+  const runLoopTokenRef = useRef<number | null>(null)
 
-  // Initialize or reset runtime VM & machine state
-  const initSimulationEnvironment = useCallback(() => {
-    const warehouse = new WarehouseArrayState([...currentArray])
-    const wareHouseEnv = new WarehouseEnvironment(warehouse)
-    const singleCrane = new SingleCrane(warehouse)
-    const weightScanner = new WeightScanner(warehouse)
-    const crane = new Crane(warehouse)
+  const resetCounters = useCallback(() => {
+    setMovesCount(0)
+    setComparisonsCount(0)
+    setSwapsCount(0)
+    setStepCount(0)
+    setLastAction(undefined)
+    setCurrentLine(undefined)
+  }, [])
+
+  // Stop any execution and restore the warehouse (scene + engine) to `values`
+  const resetSimulation = useCallback(
+    (values: readonly number[]) => {
+      executionTokenRef.current += 1
+      isPausedRef.current = false
+      vmRef.current = null
+      machinesRef.current = null
+      processedEventsCountRef.current = 0
+
+      const handle = gameHandleRef.current
+      handle?.getController()?.clear()
+      handle?.getScene()?.resetToState([...values])
+
+      setStatus('IDLE')
+      resetCounters()
+    },
+    [resetCounters]
+  )
+
+  /**
+   * Starts a fresh execution of the current code on the current array.
+   * Returns the new execution token, or null when the code does not compile.
+   */
+  const prepareExecution = useCallback((): number | null => {
+    resetSimulation(currentArray)
+    const token = executionTokenRef.current
+
+    const machines = createMachineSet(new WarehouseArrayState([...currentArray]))
     const vm = new VirtualMachine()
 
-    warehouseRef.current = warehouse
-    wareHouseEnvRef.current = wareHouseEnv
-    singleCraneRef.current = singleCrane
-    weightScannerRef.current = weightScanner
-    legacyCraneRef.current = crane
-    vmRef.current = vm
-    processedEventsCountRef.current = 0
+    try {
+      vm.load(code, createSandboxContext(machines, levelConfig.machines), {
+        maxSteps: DEFAULT_STEP_BUDGET,
+      })
+    } catch (err: unknown) {
+      setStatus('VIOLATION')
+      setLastAction(`Lỗi cú pháp: ${err instanceof Error ? err.message : String(err)}`)
+      setDiagnosticReport(DiagnosticEngine.fromParserError(err, [], levelConfig.title))
+      return null
+    }
 
-    return { warehouse, wareHouseEnv, singleCrane, weightScanner, crane, vm }
-  }, [currentArray])
+    machinesRef.current = machines
+    vmRef.current = vm
+    runInputRef.current = [...currentArray]
+    return token
+  }, [code, currentArray, levelConfig.machines, levelConfig.title, resetSimulation])
 
   // Handle Game Canvas Ready
   const handleGameReady = useCallback(
@@ -98,65 +144,17 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
 
   // Reset Warehouse Simulation
   const handleReset = useCallback(() => {
-    executionTokenRef.current += 1
-    isPausedRef.current = false
-
-    const handle = gameHandleRef.current
-    if (handle) {
-      handle.getController()?.clear()
-      handle.getScene()?.resetToState([...currentArray])
-    }
-
-    initSimulationEnvironment()
-    setStatus('IDLE')
-    setMovesCount(0)
-    setComparisonsCount(0)
-    setSwapsCount(0)
-    setStepCount(0)
-    setLastAction(undefined)
-    setCurrentLine(undefined)
-  }, [currentArray, initSimulationEnvironment])
+    resetSimulation(currentArray)
+  }, [currentArray, resetSimulation])
 
   // Randomize Problem Generator
   const handleRandomizeProblem = useCallback(
     (preset: ProblemPreset = 'random') => {
-      executionTokenRef.current += 1
-      isPausedRef.current = false
-
       const newArray = generateProblemArray({ ...PLAYGROUND_PROBLEM_BOUNDS, preset })
-
       setCurrentArray(newArray)
-
-      const handle = gameHandleRef.current
-      if (handle) {
-        handle.getController()?.clear()
-        handle.getScene()?.resetToState([...newArray])
-      }
-
-      const warehouse = new WarehouseArrayState([...newArray])
-      const wareHouseEnv = new WarehouseEnvironment(warehouse)
-      const singleCrane = new SingleCrane(warehouse)
-      const weightScanner = new WeightScanner(warehouse)
-      const crane = new Crane(warehouse)
-      const vm = new VirtualMachine()
-
-      warehouseRef.current = warehouse
-      wareHouseEnvRef.current = wareHouseEnv
-      singleCraneRef.current = singleCrane
-      weightScannerRef.current = weightScanner
-      legacyCraneRef.current = crane
-      vmRef.current = vm
-      processedEventsCountRef.current = 0
-
-      setStatus('IDLE')
-      setMovesCount(0)
-      setComparisonsCount(0)
-      setSwapsCount(0)
-      setStepCount(0)
-      setLastAction(undefined)
-      setCurrentLine(undefined)
+      resetSimulation(newArray)
     },
-    []
+    [resetSimulation]
   )
 
   // Speed Change
@@ -165,25 +163,14 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     gameHandleRef.current?.getController()?.setSpeed(newSpeed)
   }, [])
 
-  // Collect all newly emitted events across all machines
-  const getAllMachineEvents = useCallback((): readonly MachineEvent[] => {
-    const singleCraneEvents = singleCraneRef.current?.getEvents() ?? []
-    const scannerEvents = weightScannerRef.current?.getEvents() ?? []
-    const legacyEvents = legacyCraneRef.current?.getEvents() ?? []
-
-    return [...scannerEvents, ...singleCraneEvents, ...legacyEvents].sort(
-      (a, b) => (a.seq ?? 0) - (b.seq ?? 0)
-    )
-  }, [])
-
   // Animate newly emitted machine events
   const animateNewEvents = useCallback(async (token: number): Promise<boolean> => {
+    const machines = machinesRef.current
     const controller = gameHandleRef.current?.getController()
-    if (!controller) return true
+    if (!machines || !controller) return true
 
-    const allEvents = getAllMachineEvents()
-    const startIndex = processedEventsCountRef.current
-    const newEvents = allEvents.slice(startIndex)
+    const allEvents = collectMachineEvents(machines)
+    const newEvents = allEvents.slice(processedEventsCountRef.current)
     processedEventsCountRef.current = allEvents.length
 
     for (const event of newEvents) {
@@ -193,184 +180,127 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       await controller.playEvent(event)
     }
 
-    return true
-  }, [getAllMachineEvents])
+    return token === executionTokenRef.current
+  }, [])
 
   // Update real-time HUD counters
   const updateMetrics = useCallback(() => {
-    const singleCrane = singleCraneRef.current
-    const scanner = weightScannerRef.current
-    const legacy = legacyCraneRef.current
-
-    const moves =
-      (singleCrane?.getEvents().filter((e) => e.type === 'CRANE_MOVE' || e.type === 'CRANE_MOVE_START').length ?? 0) +
-      (scanner?.getEvents().filter((e) => e.type === 'SCANNER_MOVE' || e.type === 'SCANNER_MOVE_START').length ?? 0) +
-      (legacy?.getStats().movesCount ?? 0)
-
-    const comparisons =
-      (scanner?.getEvents().filter((e) => e.type === 'SCANNER_READ').length ?? 0) +
-      (legacy?.getStats().comparisonsCount ?? 0)
-
-    const swaps =
-      (singleCrane?.getEvents().filter((e) => e.type === 'CRANE_SWAP').length ?? 0) +
-      (legacy?.getStats().swapsCount ?? 0)
-
-    setMovesCount(moves)
-    setComparisonsCount(comparisons)
-    setSwapsCount(swaps)
+    const machines = machinesRef.current
+    if (!machines) return
+    const stats = computeMachineStats(machines)
+    setMovesCount(stats.movesCount)
+    setComparisonsCount(stats.comparisonsCount)
+    setSwapsCount(stats.swapsCount)
   }, [])
 
-  // Single Step Execution
-  const handleStep = useCallback(async () => {
-    let vm = vmRef.current
-    let warehouse = warehouseRef.current
+  // Evaluate a finished execution: runtime error, level objective / algorithm invariants
+  const finishExecution = useCallback(
+    (result: VMStepResult) => {
+      const machines = machinesRef.current
+      const input = runInputRef.current
+      // Invalidate the token so a paused run loop for this execution exits
+      executionTokenRef.current += 1
+      isPausedRef.current = false
+      if (!machines) return
 
-    if (!vm || !warehouse || status === 'IDLE' || status === 'SUCCESS' || status === 'VIOLATION') {
-      const env = initSimulationEnvironment()
-      vm = env.vm
-      warehouse = env.warehouse
-
-      const handle = gameHandleRef.current
-      handle?.getController()?.clear()
-      handle?.getScene()?.resetToState([...currentArray])
-
-      try {
-        vm.load(
-          code,
-          {
-            wareHouse: env.wareHouseEnv,
-            singleCrane: env.singleCrane,
-            weightScanner: env.weightScanner,
-            crane: env.crane,
-          },
-          { maxSteps: MAX_BUDGET_STEPS }
-        )
-      } catch (err: unknown) {
+      if (result.error) {
         setStatus('VIOLATION')
-        setLastAction(`Lỗi cú pháp: ${err instanceof Error ? err.message : String(err)}`)
-        setDiagnosticReport(DiagnosticEngine.fromParserError(err, []))
+        setLastAction(`Lỗi thực thi: ${result.error}`)
+        setDiagnosticReport(
+          DiagnosticEngine.fromVMError(result.error, result.currentLine, result.stepCount, [], levelConfig.title)
+        )
         return
       }
-      setStatus('PAUSED')
-    }
 
-    const currentToken = executionTokenRef.current
+      if (isTutorial) {
+        const objective = checkTutorialObjective(levelId as TutorialLevelId, input, machines)
+        setStatus(objective.passed ? 'SUCCESS' : 'VIOLATION')
+        setLastAction(objective.passed ? 'Hoàn thành nhiệm vụ màn chơi!' : objective.reason)
+        if (objective.passed) gameHandleRef.current?.getScene()?.highlightAllSorted()
+        setDiagnosticReport(createTutorialReport(levelConfig.title, input, machines, objective))
+        return
+      }
 
-    try {
+      const report = new BubbleSortValidator().validateTrace(input, collectMachineEvents(machines), machines.warehouse)
+      if (report.success) {
+        setStatus('SUCCESS')
+        setLastAction('Sắp xếp đúng chuẩn Bubble Sort! Bấm "Kiểm Định" để chạy bộ test ẩn.')
+        gameHandleRef.current?.getScene()?.highlightAllSorted()
+      } else {
+        setStatus('VIOLATION')
+        setLastAction(report.message)
+        setDiagnosticReport(report)
+      }
+    },
+    [isTutorial, levelId, levelConfig.title]
+  )
+
+  // Execute one VM step and animate it. Returns the step result, or null if cancelled.
+  const executeOneStep = useCallback(
+    async (token: number): Promise<VMStepResult | null> => {
+      const vm = vmRef.current
+      if (!vm) return null
+
       const stepResult = vm.step()
       updateMetrics()
       setStepCount(stepResult.stepCount)
       setCurrentLine(stepResult.currentLine)
-      setLastAction(stepResult.machineAction || 'Step executed')
-
-      await animateNewEvents(currentToken)
-
-      if (stepResult.done) {
-        if (stepResult.error) {
-          setStatus('VIOLATION')
-          setLastAction(`Lỗi runtime: ${stepResult.error}`)
-          setDiagnosticReport(
-            DiagnosticEngine.fromVMError(stepResult.error, stepResult.currentLine, stepResult.stepCount, [])
-          )
-        } else if (warehouse.isSorted() || levelConfig.category === 'TUTORIAL') {
-          setStatus('SUCCESS')
-          gameHandleRef.current?.getScene()?.highlightAllSorted()
-        } else {
-          setStatus('VIOLATION')
-          setLastAction('Thuật toán kết thúc nhưng mảng chưa được sắp xếp!')
-          const sorted = [...currentArray].sort((a, b) => a - b)
-          setDiagnosticReport(DiagnosticEngine.fromUnsortedResult(warehouse.toWeightArray(), sorted, []))
-        }
+      if (stepResult.machineAction) {
+        setLastAction(stepResult.machineAction)
       }
-    } catch (err: unknown) {
-      setStatus('VIOLATION')
-      setLastAction(`Lỗi: ${err instanceof Error ? err.message : String(err)}`)
-    }
-  }, [code, status, currentArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
 
-  // Continuous Run Execution
-  const handleRun = useCallback(async () => {
-    if (status === 'PAUSED') {
-      isPausedRef.current = false
-      setStatus('RUNNING')
-      return
-    }
+      const keepGoing = await animateNewEvents(token)
+      return keepGoing ? stepResult : null
+    },
+    [animateNewEvents, updateMetrics]
+  )
 
-    executionTokenRef.current += 1
-    const currentToken = executionTokenRef.current
-    isPausedRef.current = false
-
-    const handle = gameHandleRef.current
-    handle?.getController()?.clear()
-    handle?.getScene()?.resetToState([...currentArray])
-
-    const { vm, warehouse, wareHouseEnv, singleCrane, weightScanner, crane } =
-      initSimulationEnvironment()
-
-    try {
-      vm.load(
-        code,
-        {
-          wareHouse: wareHouseEnv,
-          singleCrane,
-          weightScanner,
-          crane,
-        },
-        { maxSteps: MAX_BUDGET_STEPS }
-      )
-    } catch (err: unknown) {
-      setStatus('VIOLATION')
-      setLastAction(`Lỗi cú pháp: ${err instanceof Error ? err.message : String(err)}`)
-      setDiagnosticReport(DiagnosticEngine.fromParserError(err, []))
-      return
-    }
-
-    setStatus('RUNNING')
-
-    try {
-      while (currentToken === executionTokenRef.current) {
-        if (isPausedRef.current) {
-          await new Promise((r) => setTimeout(r, 100))
-          continue
-        }
-
-        const stepResult = vm.step()
-        updateMetrics()
-        setStepCount(stepResult.stepCount)
-        setCurrentLine(stepResult.currentLine)
-        if (stepResult.machineAction) {
-          setLastAction(stepResult.machineAction)
-        }
-
-        const keepGoing = await animateNewEvents(currentToken)
-        if (!keepGoing) break
-
-        if (stepResult.done) {
-          if (stepResult.error) {
-            setStatus('VIOLATION')
-            setLastAction(`Lỗi thực thi: ${stepResult.error}`)
-            setDiagnosticReport(
-              DiagnosticEngine.fromVMError(stepResult.error, stepResult.currentLine, stepResult.stepCount, [])
-            )
-          } else if (warehouse.isSorted() || levelConfig.category === 'TUTORIAL') {
-            setStatus('SUCCESS')
-            gameHandleRef.current?.getScene()?.highlightAllSorted()
-          } else {
-            setStatus('VIOLATION')
-            setLastAction('Thuật toán kết thúc nhưng mảng chưa được sắp xếp!')
-            const sorted = [...currentArray].sort((a, b) => a - b)
-            setDiagnosticReport(DiagnosticEngine.fromUnsortedResult(warehouse.toWeightArray(), sorted, []))
+  // Continuous run loop for the execution identified by `token`
+  const runLoop = useCallback(
+    async (token: number) => {
+      runLoopTokenRef.current = token
+      try {
+        let stepsSinceYield = 0
+        while (token === executionTokenRef.current) {
+          if (isPausedRef.current || isSteppingRef.current) {
+            await new Promise((r) => setTimeout(r, 100))
+            continue
           }
-          break
+
+          const stepResult = await executeOneStep(token)
+          if (!stepResult) break
+          if (stepResult.done) {
+            finishExecution(stepResult)
+            break
+          }
+
+          stepsSinceYield = stepResult.machineAction ? 0 : stepsSinceYield + 1
+          if (stepsSinceYield >= YIELD_EVERY_STEPS) {
+            stepsSinceYield = 0
+            await new Promise((r) => setTimeout(r, 0))
+          }
+        }
+      } catch (err: unknown) {
+        if (token === executionTokenRef.current) {
+          setStatus('VIOLATION')
+          setLastAction(`Lỗi thực thi: ${err instanceof Error ? err.message : String(err)}`)
+        }
+      } finally {
+        if (runLoopTokenRef.current === token) {
+          runLoopTokenRef.current = null
         }
       }
-    } catch (err: unknown) {
-      if (currentToken === executionTokenRef.current) {
-        setStatus('VIOLATION')
-        setLastAction(`Lỗi thực thi: ${err instanceof Error ? err.message : String(err)}`)
-      }
-    }
-  }, [code, status, currentArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
+    },
+    [executeOneStep, finishExecution]
+  )
+
+  // Start a fresh continuous run
+  const handleRun = useCallback(() => {
+    const token = prepareExecution()
+    if (token === null) return
+    setStatus('RUNNING')
+    void runLoop(token)
+  }, [prepareExecution, runLoop])
 
   // Pause
   const handlePause = useCallback(() => {
@@ -378,53 +308,53 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     setStatus('PAUSED')
   }, [])
 
-  // Resume
+  // Resume a paused run, or continue running after step-by-step mode
   const handleResume = useCallback(() => {
+    if (!vmRef.current) return
     isPausedRef.current = false
     setStatus('RUNNING')
-  }, [])
-
-  // Validate Across Hidden Tests
-  const handleValidateHiddenTests = useCallback(() => {
-    if (levelId === 'bubble-sort') {
-      const validator = new BubbleSortValidator()
-      const report = validator.runHiddenTests(code)
-      setDiagnosticReport(report)
-    } else {
-      // For tutorials, run single verification
-      const warehouse = new WarehouseArrayState([...currentArray])
-      const wareHouseEnv = new WarehouseEnvironment(warehouse)
-      const singleCrane = new SingleCrane(warehouse)
-      const weightScanner = new WeightScanner(warehouse)
-      const crane = new Crane(warehouse)
-      const vm = new VirtualMachine()
-
-      try {
-        vm.load(code, { wareHouse: wareHouseEnv, singleCrane, weightScanner, crane }, { maxSteps: 50000 })
-        const res = vm.runAll()
-        if (res.error) {
-          setDiagnosticReport(DiagnosticEngine.fromVMError(res.error, res.currentLine, res.stepCount))
-        } else {
-          setDiagnosticReport(
-            DiagnosticEngine.createSuccessReport(
-              [{
-                name: levelConfig.title,
-                input: currentArray,
-                passed: true,
-                movesCount,
-                comparisonsCount,
-                swapsCount,
-              }],
-              1,
-              levelConfig.title
-            )
-          )
-        }
-      } catch (err) {
-        setDiagnosticReport(DiagnosticEngine.fromParserError(err, []))
-      }
+    if (runLoopTokenRef.current !== executionTokenRef.current) {
+      void runLoop(executionTokenRef.current)
     }
-  }, [levelId, code, currentArray, levelConfig.title, movesCount, comparisonsCount, swapsCount])
+  }, [runLoop])
+
+  // Single Step Execution
+  const handleStep = useCallback(async () => {
+    if (isSteppingRef.current || status === 'RUNNING') return
+
+    let token = executionTokenRef.current
+    if (!vmRef.current || status !== 'PAUSED') {
+      const fresh = prepareExecution()
+      if (fresh === null) return
+      token = fresh
+      isPausedRef.current = true
+      setStatus('PAUSED')
+    }
+
+    isSteppingRef.current = true
+    try {
+      const stepResult = await executeOneStep(token)
+      if (stepResult?.done) {
+        finishExecution(stepResult)
+      }
+    } catch (err: unknown) {
+      setStatus('VIOLATION')
+      setLastAction(`Lỗi: ${err instanceof Error ? err.message : String(err)}`)
+    } finally {
+      isSteppingRef.current = false
+    }
+  }, [status, prepareExecution, executeOneStep, finishExecution])
+
+  // Validate: hidden tests for algorithms, objective check for tutorials
+  const handleValidateHiddenTests = useCallback(() => {
+    if (isTutorial) {
+      setDiagnosticReport(
+        runTutorialCheck(levelId as TutorialLevelId, levelConfig.title, levelConfig.machines, code, currentArray)
+      )
+    } else {
+      setDiagnosticReport(new BubbleSortValidator().runHiddenTests(code))
+    }
+  }, [isTutorial, levelId, levelConfig.title, levelConfig.machines, code, currentArray])
 
   // Alt+C keyboard shortcut to toggle editor collapse
   useEffect(() => {
@@ -485,7 +415,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             comparisonsCount={comparisonsCount}
             swapsCount={swapsCount}
             stepCount={stepCount}
-            maxSteps={MAX_BUDGET_STEPS}
+            maxSteps={DEFAULT_STEP_BUDGET}
             lastAction={lastAction}
             currentLine={currentLine}
           />
@@ -502,6 +432,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             onSpeedChange={handleSpeedChange}
             onValidateHiddenTests={handleValidateHiddenTests}
             onRandomize={handleRandomizeProblem}
+            validateLabel={isTutorial ? '🛡️ Kiểm Tra Nhiệm Vụ' : '🛡️ Kiểm Định 5 Test Ẩn'}
           />
         </section>
 
@@ -511,7 +442,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             code={code}
             onChange={setCode}
             currentLine={currentLine}
-            disabled={status === 'RUNNING'}
+            disabled={status === 'RUNNING' || status === 'PAUSED'}
             templates={levelConfig.templates}
             isCollapsed={isEditorCollapsed}
             onToggleCollapse={() => setIsEditorCollapsed((prev) => !prev)}
