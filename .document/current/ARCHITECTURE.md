@@ -6,7 +6,7 @@ DOCUMENT_TYPE: ARCHITECTURE
 STATUS: CONFIRMED
 LAST_UPDATED: 2026-10-17
 OWNER: Human & AI
-SPRINT: SPRINT-002
+SPRINT: SPRINT-003
 ```
 
 ---
@@ -27,7 +27,7 @@ SPRINT: SPRINT-002
    - *Lớp 1 (Execution Trace Invariant)*: Theo dõi chuỗi hành vi thực tế trong quá trình chạy, bắt lỗi ngữ cảnh với số dòng code vi phạm.
    - *Lớp 2 (Hidden Test Suite Validation)*: Tự động chạy lại mã trên nhiều mảng ẩn đầu vào (reverse, sorted, duplicates, random).
 5. **Kiến trúc Giao diện & Điều hướng phân tầng (App Shell & Routing)**:
-   - Header cố định, Trang Home giới thiệu dự án và catalog màn chơi, Màn chơi chi tiết với bố cục split-screen (Code Editor + Phaser Canvas).
+   - Header cố định, Trang Home giới thiệu dự án và catalog màn chơi, Màn chơi chi tiết với bố cục split-screen 2 bên song song (Code Editor + Phaser Canvas), có nút thu nhỏ Code mở rộng Canvas, tô màu cú pháp Java thời gian thực, sổ tay lệnh máy móc lọc động theo màn và bộ sinh đề bài ngẫu nhiên.
 
 ---
 
@@ -37,7 +37,8 @@ SPRINT: SPRINT-002
 ┌────────────────────────────────────────────────────────┐
 │  Tầng 1: App Shell & Routing (React 19)                │
 │  - Header Navigation, Trang Home, Level Registry       │
-│  - Code Editor (Monaco + Format Code), Diagnostic HUD  │
+│  - Code Editor (Syntax Highlighting + Format + Toggle) │
+│  - Context-Aware ApiReference, Random Problem Generator│
 └───────────────────────────┬────────────────────────────┘
                             │ (gửi code, chọn màn, trigger chạy)
                             ↓

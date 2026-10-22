@@ -1,6 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import type { LevelId } from '../core/levels/types'
 import { getLevelById } from '../core/levels/level-registry'
+import { generateProblemArray, type ProblemPreset } from '../core/levels/generator'
 import { WarehouseArrayState } from '../core/domain/warehouse-array'
 import { WarehouseEnvironment } from '../core/machines/warehouse-env'
 import { SingleCrane } from '../core/machines/single-crane'
@@ -36,6 +37,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
   const levelConfig = getLevelById(levelId)
 
   const [code, setCode] = useState<string>(levelConfig.defaultCode)
+  const [currentArray, setCurrentArray] = useState<number[]>([...levelConfig.initialArray])
   const [status, setStatus] = useState<GameStatus>('IDLE')
   const [speed, setSpeed] = useState<number>(1)
   const [movesCount, setMovesCount] = useState<number>(0)
@@ -45,6 +47,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
   const [lastAction, setLastAction] = useState<string | undefined>()
   const [currentLine, setCurrentLine] = useState<number | undefined>()
   const [diagnosticReport, setDiagnosticReport] = useState<DiagnosticReport | null>(null)
+  const [isEditorCollapsed, setIsEditorCollapsed] = useState<boolean>(false)
 
   // Simulation execution refs
   const gameHandleRef = useRef<WarehouseGameHandle | null>(null)
@@ -61,7 +64,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
 
   // Initialize or reset runtime VM & machine state
   const initSimulationEnvironment = useCallback(() => {
-    const warehouse = new WarehouseArrayState([...levelConfig.initialArray])
+    const warehouse = new WarehouseArrayState([...currentArray])
     const wareHouseEnv = new WarehouseEnvironment(warehouse)
     const singleCrane = new SingleCrane(warehouse)
     const weightScanner = new WeightScanner(warehouse)
@@ -77,16 +80,16 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     processedEventsCountRef.current = 0
 
     return { warehouse, wareHouseEnv, singleCrane, weightScanner, crane, vm }
-  }, [levelConfig.initialArray])
+  }, [currentArray])
 
   // Handle Game Canvas Ready
   const handleGameReady = useCallback(
     (handle: WarehouseGameHandle) => {
       gameHandleRef.current = handle
       handle.getController()?.setSpeed(speed)
-      handle.getScene()?.resetToState([...levelConfig.initialArray])
+      handle.getScene()?.resetToState([...currentArray])
     },
-    [speed, levelConfig.initialArray]
+    [speed, currentArray]
   )
 
   // Reset Warehouse Simulation
@@ -97,7 +100,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     const handle = gameHandleRef.current
     if (handle) {
       handle.getController()?.clear()
-      handle.getScene()?.resetToState([...levelConfig.initialArray])
+      handle.getScene()?.resetToState([...currentArray])
     }
 
     initSimulationEnvironment()
@@ -108,7 +111,53 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
     setStepCount(0)
     setLastAction(undefined)
     setCurrentLine(undefined)
-  }, [levelConfig.initialArray, initSimulationEnvironment])
+  }, [currentArray, initSimulationEnvironment])
+
+  // Randomize Problem Generator
+  const handleRandomizeProblem = useCallback(
+    (preset: ProblemPreset = 'random') => {
+      executionTokenRef.current += 1
+      isPausedRef.current = false
+
+      const newArray = generateProblemArray({
+        minLength: 5,
+        maxLength: levelId === 'bubble-sort' ? 7 : 6,
+        preset,
+      })
+
+      setCurrentArray(newArray)
+
+      const handle = gameHandleRef.current
+      if (handle) {
+        handle.getController()?.clear()
+        handle.getScene()?.resetToState([...newArray])
+      }
+
+      const warehouse = new WarehouseArrayState([...newArray])
+      const wareHouseEnv = new WarehouseEnvironment(warehouse)
+      const singleCrane = new SingleCrane(warehouse)
+      const weightScanner = new WeightScanner(warehouse)
+      const crane = new Crane(warehouse)
+      const vm = new VirtualMachine()
+
+      warehouseRef.current = warehouse
+      wareHouseEnvRef.current = wareHouseEnv
+      singleCraneRef.current = singleCrane
+      weightScannerRef.current = weightScanner
+      legacyCraneRef.current = crane
+      vmRef.current = vm
+      processedEventsCountRef.current = 0
+
+      setStatus('IDLE')
+      setMovesCount(0)
+      setComparisonsCount(0)
+      setSwapsCount(0)
+      setStepCount(0)
+      setLastAction(undefined)
+      setCurrentLine(undefined)
+    },
+    [levelId]
+  )
 
   // Speed Change
   const handleSpeedChange = useCallback((newSpeed: number) => {
@@ -183,7 +232,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
 
       const handle = gameHandleRef.current
       handle?.getController()?.clear()
-      handle?.getScene()?.resetToState([...levelConfig.initialArray])
+      handle?.getScene()?.resetToState([...currentArray])
 
       try {
         vm.load(
@@ -229,7 +278,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
         } else {
           setStatus('VIOLATION')
           setLastAction('Thuật toán kết thúc nhưng mảng chưa được sắp xếp!')
-          const sorted = [...levelConfig.initialArray].sort((a, b) => a - b)
+          const sorted = [...currentArray].sort((a, b) => a - b)
           setDiagnosticReport(DiagnosticEngine.fromUnsortedResult(warehouse.toWeightArray(), sorted, []))
         }
       }
@@ -237,7 +286,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       setStatus('VIOLATION')
       setLastAction(`Lỗi: ${err instanceof Error ? err.message : String(err)}`)
     }
-  }, [code, status, levelConfig.initialArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
+  }, [code, status, currentArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
 
   // Continuous Run Execution
   const handleRun = useCallback(async () => {
@@ -253,7 +302,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
 
     const handle = gameHandleRef.current
     handle?.getController()?.clear()
-    handle?.getScene()?.resetToState([...levelConfig.initialArray])
+    handle?.getScene()?.resetToState([...currentArray])
 
     const { vm, warehouse, wareHouseEnv, singleCrane, weightScanner, crane } =
       initSimulationEnvironment()
@@ -309,7 +358,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
           } else {
             setStatus('VIOLATION')
             setLastAction('Thuật toán kết thúc nhưng mảng chưa được sắp xếp!')
-            const sorted = [...levelConfig.initialArray].sort((a, b) => a - b)
+            const sorted = [...currentArray].sort((a, b) => a - b)
             setDiagnosticReport(DiagnosticEngine.fromUnsortedResult(warehouse.toWeightArray(), sorted, []))
           }
           break
@@ -321,7 +370,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
         setLastAction(`Lỗi thực thi: ${err instanceof Error ? err.message : String(err)}`)
       }
     }
-  }, [code, status, levelConfig.initialArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
+  }, [code, status, currentArray, levelConfig.category, initSimulationEnvironment, animateNewEvents, updateMetrics])
 
   // Pause
   const handlePause = useCallback(() => {
@@ -343,7 +392,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       setDiagnosticReport(report)
     } else {
       // For tutorials, run single verification
-      const warehouse = new WarehouseArrayState([...levelConfig.initialArray])
+      const warehouse = new WarehouseArrayState([...currentArray])
       const wareHouseEnv = new WarehouseEnvironment(warehouse)
       const singleCrane = new SingleCrane(warehouse)
       const weightScanner = new WeightScanner(warehouse)
@@ -360,7 +409,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             DiagnosticEngine.createSuccessReport(
               [{
                 name: levelConfig.title,
-                input: levelConfig.initialArray,
+                input: currentArray,
                 passed: true,
                 movesCount,
                 comparisonsCount,
@@ -375,7 +424,28 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
         setDiagnosticReport(DiagnosticEngine.fromParserError(err, []))
       }
     }
-  }, [levelId, code, levelConfig.initialArray, levelConfig.title, movesCount, comparisonsCount, swapsCount])
+  }, [levelId, code, currentArray, levelConfig.title, movesCount, comparisonsCount, swapsCount])
+
+  // Alt+C keyboard shortcut to toggle editor collapse
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.altKey && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault()
+        setIsEditorCollapsed((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  // Trigger resize and refresh Phaser scale when editor is collapsed/expanded
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      window.dispatchEvent(new Event('resize'))
+      gameHandleRef.current?.game.scale.refresh()
+    }, 250)
+    return () => clearTimeout(timer)
+  }, [isEditorCollapsed])
 
   // Next level navigation handler
   const handleNextLevel = () => {
@@ -401,11 +471,11 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
       </section>
 
       {/* Main Split Screen */}
-      <main className="main-playground">
+      <main className={`main-playground ${isEditorCollapsed ? 'editor-collapsed' : ''}`}>
         {/* Left Column: Canvas + HUD + Controls */}
         <section className="left-panel">
           <GameCanvas
-            initialValues={levelConfig.initialArray}
+            initialValues={currentArray}
             onGameReady={handleGameReady}
           />
 
@@ -431,20 +501,23 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             onReset={handleReset}
             onSpeedChange={handleSpeedChange}
             onValidateHiddenTests={handleValidateHiddenTests}
+            onRandomize={handleRandomizeProblem}
           />
         </section>
 
         {/* Right Column: Code Editor + API Reference */}
-        <section className="right-panel">
+        <section className={`right-panel ${isEditorCollapsed ? 'panel-collapsed' : ''}`}>
           <CodeEditor
             code={code}
             onChange={setCode}
             currentLine={currentLine}
             disabled={status === 'RUNNING'}
             templates={levelConfig.templates}
+            isCollapsed={isEditorCollapsed}
+            onToggleCollapse={() => setIsEditorCollapsed((prev) => !prev)}
           />
 
-          <ApiReference />
+          {!isEditorCollapsed && <ApiReference />}
         </section>
       </main>
 
