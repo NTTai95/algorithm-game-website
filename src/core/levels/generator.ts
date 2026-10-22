@@ -9,6 +9,14 @@ export interface GenerateArrayOptions {
   preset?: ProblemPreset
 }
 
+/** Playground problem bounds agreed in SPRINT-003 (5–8 boxes, 5–99 kg). */
+export const PLAYGROUND_PROBLEM_BOUNDS = {
+  minLength: 5,
+  maxLength: 8,
+  minWeight: 5,
+  maxWeight: 99,
+} as const
+
 export const PRESET_LABELS: Record<ProblemPreset, string> = {
   random: '🎲 Ngẫu nhiên',
   reversed: '📉 Đảo ngược (Worst case)',

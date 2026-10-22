@@ -18,7 +18,7 @@ LAST_UPDATED: 2026-10-17
 | `TASK-012` | Bộ sinh đề bài ngẫu nhiên (Random Problem Generator) | `COMPLETED` | P1 | `TASK-011` | `task/TASK-012-random-problem-generator` | `SES-20261017-03` |
 | `TASK-013` | Tô màu cú pháp Java chuẩn IDE hiện đại (Syntax Highlighting) | `COMPLETED` | P0 | — | `task/TASK-013-java-syntax-highlighter` | `SES-20261019-13` |
 | `TASK-014` | Sổ tay lệnh máy móc động theo ngữ cảnh từng màn | `READY_FOR_REVIEW` | P0 | — | `task/TASK-014-contextual-machine-manual` | `SESSION-TASK-014` |
-| `TASK-015` | Tích hợp hệ thống, Kiểm thử E2E & Quality Gates | `PENDING` | P0 | `TASK-011`..`TASK-014` | `develop` | `SES-20261017-03` |
+| `TASK-015` | Tích hợp hệ thống, Kiểm thử E2E & Quality Gates | `READY_FOR_REVIEW` | P0 | `TASK-011`..`TASK-014` | `task/TASK-015-integration-quality-gates` | `SESSION-TASK-015` |
 
 ---
 
