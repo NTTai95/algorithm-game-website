@@ -517,7 +517,7 @@ export const PlaygroundPage: React.FC<PlaygroundPageProps> = ({
             onToggleCollapse={() => setIsEditorCollapsed((prev) => !prev)}
           />
 
-          {!isEditorCollapsed && <ApiReference />}
+          {!isEditorCollapsed && <ApiReference allowedMachines={levelConfig.machines} />}
         </section>
       </main>
 
