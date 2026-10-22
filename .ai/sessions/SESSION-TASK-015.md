@@ -1,4 +1,4 @@
-# SESSION-TASK-015: Sổ Tay Lệnh Máy Móc Động Theo Ngữ Cảnh Từng Màn
+# SESSION-TASK-015: Tích Hợp Hệ Thống & Quality Gates
 
 ```yaml
 SESSION_ID: SESSION-TASK-015
