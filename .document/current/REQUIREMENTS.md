@@ -4,9 +4,9 @@
 DOCUMENT_ID: DOC-REQUIREMENTS
 DOCUMENT_TYPE: REQUIREMENTS
 STATUS: CONFIRMED
-LAST_UPDATED: 2026-10-16
+LAST_UPDATED: 2026-10-17
 OWNER: Human & AI
-SPRINT: SPRINT-000
+SPRINT: SPRINT-003
 ```
 
 ---
@@ -36,6 +36,10 @@ SPRINT: SPRINT-000
 | `FR-008` | **Kiến trúc mở rộng đa ngôn ngữ (Language-Agnostic Core)** | Hệ thống phân tách rõ: tầng Parser dịch cú pháp mã người chơi (Java) thành chuỗi bytecode/lệnh chuẩn nội bộ để điều khiển máy móc. | P1 |
 | `FR-009` | **Máy ảo an toàn chạy tại Client (In-Browser Sandbox)** | Bộ thực thi mã người chơi chạy trên Web Worker độc lập, ngắt chạy an toàn (Step Yielding), bảo vệ trình duyệt khỏi treo do vòng lặp vô tận (`infinite loop`) và áp trần số bước tối đa (Step Budget: ví dụ 50,000 steps). | P0 |
 | `FR-014` | **Chẩn đoán lỗi chi tiết (Diagnostic Feedback)** | Hệ thống không chỉ báo vi phạm chung chung mà phân tích ngữ cảnh cụ thể: chỉ rõ số dòng lỗi, loại lỗi (Cú pháp / Lỗi máy móc / Vi phạm bất biến), giá trị thực tế vs giá trị kỳ vọng, kèm gợi ý sửa lỗi trực quan. | P0 |
+| `FR-015` | **Bố cục 2 bên (Split-Screen) & Nút Thu nhỏ Code** | Màn chơi phân chia 2 cột độc lập (Đồ họa & Code), không bị cuộn chuột lên xuống; có nút thu nhỏ Code giúp mở rộng Canvas toàn màn hình (100% width) để quan sát chuyển động máy móc. | P0 |
+| `FR-016` | **Bộ sinh đề bài ngẫu nhiên (Random Problem Generator)** | Sinh mảng mới ngẫu nhiên và theo các preset (Ngẫu nhiên, Đảo ngược, Gần sắp xếp, Trùng lặp) kèm nút 🎲 Đổi đề bài để người chơi kiểm thử thuật toán linh hoạt. | P1 |
+| `FR-017` | **Tô màu cú pháp Java chuẩn IDE (Syntax Highlighting)** | Trình soạn thảo mã hiển thị màu sắc trực quan theo chuẩn Dark Cyber IDE: phân biệt từ khóa cú pháp Java, đối tượng máy móc, tên hàm, số và chú thích. | P0 |
+| `FR-018` | **Sổ tay lệnh máy móc động theo ngữ cảnh (Context-Aware Machine Manual)** | Cung cấp tài liệu API đầy đủ cho tất cả các máy móc (`wareHouse`, `WeightScanner`, `SingleCrane`) và tự động lọc chỉ hiển thị chính xác các máy móc được cấp phát trong từng màn chơi. | P0 |
 
 ---
 
