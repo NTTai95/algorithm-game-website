@@ -3,11 +3,11 @@
 ```yaml
 TASK_ID: TASK-013
 TITLE: Bộ Tô Màu Cú Pháp Java Thời Gian Thực (Syntax Highlighting)
-STATUS: READY
+STATUS: COMPLETED
 PRIORITY: HIGH
 CREATED: 2026-10-17
 CURRENT_BRANCH: task/TASK-013-java-syntax-highlighter
-CURRENT_SESSION: SES-20261017-13
+CURRENT_SESSION: SES-20261019-13
 DEPENDENCIES: []
 ```
 
@@ -67,8 +67,8 @@ DEPENDENCIES: []
 ---
 
 ### 4. Tiêu Chí Nghiệm Thu (ACCEPTANCE CRITERIA)
-- [ ] **AC-13.1**: Toàn bộ từ khóa Java, tên lớp cỗ máy, phương thức, số và chú thích hiển thị màu sắc trực quan, sinh động trong editor.
-- [ ] **AC-13.2**: Khi người chơi gõ code, xóa ký tự, hoặc dán đoạn mã mới, màu sắc được cập nhật ngay lập tức không bị giật lag.
-- [ ] **AC-13.3**: Con trỏ chuột (caret) và ký tự hiển thị trùng khớp 100% vị trí, không bị lệch dòng hay lệch khoảng cách khi cuộn chuột lên xuống/sang ngang.
-- [ ] **AC-13.4**: Nút `⚡ Format Code` và thụt lề phím Tab tiếp tục hoạt động hoàn hảo.
-- [ ] **AC-13.5**: Unit test cho `syntax-highlighter.ts` đạt 100% pass.
+- [x] **AC-13.1**: Toàn bộ từ khóa Java, tên lớp cỗ máy, phương thức, số và chú thích hiển thị màu sắc trực quan, sinh động trong editor.
+- [x] **AC-13.2**: Khi người chơi gõ code, xóa ký tự, hoặc dán đoạn mã mới, màu sắc được cập nhật ngay lập tức không bị giật lag.
+- [x] **AC-13.3**: Con trỏ chuột (caret) và ký tự hiển thị trùng khớp 100% vị trí, không bị lệch dòng hay lệch khoảng cách khi cuộn chuột lên xuống/sang ngang.
+- [x] **AC-13.4**: Nút `⚡ Format Code` và thụt lề phím Tab tiếp tục hoạt động hoàn hảo.
+- [x] **AC-13.5**: Unit test cho `syntax-highlighter.ts` đạt 100% pass.

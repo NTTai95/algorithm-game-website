@@ -70,4 +70,20 @@ describe('Split-Screen Layout & Editor Collapse (TASK-011)', () => {
     expect(html).toContain('template-selector')
     expect(html).toContain('Mã nguồn chuẩn')
   })
+
+  it('renders synchronized syntax highlight layer with Java tokens inside CodeEditor', () => {
+    const html = renderToString(
+      React.createElement(CodeEditor, {
+        code: 'wareHouse.swap(0, 1); // swap boxes',
+        onChange: () => {},
+      })
+    )
+
+    expect(html).toContain('code-highlight-layer')
+    expect(html).toContain('syntax-highlight-code')
+    expect(html).toContain('token-machine')
+    expect(html).toContain('token-method')
+    expect(html).toContain('token-comment')
+  })
 })
+

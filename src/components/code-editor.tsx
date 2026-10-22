@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useLayoutEffect, useMemo } from 'react'
 import { formatJavaCode } from '../core/parser/formatter'
+import { highlightJavaToHtml } from '../core/parser/syntax-highlighter'
 
 interface CodeEditorProps {
   code: string
@@ -21,9 +22,52 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   onToggleCollapse,
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const preRef = useRef<HTMLPreElement>(null)
+  const lineNumbersRef = useRef<HTMLDivElement>(null)
   const [formattedFeedback, setFormattedFeedback] = useState(false)
 
   const lines = code.split('\n')
+  const highlightedHtml = useMemo(() => highlightJavaToHtml(code), [code])
+
+  // Synchronize scroll between textarea, highlight layer, and line numbers
+  const handleScroll = (e: React.UIEvent<HTMLTextAreaElement>) => {
+    const { scrollTop, scrollLeft } = e.currentTarget
+    if (preRef.current) {
+      preRef.current.scrollTop = scrollTop
+      preRef.current.scrollLeft = scrollLeft
+    }
+    if (lineNumbersRef.current) {
+      lineNumbersRef.current.scrollTop = scrollTop
+    }
+  }
+
+  // Ensure scroll is aligned when code changes
+  useLayoutEffect(() => {
+    if (textareaRef.current) {
+      const { scrollTop, scrollLeft } = textareaRef.current
+      if (preRef.current) {
+        preRef.current.scrollTop = scrollTop
+        preRef.current.scrollLeft = scrollLeft
+      }
+      if (lineNumbersRef.current) {
+        lineNumbersRef.current.scrollTop = scrollTop
+      }
+    }
+  }, [code])
+
+  // Auto-scroll when active execution line changes
+  useLayoutEffect(() => {
+    if (currentLine && currentLine > 0 && textareaRef.current) {
+      const lineIndex = currentLine - 1
+      const lineHeight = 24 // 1.5rem = 24px
+      const targetY = lineIndex * lineHeight
+      const currentScroll = textareaRef.current.scrollTop
+      const visibleHeight = textareaRef.current.clientHeight
+      if (targetY < currentScroll || targetY > currentScroll + visibleHeight - lineHeight * 2) {
+        textareaRef.current.scrollTop = Math.max(0, targetY - visibleHeight / 2)
+      }
+    }
+  }, [currentLine])
 
   const handleFormatCode = () => {
     try {
@@ -37,7 +81,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Support Tab key inside editor
+    // Support Tab key inside editor (4 spaces)
     if (e.key === 'Tab') {
       e.preventDefault()
       const textarea = textareaRef.current
@@ -148,7 +192,7 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
 
       <div className="editor-body">
         {/* Line numbers column */}
-        <div className="line-numbers" aria-hidden="true">
+        <div ref={lineNumbersRef} className="line-numbers" aria-hidden="true">
           {lines.map((_, idx) => {
             const lineNum = idx + 1
             const isCurrent = lineNum === currentLine
@@ -163,17 +207,33 @@ export const CodeEditor: React.FC<CodeEditorProps> = ({
           })}
         </div>
 
-        {/* Textarea code input */}
-        <textarea
-          ref={textareaRef}
-          className="code-textarea"
-          value={code}
-          onChange={(e) => onChange(e.target.value)}
-          onKeyDown={handleKeyDown}
-          spellCheck={false}
-          disabled={disabled}
-          placeholder="Nhập mã Java điều khiển cỗ máy kho hàng..."
-        />
+        {/* Code Viewport with Syntax Highlight Layer & Transparent Interactive Textarea */}
+        <div className="editor-code-viewport">
+          <pre
+            ref={preRef}
+            className="code-highlight-layer"
+            aria-hidden="true"
+          >
+            <code
+              className="syntax-highlight-code"
+              dangerouslySetInnerHTML={{
+                __html: highlightedHtml + (code.endsWith('\n') ? ' ' : ''),
+              }}
+            />
+          </pre>
+
+          <textarea
+            ref={textareaRef}
+            className="code-textarea"
+            value={code}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={handleKeyDown}
+            onScroll={handleScroll}
+            spellCheck={false}
+            disabled={disabled}
+            placeholder="Nhập mã Java điều khiển cỗ máy kho hàng..."
+          />
+        </div>
       </div>
     </div>
   )

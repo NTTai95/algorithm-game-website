@@ -647,6 +647,8 @@ body {
   min-height: 290px;
   max-height: 380px;
   background: #090d16;
+  position: relative;
+  overflow: hidden;
 }
 
 .line-numbers {
@@ -658,7 +660,9 @@ body {
   font-size: 0.8rem;
   color: #475569;
   text-align: right;
-  min-width: 40px;
+  min-width: 44px;
+  overflow: hidden;
+  height: 100%;
 }
 
 .line-num {
@@ -673,20 +677,139 @@ body {
   border-radius: 4px;
 }
 
-.code-textarea {
+/* 2-Layer Syntax Highlighting Viewport */
+.editor-code-viewport {
+  position: relative;
   flex: 1;
-  background: transparent;
+  height: 100%;
+  overflow: hidden;
+  background: #090d16;
+}
+
+.code-highlight-layer,
+.code-textarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0.85rem 1rem;
   border: none;
-  outline: none;
-  color: #e2e8f0;
+  box-sizing: border-box;
   font-family: var(--font-mono);
   font-size: 0.85rem;
   line-height: 1.5rem;
-  padding: 0.85rem 1rem;
-  resize: vertical;
-  white-space: pre;
+  letter-spacing: 0;
   tab-size: 4;
+  -moz-tab-size: 4;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
 }
+
+.code-highlight-layer {
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  color: #e2e8f0;
+  background: transparent;
+  user-select: none;
+}
+
+.syntax-highlight-code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  tab-size: inherit;
+  white-space: inherit;
+}
+
+.code-textarea {
+  position: absolute;
+  z-index: 2;
+  color: transparent;
+  caret-color: var(--accent-cyan, #38bdf8);
+  background: transparent;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+
+.code-textarea::selection {
+  background: rgba(56, 189, 248, 0.3);
+  color: transparent;
+}
+
+.code-textarea::placeholder {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+.code-textarea::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.code-textarea::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.code-textarea::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 4px;
+}
+
+.code-textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.45);
+}
+
+/* Syntax Highlighting Dark Cyber Theme Tokens (AC-13.1) */
+.token.token-keyword {
+  color: #c084fc; /* Neon Purple */
+  font-weight: 600;
+}
+
+.token.token-machine {
+  color: #38bdf8; /* Cyber Sky Cyan */
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.28);
+}
+
+.token.token-type {
+  color: #2dd4bf; /* Mint Teal */
+  font-weight: 600;
+}
+
+.token.token-method {
+  color: #f59e0b; /* Amber Gold */
+}
+
+.token.token-number {
+  color: #fb923c; /* Warm Orange */
+}
+
+.token.token-string {
+  color: #34d399; /* Emerald Jade */
+}
+
+.token.token-comment {
+  color: #64748b; /* Slate Gray */
+  font-style: italic;
+}
+
+.token.token-operator {
+  color: #f43f5e; /* Rose Neon */
+}
+
+.token.token-punctuation {
+  color: #cbd5e1; /* Light Slate */
+}
+
+.token.token-identifier {
+  color: #f1f5f9; /* Slate 100 */
+}
+
 
 /* API Reference */
 .api-reference-card {
