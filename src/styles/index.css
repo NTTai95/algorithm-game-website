@@ -839,6 +839,54 @@ body {
   color: var(--text-muted);
 }
 
+.api-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 0;
+  flex-wrap: wrap;
+}
+
+.api-tab {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+.api-tab:hover {
+  color: var(--text-main);
+}
+
+.api-tab-wareHouse.active {
+  color: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.api-tab-weightScanner.active {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.api-tab-singleCrane.active {
+  color: var(--accent-amber);
+  border-color: var(--accent-amber);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.api-machine-summary {
+  margin: 0.6rem 1rem 0;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
 .api-table-wrapper {
   overflow-x: auto;
   padding: 0.5rem 1rem;
